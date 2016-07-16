@@ -1,0 +1,17 @@
+Library/AtlasCache/
+Library/ShaderCache/
+Library/metadata/
+Temp/
+*.apk
+*.meta
+Assets/ConduitBenderUltimate/EditorResources/
+Assets/ConduitBenderUltimate/Materials/Concrete textures pack/
+*.FBX
+*.png
+*.jpg
+*.tga
+*.mat
+*.wav
+*.PSD
+*.tif
+*.BMP

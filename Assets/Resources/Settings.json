@@ -1,0 +1,19 @@
+{
+	"ConduitSizes":
+	{
+		"Metric": [
+			
+		],
+		"Standard": [
+			"3/4\" EMT",
+			"1\" EMT",
+			"1 1/4\" EMT",
+			"1 1/2\" EMT",
+			"2\" EMT",
+			"2 1/2\" EMT",
+			"3\" EMT",
+			"3 1/2\" EMT",
+			"4\" EMT"
+		]
+	}
+}

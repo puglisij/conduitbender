@@ -14,6 +14,14 @@ public class Calculator
     {
         return 2f * radius * Mathf.Sin( 0.5f * angleRad );
     }
+    /// <summary>
+    /// Clamp Angle to positive 0 to 180 degrees
+    /// </summary>
+    public static float ClampAngle( float angle, int decimalPrecision )
+    {
+        angle -= (180f * Mathf.Floor( angle / 180f ));
+        return Units.Round( angle * Mathf.Sign( angle ), 1 );
+    }
     public static float Ab( float bendAngleRad )
     {
         return bendAngleRad * 0.5f;

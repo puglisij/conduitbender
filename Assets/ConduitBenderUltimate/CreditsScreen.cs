@@ -6,7 +6,7 @@ public class CreditsScreen : AnimScreen
     //-------------------
     // Public Data
     //-------------------
-    public RectTransform thankYouText;
+    //public RectTransform thankYouText;
 
     //-------------------
     // Private Data

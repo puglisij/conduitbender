@@ -17,11 +17,11 @@ namespace CB
     /// </summary>
     public static class AssetUtility
     {
-        [MenuItem( "Assets/Build AssetBundles" )]
-        static void BuildAssets()
-        {
-            BuildPipeline.BuildAssetBundles( "AssetBundles/" );
-        }
+        //[MenuItem( "Assets/Build AssetBundles" )]
+        //static void BuildAssets()
+        //{
+        //    BuildPipeline.BuildAssetBundles( "AssetBundles/", BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64 );
+        //}
 
         [MenuItem( "Assets/Print AssetBundle Names" )]
         static void PrintAssetBundleNames()

@@ -1,4 +1,4 @@
-5.3.5f1:2.2.0.0
+5.4.1f1:2.2.0.0
 Android
 G:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll
 G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
@@ -12,5 +12,5 @@ G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/Editor/Unity
 G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll
 G:/Program Files/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll
 G:/Program Files/Unity/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
-G:/Program Files/Unity/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+G:/Program Files/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll
 C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/2015/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll

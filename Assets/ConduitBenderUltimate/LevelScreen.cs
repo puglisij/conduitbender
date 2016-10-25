@@ -2,256 +2,220 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using CB;
+using System;
 
 /// <summary>
 ///     @TODO - May need a 1st Time Calibration, since axis may be represented differently on different devices.
 /// </summary>
 public class LevelScreen : AnimScreen
 {
-    private enum Axis { X, Y, Z, None }
+    public enum DeviceMode { Level, Protractor, None }
 
-    public RectTransform    controls;
-    public RectTransform    axisDisplays;
-    public RectTransform    unavailableMessage;
+    private const string k_deviceModeKey = "Level_DeviceMode";
 
-    public GameObject       levelObjectPrefab;
-    public Transform        levelObjectPoint;
+    //----------------------
+    //     Public Data
+    //----------------------
+    public Level            level;
+    public Protractor       protractor;
 
-    public Image            yAxisBgImage;
-    public Image            zAxisBgImage;
+    // Button controls for leveling devices
+    public GameObject       controls;
+    // Object to be enabled when gyroscope/accelerometer not available on device
+    public GameObject       unavailableMessage;
+    // Parent Object holding all axis displays (used for disable/enable all displays at once)
+    public GameObject       axisDisplayContainer;
+
+    public GameObject       xAxis;
+    public GameObject       yAxis;
+    public GameObject       zAxis;
+    public Text             xAxisText;
     public Text             yAxisText;
     public Text             zAxisText;
-    public Text             debugText;
 
-    public float            updateIntervalSec = 0.5f;
+    public Button           levelBtn;
+    public Button           protractorBtn;
+    public Button           zeroBtn;
 
+    public Color            deviceNormal;
+    public Color            deviceSelected;
+    public Color            deviceDisabled;
     //----------------------
     //     Private Data
     //----------------------
-    private GameObject      m_LevelObject;
+    private IAngleDevice             m_device;
 
-    private Quaternion      m_ZeroInverseRotation = Quaternion.identity;
-
-    private Vector3         m_LastDeltaAngles = Vector3.zero;
-    private Vector3         m_ZeroAngles = Vector3.zero;
-    private Vector3         m_ZeroVectorUp = Vector3.up;
-    private Vector3         m_ZeroVectorRight = Vector3.right;
-    private Vector3         m_ZeroVectorForward = Vector3.forward;
-
-    private WeightedMean<Vector3>    m_weightedMean;
+    private DeviceMode      m_deviceMode = DeviceMode.None;
 
     private float           m_ElapsedSec = 0f;
-    private float           m_LowPassFactor = 10f;
 
-    private bool            m_UsingGravity = true;
-    private bool            m_Off = true;
-    private Axis            m_CurrGreatestAxisRotation = Axis.None;
-     
+    private bool            m_isDeviceActive = false;
+    private bool            m_isViewDirty = true;
+
     protected override void Awake()
     {
         base.Awake();
 
-        m_weightedMean = new WeightedMean<Vector3>( 10,
-            ( a, w ) => { return a * w; },
-            ( a, b ) => { return a + b; } );
     }
 
-    void Update()
+    protected override void Start()
     {
-        if (m_Off) { return; }
+        base.Start();
 
-        m_ElapsedSec += Time.deltaTime;
-        if (m_ElapsedSec >= updateIntervalSec) 
+        var deviceMode = Settings.GetString( k_deviceModeKey );
+        if(!String.IsNullOrEmpty(deviceMode)) {
+            m_deviceMode = (DeviceMode)Enum.Parse( typeof( DeviceMode ), deviceMode );
+        }
+
+        // Register for Listeners on Level & Protractor
+        ((IAngleDevice)level).onAngleChange += OnAngleChange;
+        ((IAngleDevice)protractor).onAngleChange += OnAngleChange;
+    }
+
+    IEnumerator UpdateView()
+    {
+        while(m_isDeviceActive) 
         {
-            /*
-                The device's "Reference Frame" is the axis of the phone: 
-                The phone's z-axis points through the screen. 
-                The phone's x-axis points from top through bottom of the phone (speaker through home button)
-                The phone's y-axis points from side to side through the phone (volume through power button)
-            */
-            Quaternion attitude;
-            Quaternion deltaAttitude = Quaternion.identity;
-            if (m_UsingGravity) 
-            {
-                Vector3 gravity = Input.gyro.gravity;
-                gravity = new Vector3( gravity.z, gravity.y, gravity.x );
-                // x, y, z
-                // x, z, y
-                // z, y, x
-                // z, x, y
-                // y, x, z
-                // y, z, x
-                // 3/1/2016 Left Off:
-                //  Try recording the gyro.attitude as the zero on gravity with the Level object rotated by this attitude
-                //  Then, inside here, check the rotation between level object (e.g. forward vector) and the starting gravity direction....
-                deltaAttitude = Quaternion.identity;
+            if(m_isViewDirty) {
+                DrawAngles( m_device.angles );
 
-                // Point Level in Direction of Gravity
-                m_LevelObject.transform.LookAt( m_LevelObject.transform.position + gravity.normalized );
-
-            } else {
-                // Update Level Info   
-                attitude = Input.gyro.attitude;
-                deltaAttitude = m_ZeroInverseRotation * attitude;
-
-                // Rotate the Level Object
-                m_LevelObject.transform.rotation = deltaAttitude;
+                m_isViewDirty = false;
             }
 
-            // Get Axis Angle changes from Zero Vector
-            //Vector3    deltaQuaternionAngles = deltaAttitude.eulerAngles;
-            Vector3    deltaVector = deltaAttitude * m_ZeroVectorRight;
-            Vector3    deltaAngles = Vector3.zero;
-
-            //deltaAngles.x = Vector3.Angle( m_ZeroVectorUp, Vector3.ProjectOnPlane( deltaAttitude * m_ZeroVectorUp, m_ZeroVectorForward ) );
-            deltaAngles.y = Vector3.Angle( m_ZeroVectorRight, Vector3.ProjectOnPlane( deltaAttitude * m_ZeroVectorRight, m_ZeroVectorUp).normalized );
-            deltaAngles.z = Vector3.Angle( m_ZeroVectorForward, Vector3.ProjectOnPlane( deltaAttitude * m_ZeroVectorForward, m_ZeroVectorRight ).normalized );
-
-            // Run through Low-Pass Filter
-            deltaAngles = m_weightedMean.Add( deltaAngles ).Mean();
-            //deltaAngles = LowPassGyro( deltaAngles );
-
-            // Write Values to Output
-            DrawAngles( 0f, ClampAngle( deltaAngles.y, 1 ), ClampAngle( deltaAngles.z, 1 ) );
-
-            //------------------------------------------------------------------------
-            // NOTE: Keep This. It's Accurate and Useful for Debugging
-            //------------------------------------------------------------------------
-            // Quaternion Representing Amount of Rotation Between Two Quaternions:
-            //      deltaQuaternion = Quaternion.Inverse( fromQuaternion ) * toQuaternion;
-            //debugText.text = "Quaternion Delta Angles:"
-            //    + "\nX - " + ClampAngle( deltaQuaternionAngles.x, 1 )
-            //    + "\nY - " + ClampAngle( deltaQuaternionAngles.y, 1 )
-            //    + "\nZ - " + ClampAngle( deltaQuaternionAngles.z, 1 );
-            //------------------------------------------------------------------------
-
-            // Reset Elapsed Time
-            m_ElapsedSec = 0f;
+            yield return null;
         }
     }
 
+    private void DrawAngles( Vector3 angles )
+    {
+        xAxisText.text = angles.x.ToString();
+        yAxisText.text = angles.y.ToString();
+        zAxisText.text = angles.z.ToString();
+    }
+
     /// <summary>
-    /// Clamp Angle to positive 0 to 180 degrees
+    /// Disable/Enable UI Elements and enable and display Unavailable Message 
     /// </summary>
-    private float ClampAngle(float angle, int decimalPrecision)
+    private void DrawUnavailable(string message)
     {
-        angle -= (180f * Mathf.Floor(angle / 180f));
-        return Units.Round( angle * Mathf.Sign( angle ), 1);
+        controls.SetActive( false );
+        axisDisplayContainer.SetActive( false );
+        unavailableMessage.GetComponentInChildren<Text>().text = message;
+        unavailableMessage.SetActive( true );
     }
 
-    private void Available(bool isAvailable)
+    private void OnAngleChange()
     {
-        // Disable/Enable UI Elements
-        controls.gameObject.SetActive( isAvailable );
-        axisDisplays.gameObject.SetActive( isAvailable );
-        unavailableMessage.gameObject.SetActive( !isAvailable );
-
-        m_Off = !isAvailable;
+        m_isViewDirty = true;
     }
 
-    private void DrawAngles(float x, float y, float z)
+    private void SetDevice( DeviceMode device )
     {
-        if(y > z && m_CurrGreatestAxisRotation != Axis.Y) {
-            //yAxisText.fontStyle = FontStyle.Bold;
-            //zAxisText.fontStyle = FontStyle.Normal;
-            yAxisBgImage.enabled = true;
-            zAxisBgImage.enabled = false;
-            m_CurrGreatestAxisRotation = Axis.Y;
-        } else if(z > y && m_CurrGreatestAxisRotation != Axis.Z) {
-            //yAxisText.fontStyle = FontStyle.Normal;
-            //zAxisText.fontStyle = FontStyle.Bold;
-            yAxisBgImage.enabled = false;
-            zAxisBgImage.enabled = true;
-            m_CurrGreatestAxisRotation = Axis.Z;
-        } 
-        yAxisText.text = y.ToString();
-        zAxisText.text = z.ToString();
+        if (device == DeviceMode.None) {
+            return;
+        }
+
+        if (device == DeviceMode.Level) {
+            protractorBtn.GetComponent<Image>().color = deviceNormal;
+            levelBtn.GetComponent<Image>().color = deviceSelected;
+            level.enabled = true;
+            protractor.enabled = false;
+            ToggleZero( false );
+
+            m_isDeviceActive = true;
+            m_device = level;
+            
+        } else if(device == DeviceMode.Protractor) {
+            protractorBtn.GetComponent<Image>().color = deviceSelected;
+            levelBtn.GetComponent<Image>().color = deviceNormal;
+            level.enabled = false;
+            protractor.enabled = true;
+            ToggleZero( true );
+
+            m_isDeviceActive = true;
+            m_device = protractor;
+        }
+
+        // Start Coroutine to update angles
+        StartCoroutine( UpdateView() );
+
+        m_deviceMode = device;
+        Settings.SetValue( k_deviceModeKey, m_deviceMode.ToString() );
     }
 
-
-    private Vector3 LowPassGyro(Vector3 newDeltaAngles)
+    private void SetDeviceDisabled( Button deviceBtn )
     {
-        m_LastDeltaAngles = Vector3.Lerp( m_LastDeltaAngles, newDeltaAngles, Time.deltaTime * m_LowPassFactor );
-        return m_LastDeltaAngles;
+        deviceBtn.interactable = false;
+        deviceBtn.GetComponent<Image>().color = deviceDisabled;
     }
-
-    /*##########################################
+    private void ToggleZero( bool onOff )
+    {
+        zeroBtn.interactable = onOff;
+        zeroBtn.GetComponentInChildren<Text>().color = (onOff) ? zeroBtn.colors.normalColor : deviceDisabled;
+    }
+    /*==========================================
 
                 Public Functions
 
-    ###########################################*/
+    ==========================================*/
     public override void Close( bool doDisable )
     {
         base.Close( doDisable );
 
-        // Disable Gyroscope
-        Input.gyro.enabled = false;
-        m_Off = true;
-
-        // Destroy Level Object
-        Destroy( m_LevelObject );
+        // Disable active device <Component>
+        if(m_deviceMode == DeviceMode.Level) {
+            level.enabled = false;
+        } else if(m_deviceMode == DeviceMode.Protractor) {
+            protractor.enabled = false;
+        }
     }
+
     public override void Open()
     {
         base.Open();
 
-        if (!SystemInfo.supportsGyroscope) {
-            Available( false );
+        if (!SystemInfo.supportsAccelerometer && !SystemInfo.supportsGyroscope) {
+            DrawUnavailable( "Sorry. Accelerometer and Gyroscope are unavailable on this device." );
             return;
         }
-        Available( true );
+        if (!SystemInfo.supportsAccelerometer) {
+            // Disable Level
+            SetDeviceDisabled( levelBtn );
+            DrawUnavailable( "Sorry. No accelerometer is available on this device." );
+        }
+        if (!SystemInfo.supportsGyroscope) {
+            // Disable Protractor
+            SetDeviceDisabled( protractorBtn );
+            DrawUnavailable( "Sorry. No gyroscope is available on this device." );
+        }
 
-        // Enable Gyroscope
-        Input.gyro.updateInterval = updateIntervalSec;  // Max is 0.0167f ?
-        Input.gyro.enabled = true;
-        m_Off = false;
+        // Select initial device mode if none set
+        DeviceMode mode = m_deviceMode;
+        if(m_deviceMode == DeviceMode.None) {
+            mode = SystemInfo.supportsAccelerometer ? DeviceMode.Level : DeviceMode.Protractor;
+        }
 
-        // Create Level Object
-        m_LevelObject = Instantiate( levelObjectPrefab );
-        m_LevelObject.transform.SetParent( Engine.root_geometry, false );
-        m_LevelObject.transform.position = levelObjectPoint.position;
-        m_LevelObject.SetActive( true );
-
-        m_weightedMean.Clear();
-
-        ZeroOnGravity();
-    }
-
-    public void ZeroOnGravity()
-    {
-        m_UsingGravity = true;
-
-        Vector3 gravity = Input.gyro.gravity;
-
-        m_LevelObject.transform.forward = gravity;
-
-        m_ZeroInverseRotation = m_LevelObject.transform.rotation;
-        m_ZeroAngles = m_ZeroInverseRotation.eulerAngles;
-        m_ZeroInverseRotation = Quaternion.Inverse( m_ZeroInverseRotation );
-
-        m_ZeroAngles = Vector3.zero;
-
-        m_ZeroVectorUp = m_LevelObject.transform.up;
-        m_ZeroVectorRight = m_LevelObject.transform.right;
-        m_ZeroVectorForward = m_LevelObject.transform.forward;
+        SetDevice( mode );
     }
 
     /// <summary>
-    /// Zero the Level
+    /// Set to 0 for Digital Level. Set to 1 for Digital Protractor.
+    /// </summary>
+    public void SelectDevice( int device )
+    {
+        if(device == (int) m_deviceMode) {
+            Debug.Log( "LevelScreen: Device mode: " + device + " already selected." );
+            return;
+        }
+
+        SetDevice( (DeviceMode)device );
+    }
+
+    /// <summary>
+    /// Pass through to Protractor
     /// </summary>
     public void Zero()
     {
-        m_UsingGravity = false;
-
-        m_LevelObject.transform.LookAt( Engine.cameraUI.transform );
-
-        m_ZeroInverseRotation = Input.gyro.attitude;
-        m_ZeroAngles = m_ZeroInverseRotation.eulerAngles;
-        m_ZeroInverseRotation = Quaternion.Inverse( m_ZeroInverseRotation );
-
-        m_ZeroVectorUp = m_LevelObject.transform.up;
-        m_ZeroVectorRight = m_LevelObject.transform.right;
-        m_ZeroVectorForward = m_LevelObject.transform.forward;
+        protractor.Zero();
     }
-
 }

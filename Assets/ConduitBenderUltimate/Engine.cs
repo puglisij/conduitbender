@@ -318,6 +318,7 @@ public class Engine : MonoBehaviour {
         return maxLength + ("000ft - 00 00/00\"").Length;
     }
 
+
     ///// <summary>
     ///// Returns the References asset, which should be located in a Resources directory.
     ///// </summary>

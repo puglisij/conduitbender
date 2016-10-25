@@ -15,6 +15,8 @@ public class DebugToScreen : MonoBehaviour
     public GameObject outView;
     public Text  outText;
 
+    public bool displayAppLogs = false;
+
     private bool m_Stopped = true;
 
     private static bool m_VisualsDirty = false;
@@ -22,7 +24,10 @@ public class DebugToScreen : MonoBehaviour
 	void  Awake()
     {
 
-        Application.logMessageReceived += LogCallback;
+        // Print ALL Log Messages to this view
+        if(displayAppLogs) {
+            Application.logMessageReceived += LogCallback;
+        }
     }
 
     void Update()

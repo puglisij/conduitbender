@@ -48,8 +48,6 @@ public class BendFactory
     /// Returns a new instance of the specified Bend type.
     /// If bend type does not exist, returns null.
     /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
     public static Bend New(string type)
     {
         BendFactoryDelegate bfd;

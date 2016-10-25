@@ -5,6 +5,8 @@ public class GyroAlignAxis : MonoBehaviour {
 	
 	private Gyroscope gyroscope;
 	private RemoteGyroscope remoteGyroscope;
+
+    // Just an empty Transform in the scene for calculations
 	public Transform gravity;
 	
 	// Use this for initialization

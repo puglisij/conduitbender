@@ -85,15 +85,15 @@ public class SettingsScreen : AnimScreen
         string[]    conduitOptions;
 
         if (Engine.unitType == Units.Type.Metric) {
-            benderRange = Settings.Metric.k_BenderRadiusRange;
-            conduitRange = Settings.Metric.k_ConduitDiameterRange;
-            benderOptions = Settings.Metric.k_BenderRadiusPresets;
-            conduitOptions = Settings.Metric.k_ConduitDiameterPresets;
+            benderRange = BenderInfo.Metric.k_BenderRadiusRange;
+            conduitRange = BenderInfo.Metric.k_ConduitDiameterRange;
+            benderOptions = BenderInfo.Metric.k_BenderRadiusPresets;
+            conduitOptions = BenderInfo.Metric.k_ConduitDiameterPresets;
         } else {
-            benderRange = Settings.Standard.k_BenderRadiusRange;
-            conduitRange = Settings.Standard.k_ConduitDiameterRange;
-            benderOptions = Settings.Standard.k_BenderRadiusPresets;
-            conduitOptions = Settings.Standard.k_ConduitDiameterPresets;
+            benderRange = BenderInfo.Standard.k_BenderRadiusRange;
+            conduitRange = BenderInfo.Standard.k_ConduitDiameterRange;
+            benderOptions = BenderInfo.Standard.k_BenderRadiusPresets;
+            conduitOptions = BenderInfo.Standard.k_ConduitDiameterPresets;
         }
 
         //-------------------

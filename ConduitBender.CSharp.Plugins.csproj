@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ConduitBenderUltimate\Shaders\AlphaBlendedAlpha.shader" />
+    <None Include="Assets\ConduitBenderUltimate\Shaders\ConduitHighlight.shader" />
     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Lit.shader" />
     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain.shader" />
     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain_Additive.shader" />

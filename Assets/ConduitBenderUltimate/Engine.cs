@@ -231,6 +231,7 @@ public class Engine : MonoBehaviour {
         ConduitGenerator.numberOfSides = conduitSideCount;
         ConduitGenerator.Initialize();
 
+        // Screen Manager is ultimately what will trigger 3d conduit generation
         screenManager.AddLinker( bendManager );
         screenManager.onEvent += ScreenManagerOnEvent;
 
@@ -396,26 +397,26 @@ public class Engine : MonoBehaviour {
                     Assets / Resources
 
     ===========================================================*/
-    IEnumerator LoadAssets()
-    {
-        // Path in filesystem. For downloading from internet, replace with your url eg. "http://www.myserver.com/hd"
-        var url = "file://" + Application.dataPath.Replace ("Assets", "AssetBundles/") + "hd";
+    //IEnumerator LoadAssets()
+    //{
+    //    // Path in filesystem. For downloading from internet, replace with your url eg. "http://www.myserver.com/hd"
+    //    var url = "file://" + Application.dataPath.Replace ("Assets", "AssetBundles/") + "hd";
 
-        // Download bundle and wait until it's finished
-        var www = new WWW (url);
-        yield return www;
+    //    // Download bundle and wait until it's finished
+    //    var www = new WWW (url);
+    //    yield return www;
 
-        // Find all renderers from scene
-        var renderers = FindObjectsOfType<SpriteRenderer>();
+    //    // Find all renderers from scene
+    //    var renderers = FindObjectsOfType<SpriteRenderer>();
 
-        // Use renderers name to find the correct sprite from bundle
-        foreach (var renderer in renderers) {
-            renderer.sprite = www.assetBundle.LoadAsset( renderer.name, typeof( Sprite ) ) as Sprite;
-        }
+    //    // Use renderers name to find the correct sprite from bundle
+    //    foreach (var renderer in renderers) {
+    //        renderer.sprite = www.assetBundle.LoadAsset( renderer.name, typeof( Sprite ) ) as Sprite;
+    //    }
 
-        // Unload assets that we don't need right now
-        www.assetBundle.Unload( false );
-        www.Dispose();
-    }
+    //    // Unload assets that we don't need right now
+    //    www.assetBundle.Unload( false );
+    //    www.Dispose();
+    //}
 
 }

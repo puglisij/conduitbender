@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 
@@ -57,7 +58,7 @@ public class BendMarker : Marker
 /// </summary>
 public class Bend : IModel
 {
-    public enum EventType { Calculated }
+    public enum EventType { Calculated, HighlightOn, HighlightOff }
     public class Event : UnityEvent<EventType> { }
     
     public string modelName {
@@ -93,11 +94,9 @@ public class Bend : IModel
     //-----------------------------
     // Delegate for calculating output parameters for this Type of bend
     public BendDelegate Calculate;
-    /// <summary>
-    /// Event which is fired when bend is Calculated 
-    /// </summary>
+    /// <summary> Event which is fired when bend is Calculated </summary>
     public Event        onEvent = new Event();
-    // A series of data points indicating how the conduit should be bent
+    /// <summary> A series of data points indicating how the conduit should be bent. Calculated in BendFactory </summary>
     public List<Marker> conduitOrder = new List<Marker>();
 
     //-----------------------------
@@ -105,7 +104,12 @@ public class Bend : IModel
     //-----------------------------
     private List<BendParameter>    m_InputParameters = null;
     private List<BendParameter>    m_OutputParameters = null;
+
+    /// <summary> The current BendParameter which is to be highlighted (input or output), if any. </summary>
+    private BendParameter m_Highlight = null;
+    /// <summary> The name/type of the Bend (e.g. Saddle3) </summary>
     private string   m_Type = "Undefined";
+    /// <summary> An alert message to display for this Bend, if any. </summary>
     private string   m_Alert = null;
 
     public void Initialize(string type)
@@ -138,6 +142,23 @@ public class Bend : IModel
         }
         m_OutputParameters = outputParams;
     }
+    /// <summary>
+    /// Returns the current BendParameter being highlighted. Else null.
+    /// </summary>
+    public BendParameter GetHighlight()
+    {
+        return m_Highlight;
+    }
+    /// <summary>
+    /// Returns list of BendParameters that can be highlighted.
+    /// </summary>
+    public List<BendParameter> GetHighlightables()
+    {
+        var ins = m_InputParameters.Where(param => param.canHighlight && param.enabled);
+        var outs = m_OutputParameters.Where(param => param.canHighlight && param.enabled);
+
+        return ins.Concat( outs ).ToList();
+    }
     public BendParameter GetInputParameter(BendParameter.Name name)
     {
         return m_InputParameters.Find( ( bp ) => bp.name == name );
@@ -146,12 +167,49 @@ public class Bend : IModel
     {
         return m_OutputParameters.Find( ( bp ) => bp.name == name );
     }
+
+    /// <summary>
+    /// Sets the current BendParameter to be highlighted. 
+    /// Accepts an encoding of the form CI  where C is either "i" for Inputs or "o" for Outputs
+    /// and I is the index of the parameter in the parameter collection. (e.g. i0, or o3)
+    /// </summary>
+//    public void SetHighlight( string highlightable )
+//    {
+//        try {
+//            if (highlightable[ 0 ] == 'i') {
+//                m_Highlight = m_InputParameters[ int.Parse( highlightable.Substring( 1 ) ) ];
+//            } else if (highlightable[ 0 ] == 'o') {
+//                m_Highlight = m_OutputParameters[ int.Parse( highlightable.Substring( 1 ) ) ];
+//            }
+//        } catch(Exception e) {
+//#if UNITY_EDITOR 
+//            Debug.Log( "Bend: SetHighlight() Exception setting highlightable. " + e.StackTrace);
+//#endif
+//        }
+        
+//    }
+    /// <summary>
+    /// Sets the current BendParameter to be highlighted. 
+    /// ASSUMPTION: The BendParameter is a highlightable type
+    /// </summary>
+    public void SetHighlight( BendParameter highlightable )
+    {
+        m_Highlight = highlightable;
+
+        if (highlightable == null) {
+            onEvent.Invoke( EventType.HighlightOff );
+        } else {
+            onEvent.Invoke( EventType.HighlightOn );
+        }
+    }
     /// <summary>
     /// Sets the input parameter at specified index to given value.
     /// This should be called (Fires Calculated Event) to set values instead of setting them directly on the List elements.
     /// </summary>
     public void SetInputParameter( int index, object value, bool reCalculate = true )
     {
+        SetHighlight( null );
+
         m_InputParameters[ index ].value = value;
         if(reCalculate) {
             Calculate( this );

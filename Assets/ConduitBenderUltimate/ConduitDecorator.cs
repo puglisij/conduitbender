@@ -9,8 +9,10 @@ public abstract class AConduitDecorator : MonoBehaviour
         get { return m_Conduit; }
     }
     protected Conduit m_Conduit = null;
+    protected bool m_isHighlighted = false;
 
     public abstract void Decorate();
+    public abstract void Highlight();
     public abstract void OnRemove();
     public abstract void Set( Conduit conduit );
 
@@ -18,6 +20,7 @@ public abstract class AConduitDecorator : MonoBehaviour
 public class ConduitDefaultDecorator : AConduitDecorator
 {
     public override void Decorate()  { }
+    public override void Highlight() { }
     public override void OnRemove() { }
     public override void Set( Conduit conduit ) { }
     

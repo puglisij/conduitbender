@@ -29,13 +29,14 @@ public class BendFactory
     /// Adds mapping of 'type' to 'method', replacing any previously mapping
     /// \==========(Factory)==========/
     /// </summary>
-    public static void AddBendFactoryDelegate( string type, BendFactoryDelegate method )
-    {
-        if (m_BendMakers.ContainsKey( type )) {
-            m_BendMakers.Remove( type );
-        }
-        m_BendMakers.Add( type, method );
-    }
+    //public static void AddBendFactoryDelegate( string type, BendFactoryDelegate method )
+    //{
+    //    if (m_BendMakers.ContainsKey( type )) {
+    //        m_BendMakers.Remove( type );
+    //    }
+    //    m_BendMakers.Add( type, method );
+    //}
+
     /// <summary>
     /// Return list of currently supported Bend Names/Types
     /// </summary>
@@ -112,6 +113,9 @@ public class BendFactory
         outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
         outputs.Add( new BendParameter( BendParameter.Name.TotalShrink, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
 
+        // Highlightable 
+        outputs[ 0 ].canHighlight = true;   // DistanceBetween 
+
         bend.EmbedInputParameters( inputs );
         bend.EmbedOutputParameters( outputs );
         bend.Calculate = CalculateOffset;
@@ -169,12 +173,23 @@ public class BendFactory
         List<BendParameter> inputs = new List<BendParameter>();
         inputs.Add( new BendParameter( BendParameter.Name.CenterAngleDegrees, BendParameter.Type.FloatAngle, colors.inputParameterDefault, 0f ) );
         inputs.Add( new BendParameter( BendParameter.Name.SaddleHeight, BendParameter.Type.Float, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( BendParameter.Name.Saddle3Method, BendParameter.Type.StringEnum, colors.inputParameterDefault,
+            GlobalEnum.Saddle3BendMethod.First(), GlobalEnum.Saddle3BendMethod ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.LengthOfCenterBend, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( BendParameter.Name.LengthOfCenterBend, BendParameter.Type.Float, colors.flagBlue, 0f ) );
+        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.flagPurple, 0f ) );
+        outputs.Add( new BendParameter( BendParameter.Name.Distance1stTo2nd, BendParameter.Type.Float, colors.flagPurple, 0f ) );
+        outputs.Add( new BendParameter( BendParameter.Name.Distance2ndTo3rd, BendParameter.Type.Float, colors.flagGreen, 0f ) );
+        outputs.Add( new BendParameter( BendParameter.Name.ShrinkTo2ndMark, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
         outputs.Add( new BendParameter( BendParameter.Name.ShrinkToCenter, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
         outputs.Add( new BendParameter( BendParameter.Name.TotalShrink, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+
+        // Highlightable 
+        outputs[ 0 ].canHighlight = true;   // LengthOfCenterBend 
+        outputs[ 1 ].canHighlight = true;   // DistanceBetween
+        outputs[ 2 ].canHighlight = true;   // Distance 1st to 2nd
+        outputs[ 3 ].canHighlight = true;   // Distance 2nd to 3rd
 
         bend.EmbedInputParameters( inputs );
         bend.EmbedOutputParameters( outputs );
@@ -194,10 +209,14 @@ public class BendFactory
         inputs.Add( new BendParameter( BendParameter.Name.SaddleLength, BendParameter.Type.Float, colors.inputParameterDefault, 0f ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.Distance2ndTo3rd, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.flagBlue, 0f ) );
+        outputs.Add( new BendParameter( BendParameter.Name.Distance2ndTo3rd, BendParameter.Type.Float, colors.flagPurple, 0f ) );
         outputs.Add( new BendParameter( BendParameter.Name.TotalShrink, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
         outputs.Add( new BendParameter( BendParameter.Name.ShrinkToCenter, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+
+        // Highlightable 
+        outputs[ 0 ].canHighlight = true;   // DistanceBetween 
+        outputs[ 1 ].canHighlight = true;   // Distance 2nd to 3rd
 
         bend.EmbedInputParameters( inputs );
         bend.EmbedOutputParameters( outputs );
@@ -444,6 +463,24 @@ public class BendFactory
 
     public static void Calculate3PointSaddle( Bend bend )
     {
+        // Segmented Calculation Method
+        GlobalEnum.ESaddle3BendMethod method = (GlobalEnum.ESaddle3BendMethod) bend.inputParameters[2].value;
+
+        switch (method) {
+            case GlobalEnum.ESaddle3BendMethod.Notch:
+                Calculate3PointSaddleNotch( bend );
+                break;
+            case GlobalEnum.ESaddle3BendMethod.Arrow:
+                Calculate3PointSaddleArrow( bend );
+                break;
+            default:
+                Debug.LogError( "ConduitGenerator: Calculate3PointSaddle() Invalid Bend Type." );
+                break;
+        }
+    }
+
+    private static void Calculate3PointSaddleNotch( Bend bend )
+    {
         // Write up a Conduit Order
         bend.conduitOrder.Clear();
 
@@ -464,18 +501,100 @@ public class BendFactory
 
         // Check Distance Between Bends
         string message = null;
-        if(Vs < 0f) {
+        if (Vs < 0f) {
             Lhs = 0f;
             message = BendMessages.k_BendsTooClose;
         }
         bend.alert = message;
 
         // Set Output Parameters
-        bend.outputParameters[ 0 ].value = 2f * Lhb;  // Length Of Center Bend
-        bend.outputParameters[ 1 ].value = distBetween;  // Distance Between
-        bend.outputParameters[ 2 ].value = halfShrink;       // Shrink To Center
-        bend.outputParameters[ 3 ].value = halfShrink * 2f;  // Shrink
-        
+        bend.outputParameters[ 0 ].value = 2f * Lhb;    // Length Of Center Bend
+        bend.outputParameters[ 1 ].value = distBetween; // Distance Between
+        bend.outputParameters[ 1 ].enabled = true;
+        bend.outputParameters[ 2 ].enabled = false;     // Distance 1st to 2nd
+        bend.outputParameters[ 3 ].enabled = false;     // Distance 2nd to 3rd
+        bend.outputParameters[ 4 ].enabled = false;     // Shrink to 2nd Mark
+        bend.outputParameters[ 5 ].value = halfShrink;       // Shrink To Center
+        bend.outputParameters[ 5 ].enabled = true; 
+        bend.outputParameters[ 6 ].value = halfShrink * 2f;  // Shrink
+
+        // Start Conduit
+        bend.conduitOrder.Add( new Marker( 0f, Vector3.forward, Vector3.up ) );
+
+        // Calculate Bend Marks
+        float mark_1 = 0.3048f;  // 12 in
+        float mark_2 = mark_1 + Lhb + Lhs;
+        float mark_3 = mark_2 + Lhb * 2f + Lhs;
+
+        Vector3 rdl_1 = Vector3.up;
+        Vector3 fwd_1 = Vector3.forward;
+        Vector3 axis = Vector3.Cross( rdl_1, fwd_1 ).normalized;
+        Vector3 rdl_2 = -Calculator.RotateCCW( halfAngleDeg, axis, rdl_1);
+        rdl_2.Normalize();
+        Vector3 fwd_2 = Calculator.RotateCCW( halfAngleDeg, axis, fwd_1 );
+        fwd_2.Normalize();
+        Vector3 rdl_3 = -Calculator.RotateCW( centerAngleDeg, axis, rdl_2 );
+        rdl_3.Normalize();
+        Vector3 fwd_3 = Calculator.RotateCW( centerAngleDeg, axis, fwd_2 );
+        fwd_3.Normalize();
+
+        bend.conduitOrder.Add( new BendMarker( BendFlagType.Arrow, mark_1, fwd_1, rdl_1, halfAngleDeg, benderRadiusM ) );
+        bend.conduitOrder.Add( new BendMarker( BendFlagType.Notch, mark_2, fwd_2, rdl_2, centerAngleDeg, benderRadiusM ) );
+        bend.conduitOrder.Add( new BendMarker( BendFlagType.Arrow, mark_3, fwd_3, rdl_3, halfAngleDeg, benderRadiusM ) );
+
+        // End Conduit
+        bend.conduitOrder.Add( new Marker( mark_3 + Calculator.Lb( benderRadiusM, halfAngleRad ) + 0.3048f, fwd_1, rdl_1 ) );
+    }
+
+    private static void Calculate3PointSaddleArrow( Bend bend )
+    {
+        // Write up a Conduit Order
+        bend.conduitOrder.Clear();
+
+        // Get Input Parameters
+        float centerAngleDeg = (float) bend.inputParameters[0].value;
+        float centerAngleRad = centerAngleDeg * Mathf.Deg2Rad;
+        float halfAngleDeg = centerAngleDeg * 0.5f;
+        float halfAngleRad = centerAngleRad * 0.5f;
+        float saddleHeightM = (float) bend.inputParameters[1].value;
+        float benderRadiusM = Engine.benderRadiusM;
+
+        // Calculate Values
+        float Vs = saddleHeightM - 2f * Calculator.Vb( benderRadiusM, halfAngleRad );
+        float Lhb = Calculator.Lb( benderRadiusM, halfAngleRad );
+        float Lhs = Calculator.Ls( Vs, halfAngleRad );
+        float distFirstToSecond = Lhs;
+        float distSecondToThird = 2f * Lhb + Lhs;
+        float shrinkTo2ndMark = Lhs - (Calculator.Hs( Lhs, halfAngleRad ));
+        float shrinkTotal = (4f * Lhb + 2f * Lhs) - (4f * Calculator.Hb( benderRadiusM, halfAngleRad ) + 2f * Calculator.Hs(Lhs, halfAngleRad));
+
+        // Check Distance Between Bends
+        string message = null;
+        if (Vs < 0f) {
+            Lhs = 0f;
+            message = BendMessages.k_BendsTooClose;
+        }
+        bend.alert = message;
+
+        // Set Output Parameters
+        bend.outputParameters[ 0 ].value = 2f * Lhb;            // Length Of Center Bend
+        bend.outputParameters[ 1 ].enabled = false;             // Distance Between
+        bend.outputParameters[ 2 ].value = distFirstToSecond;   // Distance 1st to 2nd
+        bend.outputParameters[ 2 ].enabled = true;
+        bend.outputParameters[ 3 ].value = distSecondToThird;   // Distance 2nd to 3rd
+        bend.outputParameters[ 3 ].enabled = true;
+        bend.outputParameters[ 4 ].value = shrinkTo2ndMark;     // Shrink to 2nd Mark
+        bend.outputParameters[ 4 ].enabled = true;
+        bend.outputParameters[ 5 ].enabled = false;             // Shrink To Center
+        bend.outputParameters[ 6 ].value = shrinkTotal;         // Total Shrink
+
+        //outputs.Add( new BendParameter( BendParameter.Name.LengthOfCenterBend, BendParameter.Type.Float, colors.flagBlue, 0f ) );
+        //outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.flagPurple, 0f ) );
+        //outputs.Add( new BendParameter( BendParameter.Name.Distance1stTo2nd, BendParameter.Type.Float, colors.flagPurple, 0f ) );
+        //outputs.Add( new BendParameter( BendParameter.Name.Distance2ndTo3rd, BendParameter.Type.Float, colors.flagGreen, 0f ) );
+        //outputs.Add( new BendParameter( BendParameter.Name.ShrinkTo2ndMark, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        //outputs.Add( new BendParameter( BendParameter.Name.ShrinkToCenter, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        //outputs.Add( new BendParameter( BendParameter.Name.TotalShrink, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
 
         // Start Conduit
         bend.conduitOrder.Add( new Marker( 0f, Vector3.forward, Vector3.up ) );
@@ -504,6 +623,7 @@ public class BendFactory
         // End Conduit
         bend.conduitOrder.Add( new Marker( mark_3 + Calculator.Lb( benderRadiusM, halfAngleRad ) + 0.3048f, fwd_1, rdl_1 ) );
     }
+
     public static void Calculate4PointSaddle( Bend bend )
     {
         // Write up a Conduit Order
@@ -635,27 +755,6 @@ public class BendFactory
 
         // End Conduit
         bend.conduitOrder.Add( new Marker( mark_2 + Lb_90 + 0.3048f, fwd_3, rdl_3 ) );
-
-        //// Start Conduit
-        //bend.conduitOrder.Add( new Marker( 0f, Vector3.right, Vector3.up ) );
-
-        //// Calculate Bend Marks (Arbitrary Start point)
-        //float mark_1 = 0.3048f;  // 12 in
-        //float mark_2 = mark_1 + Lb_90 + (firstMarkM - Hb_90); 
-
-        //Vector3 rdl_1   = Calculator.RotateCCW( 90f - angleDeg, Vector3.right, Vector3.forward );
-        //Vector3 fwd_1   = Vector3.right;
-        //Vector3 axis    = Vector3.Cross( rdl_1, fwd_1 ).normalized;
-        //Vector3 rdl_2   = Calculator.RotateCCW( 90f, Vector3.right, rdl_1 );
-        //Vector3 fwd_2   = rdl_1;
-        //Vector3 rdl_3   = Vector3.forward;
-        //Vector3 fwd_3   = Vector3.up;
-
-        //bend.conduitOrder.Add( new BendMarker( BendFlagType.Arrow, mark_1, fwd_1, rdl_1, 90f, benderRadiusM ) );
-        //bend.conduitOrder.Add( new BendMarker( BendFlagType.Arrow, mark_2, fwd_2, rdl_2, angleDeg, benderRadiusM ) );
-
-        //// End Conduit
-        //bend.conduitOrder.Add( new Marker( mark_2 + Lb + 0.3048f, fwd_3, rdl_3 ) );
     }
 
     public static void CalculateStubUp( Bend bend )

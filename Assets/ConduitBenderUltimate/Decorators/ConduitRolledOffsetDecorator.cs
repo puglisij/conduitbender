@@ -98,4 +98,9 @@ public class ConduitRolledOffsetDecorator : AConduitDecorator
         // Rotate Conduit
         Decorate();
     }
+
+    public override void Highlight()
+    {
+        throw new NotImplementedException();
+    }
 }

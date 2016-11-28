@@ -71,4 +71,9 @@ public class ConduitParallelOffsetDecorator : AConduitDecorator
         // Position Conduit
         Decorate();
     }
+
+    public override void Highlight()
+    {
+        throw new NotImplementedException();
+    }
 }

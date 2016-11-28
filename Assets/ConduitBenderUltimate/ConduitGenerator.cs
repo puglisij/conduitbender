@@ -221,6 +221,40 @@ public class ConduitGenerator : MonoBehaviour
     ------------------------------*/
 
     /// <summary>
+    /// Colors the mesh vertices of the Conduit from the given starting centerline indice to the ending indice.
+    /// Note: This is only useful when using a shader which uses vertice colors.
+    /// </summary>
+    public static void ColorConduit( Conduit conduit, Color color, int startCenterlineIndice, int endCenterlineIndice )
+    {
+        var centerline  = conduit.centerline;
+        var vertCount   = s_NumberOfSides * centerline.Count;
+        // ASSERT: vertCount == conduit.mesh.vertices.Length;
+
+        var foreEnd     = s_NumberOfSides * (startCenterlineIndice);
+        var colorEnd    = foreEnd + s_NumberOfSides * (endCenterlineIndice - startCenterlineIndice + 1);
+        var postEnd     = colorEnd + s_NumberOfSides * ((centerline.Count - 1) - endCenterlineIndice);
+        // ASSERT: postEnd == vertCount;
+
+        Color32[] colors    = new Color32[vertCount];
+        Color32   color32   = color;
+        Color32   defColor32  = Color.black;
+
+        int i = 0;
+
+        for(i = 0; i < foreEnd; ++i) {
+            colors[ i ] = defColor32;
+        }
+        for(i = foreEnd; i < colorEnd; ++i) {
+            colors[ i ] = color32;
+        }
+        for(i = colorEnd; i < postEnd; ++i) {
+            colors[ i ] = defColor32;
+        }
+
+        conduit.mesh.colors32 = colors;
+    }
+
+    /// <summary>
     /// Copies the given mesh data (vertices, UVs, triangles) into the given Mesh
     /// Start and End indices are inclusive.
     /// </summary>
@@ -269,7 +303,7 @@ public class ConduitGenerator : MonoBehaviour
     }
     /// <summary>
     /// @TODO - Currently SLOW! Getting copies of the Meshes current vertices, uv, triangles takes Forever!
-    /// Should definitely Not be called every frame!
+    /// Should definitely Not be called frequently!
     /// </summary>
     public static void CopyConduitPartial( Conduit conduit, Mesh toMesh, int startCenterlineIndice, int endCenterlineIndice )
     {
@@ -480,7 +514,7 @@ public class ConduitGenerator : MonoBehaviour
             conduitTriangles[ t + 5 ] = C + s_NumberOfSides;          // D
         }
         // Calculate UVs 
-        // (Currently these UVs are stretched/compressed along the bent areas - i.e. inaccurate)
+        // TODO: (Currently these UVs are stretched/compressed along the bent areas - i.e. inaccurate)
         for (int i = 0; i < conduitUVs.Length; ++i) {
             conduitUVs[ i ] = new Vector2( circleVerts[ i % s_NumberOfSides ].x, (i % s_NumberOfSides) / (float)bentCenterline.Count );
         }

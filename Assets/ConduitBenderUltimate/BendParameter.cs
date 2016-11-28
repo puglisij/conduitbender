@@ -25,6 +25,7 @@ public class BendParameter
         DistanceTo2nd,
         DistanceTo3rd,
         DistanceToLast,
+        Distance1stTo2nd,
         Distance2ndTo3rd,
         DistanceBetween,
         KickFirstMark,
@@ -38,6 +39,7 @@ public class BendParameter
         Rise,
         Roll,
         RollAngleDegrees,
+        Saddle3Method,
         SaddleHeight,
         SaddleLength,
         SegmentedAngle,
@@ -45,16 +47,16 @@ public class BendParameter
         SegmentedMethod,
         SegmentedRadius,
         Shift,
-        ShrinkToCenter,     // 3/4 point saddle
+        ShrinkTo2ndMark,    // 3 point saddle
+        ShrinkToCenter,     // 4 point saddle
         Spacing,
         StubLength,
-        StubMethod,
         StubTakeUp,
         TotalShrink
     }
     public enum Type { FloatAngle, Float, Integer, StringEnum }
 
-    public static readonly string[] NameStrings = new string[36] {
+    public static readonly string[] NameStrings = new string[38] {
         "Bend Angle (Degrees)",
         "1st Bend Angle (Degrees)",
         "Last Bend Angle (Degrees)",
@@ -65,6 +67,7 @@ public class BendParameter
         "Distance to 2nd Mark",
         "Distance to 3rd Mark",
         "Distance to Last Mark",
+        "Distance 1st to 2nd Mark",
         "Distance 2nd to 3rd Mark",
         "Distance Between Bends",
         "1st Kick Mark Distance",
@@ -78,6 +81,7 @@ public class BendParameter
         "Rise",
         "Roll",
         "Roll Angle (Degrees)",
+        "Saddle 3 Method",
         "Saddle Height",
         "Saddle Length",
         "Segmented Angle (Degrees)",
@@ -85,10 +89,10 @@ public class BendParameter
         "Segmented Method",
         "Segmented Radius",
         "Shift",
+        "Shrink to 2nd Mark",
         "Shrink To Saddle Center",
         "Spacing",
         "Stub Length",
-        "Stub Calculation Method",
         "Stub Take-Up",
         "Total Shrink"
     };
@@ -103,6 +107,7 @@ public class BendParameter
         new object[] {0f, 0f },   // Distance to 2nd Mark
         new object[] {0f, 0f },   // Distance to 3rd Mark
         new object[] {0f, 0f },   // Distance to Last Mark
+        new object[] {0f, 0f },   // Distance 1st to 2nd 
         new object[] {0f, 0f },   // Distance 2nd to 3rd
         new object[] {0f, 0f },   // Distance Between Bends
         new object[] {0f, 0f },   // Kick First Mark
@@ -116,6 +121,7 @@ public class BendParameter
         new object[] {0f, 3f },   // Rise
         new object[] {0f, 3f },   // Roll
         new object[] {0f, 0f },   // Roll Angle
+        new object[] { GlobalEnum.Saddle3BendMethod.First(), GlobalEnum.SegmentedBendMethod.Last() },
         new object[] {0f, 3f },   // Saddle Height
         new object[] {0f, 3f },   // Saddle Length
         new object[] {0.5f, 90f },  // Segmented Angle
@@ -123,10 +129,10 @@ public class BendParameter
         new object[] { GlobalEnum.SegmentedBendMethod.First(), GlobalEnum.SegmentedBendMethod.Last() },
         new object[] {0f, 30f }, // Segmented Radius
         new object[] {0f, 0f },  // Shift
+        new object[] {0f, 0f },  // Shrink to 2nd Mark
         new object[] {0f, 0f },   // Shrink To Center
         new object[] {0f, 30f },   // Spacing
         new object[] {0f, 3f },    // Stub Length
-        new object[] { GlobalEnum.StubUpMethod.First(), GlobalEnum.StubUpMethod.Last() },
         new object[] {0f, 0f },  // Stub Take-Up
         new object[] {0f, 0f }   // Total Shrink
     };
@@ -141,6 +147,7 @@ public class BendParameter
         new object[] {0f, 0f },   // Distance to 2nd Mark
         new object[] {0f, 0f },   // Distance to 3rd Mark
         new object[] {0f, 0f },   // Distance to Last Mark
+        new object[] {0f, 0f },   // Distance 1st to 2nd
         new object[] {0f, 0f },   // Distance 2nd to 3rd
         new object[] {0f, 0f },   // Distance Between Bends
         new object[] {0f, 0f },   // Kick First Mark
@@ -154,17 +161,18 @@ public class BendParameter
         new object[] {0f, 8f },   // Rise
         new object[] {0f, 8f },   // Roll
         new object[] {0f, 0f },   // Roll Angle
+        new object[] { GlobalEnum.Saddle3BendMethod.First(), GlobalEnum.SegmentedBendMethod.Last() },
         new object[] {0f, 8f },   // Saddle Height
         new object[] {0f, 8f },   // Saddle Length
         new object[] {0.5f, 90f },  // Segmented Angle
-        new object[] {2, 90},     // Number of Bends
+        new object[] {2, 18},     // Number of Bends
         new object[] { GlobalEnum.SegmentedBendMethod.First(), GlobalEnum.SegmentedBendMethod.Last() },
         new object[] {0f, 100f }, // Segmented Radius
         new object[] {0f, 0f },  // Shift
+        new object[] {0f, 0f },  // Shrink to 2nd Mark
         new object[] {0f, 0f },   // Shrink To Center
         new object[] {0f, 100f },   // Spacing
         new object[] {0f, 8f },     // Stub Length
-        new object[] { GlobalEnum.StubUpMethod.First(), GlobalEnum.StubUpMethod.Last() },
         new object[] {0f, 0f },  // Stub Take-Up
         new object[] {0f, 0f }      // Total Shrink
     };
@@ -192,6 +200,11 @@ public class BendParameter
     public object       value;
     [SerializeField]
     public bool         enabled = true;
+    /// <summary>
+    /// Whether the parameter can be highlighted on the conduit mesh
+    /// </summary>
+    [SerializeField]
+    public bool         canHighlight = false;
 
     private string      m_ColorHexString;
 

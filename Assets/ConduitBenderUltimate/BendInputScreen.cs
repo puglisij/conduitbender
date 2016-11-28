@@ -19,6 +19,7 @@ public class BendInputScreen : AnimScreen
     public RectTransform rulerWidgetPrefab;
     public RectTransform integerWidgetPrefab;
     public RectTransform enumWidgetPrefab;
+    public RectTransform helpWidgetPrefab;
 
     [Space]
 
@@ -43,6 +44,7 @@ public class BendInputScreen : AnimScreen
     private RectTransform m_RulerWidget;
     private RectTransform m_IntegerWidget;
     private RectTransform m_EnumWidget;
+    private RectTransform m_HelpWidget;
 
     private TextColumns   m_OutputText;
 
@@ -152,6 +154,12 @@ public class BendInputScreen : AnimScreen
         EnumDropdown enumDropdown = m_EnumWidget.GetComponentsInChildren<EnumDropdown>(true)[0];
         enumDropdown.onValueChanged.AddListener( ListenerEnum );
 
+        m_HelpWidget = Instantiate( helpWidgetPrefab );
+        m_HelpWidget.SetParent( widgetView, false );
+        m_HelpWidget.gameObject.SetActive( false );
+        BendHelp bendHelp = m_HelpWidget.GetComponentsInChildren<BendHelp>(true)[0];
+        bendHelp.onValueChanged = ListenerHelp;
+
         m_OutputText = outputView.GetComponentsInChildren<TextColumns>( true )[ 0 ];
         m_OutputText.maxCharPerLineTotal = Engine.GetLanguageMaxParameterStringLength();
 
@@ -217,6 +225,7 @@ public class BendInputScreen : AnimScreen
         // Initialize Output View
         InitializeOutput();
 
+        RectTransform   scrollerContent = bendParameterScroller.content;
         RectTransform   bendParamPrefab;
         UIBendParameter uiBendParam;
         BendParameter   bendParam;
@@ -228,19 +237,26 @@ public class BendInputScreen : AnimScreen
         {
             bendParam = bend.inputParameters[ i ];
             bendParamPrefab = Instantiate(bendParameterPrefab);
-            bendParamPrefab.SetParent( bendParameterScroller.content, false );
+            bendParamPrefab.SetParent( scrollerContent, false );
+
             uiBendParam = bendParamPrefab.GetComponent<UIBendParameter>();
             uiBendParam.Set( bendParam.type, BendParameter.GetStringValue( bendParam.name ), i );
             uiBendParam.onClick = DisplayWidget;
             if(i == 0) {
                 // Set 1st Parameter as Selected
                 uiBendParam.button.Select();
-            }
-            
+            }       
         }
+
         bendParameterScroller.Layout();
 
-        //m_TextNeedsSizing = true;
+        // Set up Help Widget
+        bendParamPrefab = Instantiate( bendParameterPrefab );
+        bendParamPrefab.SetParent( scrollerContent, false );
+        uiBendParam = bendParamPrefab.GetComponent<UIBendParameter>();
+        uiBendParam.SetAsHelp();
+        uiBendParam.onClick = DisplayHelpWidget;
+
         // Display 1st Parameter Widget
         m_ActiveParameter = -1;
         DisplayWidget( 0 );
@@ -252,6 +268,8 @@ public class BendInputScreen : AnimScreen
     /// </summary>
     public void ListenerBend( Bend.EventType type )
     {
+        if(type != Bend.EventType.Calculated) { return; }
+
         BendParameter           bendParam;
         TextColumns.TextPair    textPair;
         int enabledMask = 0;
@@ -259,14 +277,21 @@ public class BendInputScreen : AnimScreen
         int pinput      = 0;
         var textPairs   = m_OutputText.GetLines();
 
+        // Assert no bitmask overflow
+        Debug.Assert( m_Bend.inputParameters.Count + m_Bend.outputParameters.Count <= sizeof( int ) * 8 );
+
         // Input Parameters
         for (int p = 0; p < m_Bend.inputParameters.Count && p < textPairs.Count; ++p) 
         {
             bendParam = m_Bend.inputParameters[ p ];
-            textPair = textPairs[ line ];
-            textPair.right = "<color=#" + bendParam.colorHexString + ">" + BendParameter.GetFormattedValue( bendParam ) + "</color>";
-            textPairs[ line ] = textPair;
-            line += 1;
+            if(bendParam.enabled) {
+                enabledMask |= 1 << (p);
+
+                textPair = textPairs[ line ];
+                textPair.right = "<color=#" + bendParam.colorHexString + ">" + BendParameter.GetFormattedValue( bendParam ) + "</color>";
+                textPairs[ line ] = textPair;
+                line += 1;
+            }
         }
         pinput = m_Bend.inputParameters.Count;
 
@@ -305,9 +330,34 @@ public class BendInputScreen : AnimScreen
             Private Functions
 
     ###################################*/
+    private void DisplayHelpWidget(int id)
+    {
+        if (m_ActiveParameter == id) { return; }
+
+        // Disable current Widget 
+        if (m_ActiveWidget != null) {
+            m_ActiveWidget.gameObject.SetActive( false );
+        }
+
+        // Set current Widget as active (id is -1)
+        m_ActiveParameter = id; 
+        m_ActiveWidget = m_HelpWidget;
+
+        // Highlightable parameters may have changed in the case of a different bend Method being chosen. Thus we initialize here.
+        var help = m_HelpWidget.GetComponentInChildren<BendHelp>();
+            help.SetHighlightables( m_Bend.GetHighlightables() );
+        m_HelpWidget.gameObject.SetActive( true );
+    }
+
     private void DisplayWidget( int id )
     {
+        // Remove any active Highlighting
+        m_Bend.SetHighlight( null );
+        m_HelpWidget.GetComponentInChildren<BendHelp>().UnSelect();
+
+        // Don't reselect the same Widget
         if(m_ActiveParameter == id) { return; }
+        // Disable current Widget
         if (m_ActiveWidget != null) {
             m_ActiveWidget.gameObject.SetActive( false );
         }
@@ -398,7 +448,7 @@ public class BendInputScreen : AnimScreen
             }
         }
 
-        Debug.Log( "BendInputScreen: InitializeOutput() m_EnabledParameterMask: " + m_EnabledParameterMask + " Lines: " + m_OutputText.lineCount );
+        //Debug.Log( "BendInputScreen: InitializeOutput() m_EnabledParameterMask: " + m_EnabledParameterMask + " Lines: " + m_OutputText.lineCount );
     }
 
     private void ListenerAngle(float val)
@@ -416,10 +466,11 @@ public class BendInputScreen : AnimScreen
     private void ListenerEnum(int val)
     {
         m_Bend.SetInputParameter( m_ActiveParameter, val );
-
-        //Debug.Log( "UIBendInputScreen: ListenerEnum() Recorded Value: " + val );
     }
-
+    private void ListenerHelp(BendParameter val)
+    {
+        m_Bend.SetHighlight( val );
+    }
 
     //private void SizeFont()
     //{

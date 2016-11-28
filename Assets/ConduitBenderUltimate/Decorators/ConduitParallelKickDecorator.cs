@@ -52,13 +52,13 @@ public class ConduitParallelKickDecorator : AConduitDecorator
             p90Renderer.shadowCastingMode = castShadows;
             p90Renderer.receiveShadows = receiveShadows;
             p90Renderer.material = material;
-            p90Renderer.useLightProbes = useLightProbes;
+            p90Renderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.BlendProbes; 
 
         MeshRenderer    pKickRenderer = m_PKickConduit.AddComponent<MeshRenderer>();
             pKickRenderer.shadowCastingMode = castShadows;
             pKickRenderer.receiveShadows = receiveShadows;
             pKickRenderer.material = material;
-            pKickRenderer.useLightProbes = useLightProbes;
+            pKickRenderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.BlendProbes;
 
         MeshFilter      p90Filter = m_P90Conduit.AddComponent<MeshFilter>();
             bend90Mesh = p90Filter.mesh;
@@ -175,5 +175,10 @@ public class ConduitParallelKickDecorator : AConduitDecorator
             lastAngleDeg = -1;
             Decorate();
         }
+    }
+
+    public override void Highlight()
+    {
+        throw new NotImplementedException();
     }
 }

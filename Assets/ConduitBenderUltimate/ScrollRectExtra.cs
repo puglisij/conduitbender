@@ -36,7 +36,7 @@ public class ScrollRectExtra : ScrollRect {
     [SerializeField]
     private bool m_AllowCentering;
     [Tooltip("Enlarge (scale) the item in center of the viewport.")]
-    private bool m_AllowEnlarging;
+    //private bool m_AllowEnlarging;
     private bool m_VisualsDirty = false;
 
     private int  m_CachedChildCount;

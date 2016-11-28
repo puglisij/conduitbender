@@ -85,6 +85,7 @@
     <Compile Include="Assets\ConduitBenderUltimate\Bend.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\BendDiagramModal.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\BendFactory.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\BendHelp.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\BendInputScreen.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\BendManager.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\BendParameter.cs" />
@@ -101,20 +102,24 @@
     <Compile Include="Assets\ConduitBenderUltimate\ConduitGenerator.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\ConduitManager.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\ConduitOutputModal.cs" />
-    <Compile Include="Assets\ConduitBenderUltimate\ConduitParallelKickDecorator.cs" />
-    <Compile Include="Assets\ConduitBenderUltimate\ConduitParallelOffsetDecorator.cs" />
-    <Compile Include="Assets\ConduitBenderUltimate\ConduitRolledOffsetDecorator.cs" />
-    <Compile Include="Assets\ConduitBenderUltimate\ConduitSaddle3Decorator.cs" />
-    <Compile Include="Assets\ConduitBenderUltimate\ConduitSegmentedDecorator.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\CoroutineManager.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\CreditsScreen.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\DebugToScreen.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitOffsetDecorator.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitParallelKickDecorator.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitParallelOffsetDecorator.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitRolledOffsetDecorator.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitSaddle3Decorator.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitSaddle4Decorator.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitSegmentedDecorator.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitStubUpDecorator.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\EditorUtils.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Engine.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\EnumDropdown.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Enums.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\EventManager.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Experimental\ShowNormals.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Experimental\ShowRectTransformInfo.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Experimental\TestGravity.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\FixedStack.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\FlagRenderer.cs" />
@@ -262,6 +267,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ConduitBenderUltimate\Shaders\AlphaBlendedAlpha.shader" />
+    <None Include="Assets\ConduitBenderUltimate\Shaders\ConduitHighlight.shader" />
     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Lit.shader" />
     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain.shader" />
     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain_Additive.shader" />

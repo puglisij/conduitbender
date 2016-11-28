@@ -112,6 +112,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ConduitBenderUltimate\Editor\BaseEditor.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Editor\BendInputScreenEditor.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Editor\CameraControllerEditor.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Editor\ColorsEditor.cs" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ConduitBenderUltimate\Shaders\AlphaBlendedAlpha.shader" />
+    <None Include="Assets\ConduitBenderUltimate\Shaders\ConduitHighlight.shader" />
     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Lit.shader" />
     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain.shader" />
     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain_Additive.shader" />

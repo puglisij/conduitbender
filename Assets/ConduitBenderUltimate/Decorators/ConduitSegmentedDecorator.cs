@@ -71,4 +71,9 @@ public class ConduitSegmentedDecorator : AConduitDecorator
 
         Decorate();
     }
+
+    public override void Highlight()
+    {
+        throw new NotImplementedException();
+    }
 }

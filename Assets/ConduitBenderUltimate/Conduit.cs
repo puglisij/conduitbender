@@ -61,27 +61,44 @@ public class Conduit : MonoBehaviour {
     /// </summary>
     public ConduitHandler   calculateHandler;
 
+    /// <summary>
+    /// Callback which is called when the Bend has set a parameter Highlight in order to color the mesh via vertice colors.
+    /// NOTE: Listener (e.g. ConduitDecorator) should NOT attempt to maintain a highlight state post event as the highlighting may be removed internally.
+    /// </summary>
+    public ConduitHandler   highlightHandler;
+
     public MeshFilter       meshFilter;
 
     [HideInInspector]
     public float            conduitDiameterM = 0f;
     [HideInInspector]
     public Mesh             mesh;
+    /// <summary> Cartesian data, at each vertice centerline point along the conduit mesh (e.g. forward and radial directions of bender). </summary>
     [HideInInspector]
     public List<CenterlineMarker> centerline = new List<CenterlineMarker>();
-    // Indices into conduit centerline list indicating vertices at beginning and end of bends
+    /// <summary> Indices into conduit centerline list indicating vertices at beginning and end of bends </summary>
     [HideInInspector]
     public List<CenterlineIndice> centerlineBendIndices = new List<CenterlineIndice>();
 
     [HideInInspector]
     private Bend         m_Bend = null;
 
+    private bool         m_isHighlighted = false;
 
     // Use this for initialization
     void Start () {
 
 
         mesh = meshFilter.mesh;
+    }
+
+    private void SetHighlightOff()
+    {
+        if (m_isHighlighted) {
+            mesh.colors32 = null;
+            m_isHighlighted = false;
+            SetHighlightColor( Color.black );
+        }
     }
 
     /// <summary>
@@ -94,17 +111,31 @@ public class Conduit : MonoBehaviour {
         mesh.Clear();
     }
 
-    public void Clone()
+    //public void Clone()
+    //{
+    //    throw new NotImplementedException();
+    //}
+
+    /// <summary>
+    /// Set the Highlight color used in the Conduit shader.
+    /// </summary>
+    public void SetHighlightColor( Color color )
     {
-
+        var renderer = GetComponent<MeshRenderer>();
+        if (renderer != null) {
+            renderer.material.SetColor( "_Highlight", color );
+        }
     }
-
 
     public void SetMesh(Vector3[] vertices, Vector2[] uvs, int[] triangles)
     {
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
+
+        // Ensure that vertice Highlighting is Off (i.e. Remove vertice colors since vertice count may have changed)
+        SetHighlightOff();
+
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
     }
@@ -121,6 +152,11 @@ public class Conduit : MonoBehaviour {
     {
         if (type == Bend.EventType.Calculated) {
             calculateHandler( this );
+        } else if(type == Bend.EventType.HighlightOn) {
+            m_isHighlighted = true; 
+            highlightHandler( this );
+        } else if(type == Bend.EventType.HighlightOff) {
+            SetHighlightOff();
         }
     }
 

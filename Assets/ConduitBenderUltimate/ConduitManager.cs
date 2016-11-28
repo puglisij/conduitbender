@@ -58,7 +58,7 @@ public class ConduitManager : MonoBehaviour
             m_ActiveConduit = New();
         }
         m_ActiveConduit.calculateHandler = ConduitCalculate;
-
+        m_ActiveConduit.highlightHandler = ConduitHighlight;
 
         m_HasInitialized = true; 
     }
@@ -73,6 +73,13 @@ public class ConduitManager : MonoBehaviour
             m_ActiveDecorator.Decorate();
         }
     }
+    private static void ConduitHighlight(Conduit conduit)
+    {
+        Debug.Log( "ConduitManager: ConduitHighlight() " + conduit.bend.modelName );
+        if (m_ActiveDecorator != null) {
+            m_ActiveDecorator.Highlight();
+        }
+    }
     private static Conduit New()
     {
         Conduit conduit = Instantiate( instance.conduitPrefab ); 
@@ -83,10 +90,10 @@ public class ConduitManager : MonoBehaviour
         return conduit;
     }
 
-    public static Bounds GetActiveConduitBounds()
-    {
-        return m_ActiveConduit.mesh.bounds;
-    }
+    //public static Bounds GetActiveConduitBounds()
+    //{
+    //    return m_ActiveConduit.mesh.bounds;
+    //}
 
     public static void LinkActiveConduit(Bend bend)
     {
@@ -100,14 +107,13 @@ public class ConduitManager : MonoBehaviour
 
         m_ActiveConduit.Link( bend );
 
-        // Set Decorator
+        // Set Decorator (if available)
         decorator = ConduitDecoratorFactory.Get( bend.type );
         if ( decorator != null) {
             m_ActiveDecorator = Instantiate( decorator );
             m_ActiveDecorator.transform.SetParent( m_ActiveConduit.transform, false );
             m_ActiveDecorator.transform.localPosition = Vector3.zero; // @TODO - Redundant?
             m_ActiveDecorator.Set( m_ActiveConduit );
-            //m_ActiveDecorator.Decorate();
         } else {
             m_ActiveDecorator = null;
         }

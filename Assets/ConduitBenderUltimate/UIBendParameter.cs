@@ -4,13 +4,9 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
 
-public class UIBendParameter : MonoBehaviour {
+public class UIBendParameter : MonoBehaviour
+{
 
-    //public Button.ButtonClickedEvent onClick
-    //{
-    //    get { return m_OnClick; }
-    //    set { m_OnClick = value; }
-    //}
     public OnClickDelegate onClick
     {
         set { m_OnClick = value; }
@@ -24,13 +20,13 @@ public class UIBendParameter : MonoBehaviour {
     public Sprite rulerSprite;
     public Sprite integerSprite;
     public Sprite enumSprite;
+    public Sprite helpSprite;
 
     public Image  spriteIcon;
     public Text   nameText;
 
-    private BendParameter.Type  type;
     private int                 id;
-    //private Button.ButtonClickedEvent m_OnClick = new Button.ButtonClickedEvent();
+
     private OnClickDelegate m_OnClick = null;
 
 
@@ -39,10 +35,19 @@ public class UIBendParameter : MonoBehaviour {
         button.onClick.AddListener( ButtonListener );
     }
 
+    /// <summary>
+    /// IMPORTANT: Currently this just sets the parameter to "Help"
+    /// </summary>
+    public void SetAsHelp()
+    {
+        this.id = -1;
+        spriteIcon.sprite = helpSprite;
+        nameText.text = "Help";
+    }
+
     public void Set(BendParameter.Type type, string name, int id)
     {
         this.id = id;
-        this.type = type;
         switch (type) 
         {
             case BendParameter.Type.FloatAngle:
@@ -62,11 +67,7 @@ public class UIBendParameter : MonoBehaviour {
         }
         nameText.text = name;
     }
-    public void SetName(string name)
-    {
-        nameText.text = name;
-    }
-    
+
     private void ButtonListener()
     {
         m_OnClick( id );

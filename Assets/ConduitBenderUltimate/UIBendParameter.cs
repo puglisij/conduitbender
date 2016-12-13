@@ -45,21 +45,21 @@ public class UIBendParameter : MonoBehaviour
         nameText.text = "Help";
     }
 
-    public void Set(BendParameter.Type type, string name, int id)
+    public void Set( EBendParameterType type, string name, int id)
     {
         this.id = id;
         switch (type) 
         {
-            case BendParameter.Type.FloatAngle:
+            case EBendParameterType.FloatAngle:
                 spriteIcon.sprite = angleSprite;
                 break;
-            case BendParameter.Type.Float:
+            case EBendParameterType.Float:
                 spriteIcon.sprite = rulerSprite;
                 break;
-            case BendParameter.Type.Integer:
+            case EBendParameterType.Integer:
                 spriteIcon.sprite = integerSprite;
                 break;
-            case BendParameter.Type.StringEnum:
+            case EBendParameterType.StringEnum:
                 spriteIcon.sprite = enumSprite;
                 break;
             default:

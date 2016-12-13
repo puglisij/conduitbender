@@ -32,8 +32,6 @@ namespace UnityStandardAssets.CrossPlatformInput.Inspector
             {
                 case BuildTarget.Android:
                 case BuildTarget.iOS:
-                case BuildTarget.WP8Player:
-                case BuildTarget.BlackBerry:
 				case BuildTarget.PSM: 
 				case BuildTarget.Tizen: 
 				case BuildTarget.WSAPlayer: 

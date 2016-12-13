@@ -22,6 +22,7 @@ public class ConduitParallelKickDecorator : AConduitDecorator
     //-------------------------
     GameObject  m_P90Conduit;
     GameObject  m_PKickConduit;
+    LineFlag    m_SpreadLine;
     LineFlag    m_ShiftLine;
     LineFlag    m_FirstMarkLine;
     LineFlag    m_TravelLine;
@@ -74,38 +75,35 @@ public class ConduitParallelKickDecorator : AConduitDecorator
         Bend bend = m_Conduit.bend;
 
         // Get Values
-        var cBend = m_Conduit.centerline;
-        var cBendIndices = m_Conduit.centerlineBendIndices;
+        var centerline = m_Conduit.centerline;
+        var bendIndices = m_Conduit.centerlineBendIndices;
 
-        float spacingM = (float) bend.GetInputParameter(BendParameter.Name.Spacing).value;
-        float shiftM = (float) bend.GetOutputParameter(BendParameter.Name.Shift).value;
-        float travelM = (float) bend.GetOutputParameter(BendParameter.Name.KickTravel).value;
-        float firstMarkM = (float) bend.GetOutputParameter(BendParameter.Name.KickFirstMark).value;
+        float spacingM = (float) bend.GetInputParameter(EBendParameterName.Spacing).value;
+        float spreadM = (float) bend.GetOutputParameter(EBendParameterName.KickSpread).value;
+        float shiftM = (float) bend.GetOutputParameter(EBendParameterName.Shift).value;
+        float travelM = (float) bend.GetOutputParameter(EBendParameterName.KickTravel).value;
+        float firstMarkM = (float) bend.GetOutputParameter(EBendParameterName.KickFirstMark).value;
 
         // Get Start and End Centerline Indices
-        int cs90_i = cBendIndices[2].index;
-        int ce90_i = cBendIndices[3].index;
-        int csKick_i = cBendIndices[0].index;
-        int ceKick_i = cBendIndices[1].index;
-        Vector3 cs90 = cBend[ cs90_i ].point;
+        int cs90_i = bendIndices[2].index;
+        int ce90_i = bendIndices[3].index;
+        int csKick_i = bendIndices[0].index;
+        int ceKick_i = bendIndices[1].index;
+        Vector3 cs90 = centerline[ cs90_i ].point;
 
         // Have the Bends Changed?
         float angleDeg = (float) bend.inputParameters[0].value;
-        //if(angleDeg != lastAngleDeg) 
-        //{
-            //UnityEngine.Debug.Log( "ConduitParallelKickDecorator: Re-Copying Mesh. Bend Name: " + m_Conduit.bend.modelName );
 
-            // Re-Copy Split Mesh
-            ConduitGenerator.CopyLastConduitPartial( bendKickMesh, 0, cs90_i );
-            // @TODO - We Don't need to Re-Copy the 90 every time, we could just rotate a Clone as needed
-            ConduitGenerator.CopyLastConduitPartial( bend90Mesh, cs90_i, cBend.Count - 1 ); 
+        // Re-Copy Split Mesh
+        ConduitGenerator.CopyLastConduitPartial( bendKickMesh, 0, ceKick_i );
+        // OPT: We Don't need to Re-Copy the 90 every time, we could just rotate a Clone as needed
+        ConduitGenerator.CopyLastConduitPartial( bend90Mesh, ceKick_i, centerline.Count - 1 ); 
 
-            // Record Start Position of Kick
-            bend90Adjust = cs90;
-            bend90Forward = cBend[ cs90_i ].forwardDir;
+        // Record Start Position of Kick
+        bend90Adjust = cs90;
+        bend90Forward = centerline[ cs90_i ].forwardDir;
 
-            lastAngleDeg = angleDeg;
-        //}
+        lastAngleDeg = angleDeg;
 
         //----------------
         // Set Positions
@@ -128,19 +126,27 @@ public class ConduitParallelKickDecorator : AConduitDecorator
         //----------------
         // Draw Lines
         //----------------
-        Vector3 staShiftLine = cs90;
-        Vector3 endShiftLine = cs90 + shiftM * bend90Forward;
-        Vector3 tStart = cBend[ csKick_i ].point;
-        Vector3 fmStart = cBend[ ceKick_i ].point + cBend[ ceKick_i ].radialDir * m_Conduit.conduitDiameterM;
-        m_ShiftLine.Draw( staShiftLine, endShiftLine );
-        m_FirstMarkLine.Draw( fmStart, fmStart + cBend[ ceKick_i ].forwardDir * firstMarkM );
-        m_TravelLine.Draw( tStart, tStart + cBend[ csKick_i ].forwardDir * travelM );
+        Vector3 startSpread = centerline[ ce90_i ].point;
+                startSpread.y += Engine.conduitDiameterM * 0.5f;
+        Vector3 endSpread = startSpread + m_Conduit.transform.forward * spreadM;
+        Vector3 startShift = centerline[ ceKick_i ].point;
+        Vector3 endShift = centerline[ ceKick_i ].point + shiftM * bend90Forward;
+        Vector3 startTravel = centerline[ csKick_i ].point;
+        Vector3 startFirstMark = centerline[ ceKick_i ].point + centerline[ ceKick_i ].radialDir * m_Conduit.conduitDiameterM;
+
+        m_SpreadLine.Draw( startSpread, endSpread );
+        m_ShiftLine.Draw( startShift, endShift );
+        m_FirstMarkLine.Draw( startFirstMark, startFirstMark + centerline[ ceKick_i ].forwardDir * firstMarkM );
+        m_TravelLine.Draw( startTravel, startTravel + centerline[ csKick_i ].forwardDir * travelM );
     }
 
     public override void OnRemove()
     {
         // Undo any changes made to m_Conduit Transform
         m_Conduit.transform.localPosition = Vector3.zero;
+
+        // Destroy flags that were parented to m_Conduit
+        Destroy( m_SpreadLine.gameObject );
         Destroy( m_FirstMarkLine.gameObject );
         Destroy( m_TravelLine.gameObject );
     }
@@ -155,6 +161,9 @@ public class ConduitParallelKickDecorator : AConduitDecorator
         //----------------------
         float lineWidth = Engine.conduitDiameterM * Mathf.Sin(Mathf.PI * 0.25f);
 
+        m_SpreadLine = FlagRenderer.NewLine( m_Conduit.transform );
+        m_SpreadLine.SetWidth( lineWidth );
+
         m_ShiftLine = FlagRenderer.NewLine( transform );
         m_ShiftLine.SetWidth( lineWidth );
 
@@ -166,9 +175,10 @@ public class ConduitParallelKickDecorator : AConduitDecorator
 
         // Set Marker Colors
         var bend = m_Conduit.bend;
-        m_ShiftLine.SetColor( bend.GetOutputParameter(BendParameter.Name.Shift).color );
-        m_FirstMarkLine.SetColor( bend.GetOutputParameter( BendParameter.Name.KickFirstMark ).color );
-        m_TravelLine.SetColor( bend.GetOutputParameter( BendParameter.Name.KickTravel ).color );
+        m_SpreadLine.SetColor( bend.GetOutputParameter( EBendParameterName.KickSpread ).color );
+        m_ShiftLine.SetColor( bend.GetOutputParameter(EBendParameterName.Shift).color );
+        m_FirstMarkLine.SetColor( bend.GetOutputParameter( EBendParameterName.KickFirstMark ).color );
+        m_TravelLine.SetColor( bend.GetOutputParameter( EBendParameterName.KickTravel ).color );
 
         if (m_Conduit.centerlineBendIndices.Count == 4) {
             UnityEngine.Debug.Log( "ConduitParallelKickDecorator: Set() Decorating..." );

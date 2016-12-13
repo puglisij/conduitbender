@@ -1,29 +1,117 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 
-
-
-public class BendManager: ILinker
+[Serializable]
+public class BendManagerSaveData
 {
+    // One to One Mapping bendNames -> bendData
+    public string[] bendNames;
+    public BendSaveData[] bendData;
+}
+
+public class BendManager: ILinker, ISaveable
+{
+    private const string k_defaultsFileName = "BendDefaults";
+    private const string k_saveFileName = "savedbends.dat";
+
     // Bend Name to Bend Model Instances
     private static Dictionary<string, Bend> m_Bends = new Dictionary<string, Bend>();
 
+    private static void Load()
+    {
+        // Load Serialized Save Data from file
+        BendManagerSaveData saveData;
+        BendSaveData bendSaveData;
+        AppData.LoadPersistent<BendManagerSaveData>( k_saveFileName, out saveData );
+
+        // If no saved data file, load defaults from assets
+        if(saveData == null) {
+            Debug.Log( "BendManager: Load() Attempting to load default Bends..." );
+            AppData.LoadResource( k_defaultsFileName, out saveData );
+        }
+
+        if (saveData == null) {
+            Debug.Log( "BendManager: Load() Failed to load defaults." );
+            return;
+        }
+
+        // Build dictionary from saved Bends
+        var savedBends = new Dictionary<string, BendSaveData>();
+        for (var i = 0; i < saveData.bendNames.Length; ++i) {
+            savedBends.Add( saveData.bendNames[ i ], saveData.bendData[ i ] );
+        }
+
+        Bend    bend;
+        string  name;
+        foreach(var entry in m_Bends) 
+        {
+            name = entry.Key;
+            bend = entry.Value;
+
+            // Load saved data into Bend here
+            if (savedBends.TryGetValue( name, out bendSaveData )) {
+                if (bendSaveData.inputValues != null) {
+                    // NOTE: Assume BendParameters are in same order as when saved
+                    for (var j = 0; j < bendSaveData.inputValues.Length; ++j) {
+                        bend.inputParameters[ j ].value = bendSaveData.inputValues[ j ];
+                    }
+                }
+            }
+        }    
+    }
 
     public static void Initialize()
     {
-        // TODO - Instead of Mapping all of these on Initialize and holding them in memory
+        // TODO: Instead of Mapping all of these on Initialize and holding them in memory
         //      we could just Ask BendFactory for the Bend in Announce() and check if returned null
         //      To remedy saving, we could store the Bend Parameters in a File
+
         // Iterate through BendFactoryDelegates and Get/Map Bend Instances
         var names = BendFactory.GetBendNames();
-        for(int i = 0; i < names.Count; ++i) {
+        for(int i = 0; i < names.Count; ++i) 
+        {
             var bend = BendFactory.New( names[i] );
             if(bend != null) {
                 m_Bends.Add( names[ i ], bend );
             }
         }
+
+        // Load saved bends
+        Load();
+    }
+
+    public void Save()
+    {
+        var data = new BendManagerSaveData();
+        var bendNames = new List<string>(m_Bends.Count);
+        var bendDatas = new List<BendSaveData>(m_Bends.Count);
+
+        Bend bend;
+        BendSaveData bendData;
+        // Loop through all Bends and map data to Serializable Object
+        foreach (var entry in m_Bends) 
+        {
+            // Gather data from Bend
+            bend = entry.Value;
+            bendData = new BendSaveData();
+            bendData.modelName = bend.modelName;
+            bendData.inputValues = new object[ bend.inputParameters.Count ];
+  
+            for (var i = 0; i < bend.inputParameters.Count; ++i) {
+                bendData.inputValues[ i ] = bend.inputParameters[ i ].value;
+            }
+
+            bendNames.Add( entry.Key );
+            bendDatas.Add( bendData );
+        }
+        data.bendNames = bendNames.ToArray();
+        data.bendData = bendDatas.ToArray();
+
+        // Write Serialiable Object to storage
+        AppData.SavePersistent( k_saveFileName, data );
     }
     
     /// <summary>
@@ -43,7 +131,7 @@ public class BendManager: ILinker
             // Establish Link to Screen
             linkable.Link( bend );
         } else {
-            // We Don't Handle a Linkable by this Name
+            Debug.Log( "BendManager: Announce() No Bend found for model name: " + linkable.modelName );
         }
     }
 

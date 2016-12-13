@@ -4,8 +4,14 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-
-
+[Serializable]
+public class BendSaveData
+{
+    // The type or model name of the Bend (e.g. Offset)
+    public string modelName;
+    // The values of each BendParameter in the Bend
+    public object[] inputValues;
+}
 
 /*##########################################
 
@@ -75,14 +81,14 @@ public class Bend : IModel
         set { m_Alert = value; }
     }
     /// <summary>
-    /// New parameters should NOT be Added OR Removed from the returned list.
+    /// READONLY. New parameters should NOT be Added OR Removed from the returned list.
     /// </summary>
     public List<BendParameter> inputParameters
     {
         get { return m_InputParameters; }
     }
     /// <summary>
-    /// New parameters should NOT be Added OR Removed from the returned list.
+    /// READONLY. New parameters should NOT be Added OR Removed from the returned list.
     /// </summary>
     public List<BendParameter> outputParameters
     {
@@ -159,38 +165,27 @@ public class Bend : IModel
 
         return ins.Concat( outs ).ToList();
     }
-    public BendParameter GetInputParameter(BendParameter.Name name)
+    public BendParameter GetInputParameter( EBendParameterName name )
     {
         return m_InputParameters.Find( ( bp ) => bp.name == name );
     }
-    public BendParameter GetOutputParameter( BendParameter.Name name )
+    public BendParameter GetOutputParameter( EBendParameterName name )
     {
         return m_OutputParameters.Find( ( bp ) => bp.name == name );
     }
 
     /// <summary>
-    /// Sets the current BendParameter to be highlighted. 
-    /// Accepts an encoding of the form CI  where C is either "i" for Inputs or "o" for Outputs
-    /// and I is the index of the parameter in the parameter collection. (e.g. i0, or o3)
+    /// Forces BendDelegate to be called and Calculated event to be fired.
     /// </summary>
-//    public void SetHighlight( string highlightable )
-//    {
-//        try {
-//            if (highlightable[ 0 ] == 'i') {
-//                m_Highlight = m_InputParameters[ int.Parse( highlightable.Substring( 1 ) ) ];
-//            } else if (highlightable[ 0 ] == 'o') {
-//                m_Highlight = m_OutputParameters[ int.Parse( highlightable.Substring( 1 ) ) ];
-//            }
-//        } catch(Exception e) {
-//#if UNITY_EDITOR 
-//            Debug.Log( "Bend: SetHighlight() Exception setting highlightable. " + e.StackTrace);
-//#endif
-//        }
-        
-//    }
+    public void ForceCalculate()
+    {
+        Calculate( this );
+        onEvent.Invoke( EventType.Calculated );
+    }
+
     /// <summary>
     /// Sets the current BendParameter to be highlighted. 
-    /// ASSUMPTION: The BendParameter is a highlightable type
+    /// Assumes the BendParameter is a highlightable type
     /// </summary>
     public void SetHighlight( BendParameter highlightable )
     {

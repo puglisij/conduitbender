@@ -364,25 +364,25 @@ public class BendInputScreen : AnimScreen
         m_ActiveParameter = id;
 
         BendParameter param         = m_Bend.inputParameters[ id ];
-        BendParameter.Type type     = param.type;
+        EBendParameterType type     = param.type;
         object[] range              = BendParameter.GetRange( param.name );
 
         switch (type) {
-            case BendParameter.Type.FloatAngle:
+            case EBendParameterType.FloatAngle:
                 m_ActiveWidget = m_AngleWidget;
                 m_ActiveWidget.gameObject.SetActive( true );
                 AngleSlider ans = m_AngleWidget.GetComponentInChildren<AngleSlider>();
                 ans.SetRange( (float)range[ 0 ], (float)range[ 1 ] );
                 ans.value = (float) param.value;
                 break;
-            case BendParameter.Type.Float:
+            case EBendParameterType.Float:
                 m_ActiveWidget = m_RulerWidget;
                 m_ActiveWidget.gameObject.SetActive( true );
                 MultiRulerSlider mr = m_RulerWidget.GetComponentInChildren<MultiRulerSlider>();
                 mr.SetRange( (float)range[ 1 ] );
                 mr.Set( (float) param.value, false );
                 break;
-            case BendParameter.Type.Integer:
+            case EBendParameterType.Integer:
                 m_ActiveWidget = m_IntegerWidget;
                 m_ActiveWidget.gameObject.SetActive( true );
                 IntegerSlider ins = m_IntegerWidget.GetComponentInChildren<IntegerSlider>();
@@ -390,7 +390,7 @@ public class BendInputScreen : AnimScreen
                 ins.SetName( BendParameter.GetStringValue( param.name ) );
                 ins.value = (int) param.value;
                 break;
-            case BendParameter.Type.StringEnum:
+            case EBendParameterType.StringEnum:
                 m_ActiveWidget = m_EnumWidget;
                 m_ActiveWidget.gameObject.SetActive( true );
            

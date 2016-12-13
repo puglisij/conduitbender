@@ -106,21 +106,24 @@ public class AngleSlider : Widget
                 }
             }
         }
-    }
 
-    void Start()
-    {
-        // @TODO - Update these Cached values when Parent RectTransform changes
-        Camera parentCanvasCam = GetComponentInParent<Canvas>().worldCamera;
-        m_PivotScreenPosition = parentCanvasCam.WorldToScreenPoint( 
-            rotatingImage.TransformPoint( Rect.NormalizedToPoint(rotatingImage.rect, rotatingImage.pivot) )
-            );
+        // @TODO - Update these Cached values when Parent RectTransform changes       
         m_StartRight = rotatingImage.right;
         m_StartRotation = rotatingImage.localRotation.eulerAngles;
         m_StartUp = rotatingImage.up;
         m_TouchNormalColor = touchImage.color;
+    }
 
-        //Debug.Log( "AngleSlider: Start()" );
+    void Start()
+    {
+        // NOTE: value may be set before Start() is called which results in bad m_Startxxx parameters
+        
+        Camera parentCanvasCam = GetComponentInParent<Canvas>().worldCamera;
+        m_PivotScreenPosition = parentCanvasCam.WorldToScreenPoint(
+            rotatingImage.TransformPoint( Rect.NormalizedToPoint( rotatingImage.rect, rotatingImage.pivot ) )
+            );
+
+        //Debug.LogError( "AngleSlider: Start()" );
     }
 
     public void SetRange(float min, float max)
@@ -187,9 +190,9 @@ public class AngleSlider : Widget
         float newValue = ClampValue( input );
 
         // If the stepped m_Value doesn't match the last one, it's time to update
-        if (m_Value == newValue) {
-            return;
-        }
+        //if (m_Value == newValue) {
+        //    return;
+        //}
 
         m_Value = newValue;
         UpdateVisuals();
@@ -206,5 +209,7 @@ public class AngleSlider : Widget
         Vector3 angles = m_StartRotation;
         angles.z += m_Value - rangeMin;
         rotatingImage.localRotation = Quaternion.Euler( angles );
+
+        //Debug.LogError( "AngleSlider: UpdateVisuals()" );
     }
 }

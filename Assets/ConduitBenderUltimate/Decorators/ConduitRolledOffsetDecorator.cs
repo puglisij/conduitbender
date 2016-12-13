@@ -37,9 +37,9 @@ public class ConduitRolledOffsetDecorator : AConduitDecorator
         Bend bend = m_Conduit.bend;
 
         // Get Roll Angle
-        float rollAngleDeg = (float) bend.GetOutputParameter(BendParameter.Name.RollAngleDegrees).value;
-        float riseM = (float) bend.GetInputParameter(BendParameter.Name.Rise).value;
-        float rollM = (float) bend.GetInputParameter(BendParameter.Name.Roll).value;
+        float rollAngleDeg = (float) bend.GetOutputParameter(EBendParameterName.RollAngleDegrees).value;
+        float riseM = (float) bend.GetInputParameter(EBendParameterName.Rise).value;
+        float rollM = (float) bend.GetInputParameter(EBendParameterName.Roll).value;
         var centerline = m_Conduit.centerline;
         var indices = m_Conduit.centerlineBendIndices;
 
@@ -88,11 +88,11 @@ public class ConduitRolledOffsetDecorator : AConduitDecorator
 
         m_RollLine = FlagRenderer.NewLine( transform );
         m_RollLine.SetWidth( m_LineWidth * 0.7f );
-        m_RollLine.SetColor( bend.GetInputParameter( BendParameter.Name.Roll ).color );
+        m_RollLine.SetColor( bend.GetInputParameter( EBendParameterName.Roll ).color );
 
         m_RiseLine = FlagRenderer.NewLine( transform );
         m_RiseLine.SetWidth( m_LineWidth * 0.75f );
-        m_RiseLine.SetColor( bend.GetInputParameter( BendParameter.Name.Rise ).color );
+        m_RiseLine.SetColor( bend.GetInputParameter( EBendParameterName.Rise ).color );
         EnableLines( false );
 
         // Rotate Conduit
@@ -101,6 +101,20 @@ public class ConduitRolledOffsetDecorator : AConduitDecorator
 
     public override void Highlight()
     {
-        throw new NotImplementedException();
+        var bend = m_Conduit.bend;
+        var highlight = bend.GetHighlight();
+        var highlightColor = highlight.color;
+
+        m_Conduit.SetHighlightColor( highlightColor );
+
+        Debug.Assert( highlight.enabled );
+
+        // Which parameter to highlight?
+        if (highlight.name == EBendParameterName.DistanceBetween) {
+            var start = m_Conduit.centerlineBendIndices[0];
+            var end = m_Conduit.centerlineBendIndices[2];
+
+            ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
+        } 
     }
 }

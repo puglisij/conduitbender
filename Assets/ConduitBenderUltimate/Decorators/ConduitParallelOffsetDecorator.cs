@@ -48,8 +48,8 @@ public class ConduitParallelOffsetDecorator : AConduitDecorator
     {
         var bend = m_Conduit.bend;
         // Get amount of Shift
-        float shiftM = (float) bend.GetOutputParameter(BendParameter.Name.Shift).value;
-        float spacingM = (float) bend.GetInputParameter(BendParameter.Name.Spacing).value;
+        float shiftM = (float) bend.GetOutputParameter(EBendParameterName.Shift).value;
+        float spacingM = (float) bend.GetInputParameter(EBendParameterName.Spacing).value;
 
         Vector3 position = m_Conduit.transform.position;
         for (int i = 0; i < m_Meshes.Count; ++i) {

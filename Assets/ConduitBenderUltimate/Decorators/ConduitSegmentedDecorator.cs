@@ -35,8 +35,8 @@ public class ConduitSegmentedDecorator : AConduitDecorator
     {
         Bend bend = m_Conduit.bend;
         // Get Segmented Radius
-        float radiusM = (float) bend.GetInputParameter(BendParameter.Name.SegmentedRadius).value;
-        float angleDeg = (float) bend.GetInputParameter(BendParameter.Name.SegmentedAngle).value;
+        float radiusM = (float) bend.GetInputParameter(EBendParameterName.SegmentedRadius).value;
+        float angleDeg = (float) bend.GetInputParameter(EBendParameterName.SegmentedAngle).value;
         var centerline = m_Conduit.centerline;
         var indices = m_Conduit.centerlineBendIndices;
 
@@ -74,6 +74,25 @@ public class ConduitSegmentedDecorator : AConduitDecorator
 
     public override void Highlight()
     {
-        throw new NotImplementedException();
+        var bend = m_Conduit.bend;
+        var highlight = bend.GetHighlight();
+        var highlightColor = highlight.color;
+
+        m_Conduit.SetHighlightColor( highlightColor );
+
+        Debug.Assert( highlight.enabled );
+
+        // Which parameter to highlight?
+        if (highlight.name == EBendParameterName.DistanceBetween) {
+            var start = m_Conduit.centerlineBendIndices[2];
+            var end = m_Conduit.centerlineBendIndices[4];
+
+            ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
+        } else if(highlight.name == EBendParameterName.DistanceTo2nd) {
+            var start = m_Conduit.centerlineBendIndices[0];
+            var end = m_Conduit.centerlineBendIndices[2];
+
+            ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
+        }
     }
 }

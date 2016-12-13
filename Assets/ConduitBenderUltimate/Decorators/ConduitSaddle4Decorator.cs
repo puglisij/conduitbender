@@ -19,20 +19,14 @@ public class ConduitSaddle4Decorator : AConduitDecorator
         m_Conduit.SetHighlightColor( highlightColor );
 
         // Which parameter to highlight?
-        if (highlight.name == BendParameter.Name.DistanceBetween) {
+        if (highlight.name == EBendParameterName.DistanceBetween) {
             var start = m_Conduit.centerlineBendIndices[0];
-            var end   = m_Conduit.centerlineBendIndices[3];
-
-            Debug.Assert( start.type == BendMarkType.Start );
-            Debug.Assert( end.type == BendMarkType.End );
+            var end   = m_Conduit.centerlineBendIndices[2];
 
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
-        } else if(highlight.name == BendParameter.Name.Distance2ndTo3rd) {
+        } else if(highlight.name == EBendParameterName.Distance2ndTo3rd) {
             var start = m_Conduit.centerlineBendIndices[2];
             var end = m_Conduit.centerlineBendIndices[4];
-
-            Debug.Assert( start.type == BendMarkType.Start );
-            Debug.Assert( end.type == BendMarkType.Start );
 
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
         }

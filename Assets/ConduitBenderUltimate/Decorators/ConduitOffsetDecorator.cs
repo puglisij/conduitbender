@@ -18,7 +18,7 @@ public class ConduitOffsetDecorator : AConduitDecorator
         m_Conduit.SetHighlightColor( highlightColor );
 
         // Which parameter to highlight?
-        if(highlight.name == BendParameter.Name.DistanceBetween) {
+        if(highlight.name == EBendParameterName.DistanceBetween) {
             var start = m_Conduit.centerlineBendIndices[0];
             var end   = m_Conduit.centerlineBendIndices[3];
 

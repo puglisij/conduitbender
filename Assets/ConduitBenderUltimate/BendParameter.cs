@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-
 public static class BendMessages
 {
     public const string k_BendsTooClose = "Bends are too close.";
@@ -10,52 +9,55 @@ public static class BendMessages
     public const string k_StubLengthTooSmall = "Stub Length is too small.";
 }
 
-[System.Serializable]
-public class BendParameter
-{
-    public enum Name
-    {
-        AngleDegrees,
-        AngleFirstDegrees,
-        AngleLastDegrees,
-        CenterAngleDegrees,
-        DevelopedLength,
-        DistanceFromEnd,
-        DistanceTo1st,
-        DistanceTo2nd,
-        DistanceTo3rd,
-        DistanceToLast,
-        Distance1stTo2nd,
-        Distance2ndTo3rd,
-        DistanceBetween,
-        KickFirstMark,
-        KickOffset,
-        KickSpread,
-        KickTravel,
-        LengthOfBend,
-        LengthOfCenterBend,
-        LengthOfHalfBend,
-        OffsetHeight,
-        Rise,
-        Roll,
-        RollAngleDegrees,
-        Saddle3Method,
-        SaddleHeight,
-        SaddleLength,
-        SegmentedAngle,
-        SegmentedCount,
-        SegmentedMethod,
-        SegmentedRadius,
-        Shift,
-        ShrinkTo2ndMark,    // 3 point saddle
-        ShrinkToCenter,     // 4 point saddle
-        Spacing,
-        StubLength,
-        StubTakeUp,
-        TotalShrink
-    }
-    public enum Type { FloatAngle, Float, Integer, StringEnum }
+public enum EBendParameterType { FloatAngle, Float, Integer, StringEnum }
 
+public enum EBendParameterName
+{
+    AngleDegrees,
+    AngleFirstDegrees,
+    AngleLastDegrees,
+    CenterAngleDegrees,
+    DevelopedLength,
+    DistanceFromEnd,
+    DistanceTo1st,
+    DistanceTo2nd,
+    DistanceTo3rd,
+    DistanceToLast,
+    Distance1stTo2nd,
+    Distance2ndTo3rd,
+    DistanceBetween,
+    KickFirstMark,
+    KickOffset,
+    KickSpread,
+    KickTravel,
+    LengthOfBend,
+    LengthOfCenterBend,
+    LengthOfHalfBend,
+    OffsetHeight,
+    Rise,
+    Roll,
+    RollAngleDegrees,
+    Saddle3Method,
+    SaddleHeight,
+    SaddleLength,
+    SegmentedAngle,
+    SegmentedCount,
+    SegmentedMethod,
+    SegmentedRadius,
+    Shift,
+    ShrinkTo2ndMark,    // 3 point saddle
+    ShrinkToCenter,     // 4 point saddle
+    Spacing,
+    StubLength,
+    StubTakeUp,
+    TotalShrink
+}
+
+/// <summary>
+/// Constants pertaining to BendParameter
+/// </summary>
+public static class BendParameterMeta 
+{
     public static readonly string[] NameStrings = new string[38] {
         "Bend Angle (Degrees)",
         "1st Bend Angle (Degrees)",
@@ -70,7 +72,7 @@ public class BendParameter
         "Distance 1st to 2nd Mark",
         "Distance 2nd to 3rd Mark",
         "Distance Between Bends",
-        "1st Kick Mark Distance",
+        "1st Mark from Back of 90", // KickFirstMark
         "Kick Offset",
         "Kick Spread",
         "Kick Travel",
@@ -96,7 +98,8 @@ public class BendParameter
         "Stub Take-Up",
         "Total Shrink"
     };
-    private static readonly object[][] NameRangesMetric = new object[][] {
+
+    public static readonly object[][] NameRangesMetric = new object[][] {
         new object[] {0.5f, 90f },  // Bend Angle
         new object[] {0f, 0f },     // 1st Bend Angle
         new object[] {0f, 0f },     // Last Bend Angle
@@ -136,7 +139,8 @@ public class BendParameter
         new object[] {0f, 0f },  // Stub Take-Up
         new object[] {0f, 0f }   // Total Shrink
     };
-    private static readonly object[][] NameRangesStandard = new object[][] {
+
+    public static readonly object[][] NameRangesStandard = new object[][] {
         new object[] {0.5f, 90f },  // Bend Angle
         new object[] {0f, 0f },     // 1st Bend Angle
         new object[] {0f, 0f },     // Last Bend Angle
@@ -176,7 +180,13 @@ public class BendParameter
         new object[] {0f, 0f },  // Stub Take-Up
         new object[] {0f, 0f }      // Total Shrink
     };
+}
 
+
+
+[System.Serializable]
+public class BendParameter
+{
 
     public string colorHexString
     {
@@ -186,13 +196,13 @@ public class BendParameter
     /// A color to associate with the parameter
     /// </summary>
     [SerializeField]
-    public Color        color;
+    public Color                color;
     [SerializeField]
-    public Name         name;
+    public EBendParameterName   name;
     [SerializeField]
-    public Type         type;
+    public EBendParameterType   type;
     [SerializeField]
-    public object       valueObject;
+    public object               valueObject;
     /// <summary>
     /// Value should always be in Metric, if it is a measurement of Length.
     /// </summary>
@@ -208,7 +218,7 @@ public class BendParameter
 
     private string      m_ColorHexString;
 
-    public BendParameter( Name name, Type type, Color color, object value, object valueObject = null, bool enabled = true)
+    public BendParameter( EBendParameterName name, EBendParameterType type, Color color, object value, object valueObject = null, bool enabled = true)
     {
         this.name = name;
         this.type = type;
@@ -223,14 +233,14 @@ public class BendParameter
             + ((int)(color.a * 255)).ToString( "X2" );
     }
 
-    public static object[] GetRange( Name name )
+    public static object[] GetRange( EBendParameterName name )
     {
         switch (Engine.unitType) {
             case Units.Type.Metric:
-                return NameRangesMetric[ (int)name ];
+                return BendParameterMeta.NameRangesMetric[ (int)name ];
 
             case Units.Type.Standard:
-                return NameRangesStandard[ (int)name ];
+                return BendParameterMeta.NameRangesStandard[ (int)name ];
 
         }
         return null;
@@ -243,21 +253,21 @@ public class BendParameter
     public static string GetFormattedValue( BendParameter bendParam )
     {
         switch (bendParam.type) {
-            case BendParameter.Type.FloatAngle:
+            case EBendParameterType.FloatAngle:
                 return bendParam.value.ToString();
-            case BendParameter.Type.Float:
+            case EBendParameterType.Float:
                 return Units.Format( Engine.unitType, Engine.outputRulerUnit, GetExternalValue( (float) bendParam.value ) );
-            case BendParameter.Type.Integer:
+            case EBendParameterType.Integer:
                 return bendParam.value.ToString();
-            case BendParameter.Type.StringEnum:
+            case EBendParameterType.StringEnum:
                 StringEnum se = (StringEnum) bendParam.valueObject;
                 return se.ToStringValue( (int)bendParam.value );
         }
         return "";
     }
-    public static string GetStringValue( Name name )
+    public static string GetStringValue( EBendParameterName name )
     {
-        return NameStrings[ (int)name ];
+        return BendParameterMeta.NameStrings[ (int)name ];
     }
     /// <summary>
     /// Converts 'value' from internal units (which are Metric) to Standard (Feet) if Engine unitMode is set 

@@ -16,7 +16,6 @@ public class ScreenControlItem
     public EScreenControl control;
 }
 
-// @TODO - Make this a Struct?
 [Serializable]
 public class ScreenMeta //: ScriptableObject
 {

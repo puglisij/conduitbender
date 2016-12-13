@@ -88,10 +88,10 @@ public class BendFactory
         bend.Initialize( "CompoundCircle" );
 
         List<BendParameter> inputs = new List<BendParameter>();
-        inputs.Add( new BendParameter( BendParameter.Name.AngleDegrees, BendParameter.Type.FloatAngle, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.AngleDegrees, EBendParameterType.FloatAngle, colors.inputParameterDefault, 0f ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceBetween, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
 
         bend.EmbedInputParameters( inputs );
         bend.EmbedOutputParameters( outputs );
@@ -106,12 +106,12 @@ public class BendFactory
         bend.Initialize( "Offset" );
 
         List<BendParameter> inputs = new List<BendParameter>();
-        inputs.Add( new BendParameter( BendParameter.Name.AngleDegrees, BendParameter.Type.FloatAngle, colors.inputParameterDefault, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.OffsetHeight, BendParameter.Type.Float, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.AngleDegrees, EBendParameterType.FloatAngle, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.OffsetHeight, EBendParameterType.Float, colors.inputParameterDefault, 0f ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.TotalShrink, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceBetween, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.TotalShrink, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
 
         // Highlightable 
         outputs[ 0 ].canHighlight = true;   // DistanceBetween 
@@ -129,11 +129,11 @@ public class BendFactory
         bend.Initialize( "ParallelOffset" );
 
         List<BendParameter> inputs = new List<BendParameter>();
-        inputs.Add( new BendParameter( BendParameter.Name.AngleDegrees, BendParameter.Type.FloatAngle, colors.inputParameterDefault, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.Spacing, BendParameter.Type.Float, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.AngleDegrees, EBendParameterType.FloatAngle, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.Spacing, EBendParameterType.Float, colors.inputParameterDefault, 0f ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.Shift, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.Shift, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
 
         bend.EmbedInputParameters( inputs );
         bend.EmbedOutputParameters( outputs );
@@ -148,15 +148,18 @@ public class BendFactory
         bend.Initialize( "RolledOffset" );
 
         List<BendParameter> inputs = new List<BendParameter>();
-        inputs.Add( new BendParameter( BendParameter.Name.AngleDegrees, BendParameter.Type.FloatAngle, colors.inputParameterDefault, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.Rise, BendParameter.Type.Float, colors.flagBlue, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.Roll, BendParameter.Type.Float, colors.flagPurple, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.AngleDegrees, EBendParameterType.FloatAngle, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.Rise, EBendParameterType.Float, colors.flagBlue, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.Roll, EBendParameterType.Float, colors.flagPurple, 0f ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.TotalShrink, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.RollAngleDegrees, BendParameter.Type.FloatAngle, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.OffsetHeight, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceBetween, EBendParameterType.Float, colors.flagGreen, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.TotalShrink, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.RollAngleDegrees, EBendParameterType.FloatAngle, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.OffsetHeight, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+
+        // Highlightable 
+        outputs[ 0 ].canHighlight = true;   // DistanceBetween 
 
         bend.EmbedInputParameters( inputs );
         bend.EmbedOutputParameters( outputs );
@@ -171,19 +174,19 @@ public class BendFactory
         bend.Initialize( "Saddle3" );
 
         List<BendParameter> inputs = new List<BendParameter>();
-        inputs.Add( new BendParameter( BendParameter.Name.CenterAngleDegrees, BendParameter.Type.FloatAngle, colors.inputParameterDefault, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.SaddleHeight, BendParameter.Type.Float, colors.inputParameterDefault, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.Saddle3Method, BendParameter.Type.StringEnum, colors.inputParameterDefault,
+        inputs.Add( new BendParameter( EBendParameterName.CenterAngleDegrees, EBendParameterType.FloatAngle, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.SaddleHeight, EBendParameterType.Float, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.Saddle3Method, EBendParameterType.StringEnum, colors.inputParameterDefault,
             GlobalEnum.Saddle3BendMethod.First(), GlobalEnum.Saddle3BendMethod ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.LengthOfCenterBend, BendParameter.Type.Float, colors.flagBlue, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.flagPurple, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.Distance1stTo2nd, BendParameter.Type.Float, colors.flagPurple, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.Distance2ndTo3rd, BendParameter.Type.Float, colors.flagGreen, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.ShrinkTo2ndMark, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.ShrinkToCenter, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.TotalShrink, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.LengthOfCenterBend, EBendParameterType.Float, colors.flagBlue, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceBetween, EBendParameterType.Float, colors.flagPurple, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.Distance1stTo2nd, EBendParameterType.Float, colors.flagPurple, 0f, null, false ) );
+        outputs.Add( new BendParameter( EBendParameterName.Distance2ndTo3rd, EBendParameterType.Float, colors.flagGreen, 0f, null, false ) );
+        outputs.Add( new BendParameter( EBendParameterName.ShrinkTo2ndMark, EBendParameterType.Float, colors.outputParameterDefault, 0f, null, false ) );
+        outputs.Add( new BendParameter( EBendParameterName.ShrinkToCenter, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.TotalShrink, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
 
         // Highlightable 
         outputs[ 0 ].canHighlight = true;   // LengthOfCenterBend 
@@ -204,15 +207,15 @@ public class BendFactory
         bend.Initialize( "Saddle4" );
 
         List<BendParameter> inputs = new List<BendParameter>();
-        inputs.Add( new BendParameter( BendParameter.Name.AngleDegrees, BendParameter.Type.FloatAngle, colors.inputParameterDefault, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.SaddleHeight, BendParameter.Type.Float, colors.inputParameterDefault, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.SaddleLength, BendParameter.Type.Float, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.AngleDegrees, EBendParameterType.FloatAngle, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.SaddleHeight, EBendParameterType.Float, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.SaddleLength, EBendParameterType.Float, colors.inputParameterDefault, 0f ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.flagBlue, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.Distance2ndTo3rd, BendParameter.Type.Float, colors.flagPurple, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.TotalShrink, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.ShrinkToCenter, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceBetween, EBendParameterType.Float, colors.flagBlue, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.Distance2ndTo3rd, EBendParameterType.Float, colors.flagPurple, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.TotalShrink, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.ShrinkToCenter, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
 
         // Highlightable 
         outputs[ 0 ].canHighlight = true;   // DistanceBetween 
@@ -231,19 +234,23 @@ public class BendFactory
         bend.Initialize( "Segmented" );
 
         List<BendParameter> inputs = new List<BendParameter>();
-        inputs.Add( new BendParameter( BendParameter.Name.SegmentedAngle, BendParameter.Type.FloatAngle, colors.flagBlue, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.SegmentedCount, BendParameter.Type.Integer, colors.inputParameterDefault, 3 ) );
-        inputs.Add( new BendParameter( BendParameter.Name.SegmentedRadius, BendParameter.Type.Float, colors.flagBlue, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.SegmentedMethod, BendParameter.Type.StringEnum, colors.inputParameterDefault,
+        inputs.Add( new BendParameter( EBendParameterName.SegmentedAngle, EBendParameterType.FloatAngle, colors.flagBlue, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.SegmentedCount, EBendParameterType.Integer, colors.inputParameterDefault, 3 ) );
+        inputs.Add( new BendParameter( EBendParameterName.SegmentedRadius, EBendParameterType.Float, colors.flagBlue, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.SegmentedMethod, EBendParameterType.StringEnum, colors.inputParameterDefault,
             GlobalEnum.SegmentedBendMethod.Last(), GlobalEnum.SegmentedBendMethod ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.AngleFirstDegrees, BendParameter.Type.FloatAngle, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.AngleDegrees, BendParameter.Type.FloatAngle, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.AngleLastDegrees, BendParameter.Type.FloatAngle, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceTo2nd, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.DevelopedLength, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.AngleFirstDegrees, EBendParameterType.FloatAngle, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.AngleDegrees, EBendParameterType.FloatAngle, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.AngleLastDegrees, EBendParameterType.FloatAngle, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceBetween, EBendParameterType.Float, colors.flagPurple, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceTo2nd, EBendParameterType.Float, colors.flagYellow, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DevelopedLength, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+
+        // Highlightable 
+        outputs[ 3 ].canHighlight = true;   // DistanceBetween 
+        outputs[ 4 ].canHighlight = true;   // DistanceTo2nd 
 
         bend.EmbedInputParameters( inputs );
         bend.EmbedOutputParameters( outputs );
@@ -258,13 +265,18 @@ public class BendFactory
         bend.Initialize( "StubUp" );
 
         List<BendParameter> inputs = new List<BendParameter>();
-        inputs.Add( new BendParameter( BendParameter.Name.StubLength, BendParameter.Type.Float, colors.inputParameterDefault, 0f ) );
-        //inputs.Add( new BendParameter( BendParameter.Name.StubMethod, BendParameter.Type.StringEnum,
+        inputs.Add( new BendParameter( EBendParameterName.StubLength, EBendParameterType.Float, colors.inputParameterDefault, 0f ) );
+        //inputs.Add( new BendParameter( EBendParameterName.StubMethod, EBendParameterType.StringEnum,
         //    GlobalEnum.StubUpMethod.First(), GlobalEnum.StubUpMethod ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.DistanceFromEnd, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.StubTakeUp, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceFromEnd, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.StubTakeUp, EBendParameterType.Float, colors.flagPurple, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.LengthOfBend, EBendParameterType.Float, colors.flagBlue, 0f ) );
+
+        // Highlightable 
+        outputs[ 0 ].canHighlight = true; // DistanceFromEnd
+        outputs[ 2 ].canHighlight = true; // LengthOfBend
 
         bend.EmbedInputParameters( inputs );
         bend.EmbedOutputParameters( outputs );
@@ -279,18 +291,18 @@ public class BendFactory
         bend.Initialize( "ParallelKick" );
 
         List<BendParameter> inputs = new List<BendParameter>();
-        inputs.Add( new BendParameter( BendParameter.Name.AngleDegrees, BendParameter.Type.FloatAngle, colors.inputParameterDefault, 0f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.Spacing, 
-            BendParameter.Type.Float, colors.inputParameterDefault, Engine.conduitDiameterM * 2f ) );
-        inputs.Add( new BendParameter( BendParameter.Name.KickOffset,
-            BendParameter.Type.Float, colors.inputParameterDefault, Engine.conduitDiameterM * 2f ) );
+        inputs.Add( new BendParameter( EBendParameterName.AngleDegrees, EBendParameterType.FloatAngle, colors.inputParameterDefault, 0f ) );
+        inputs.Add( new BendParameter( EBendParameterName.Spacing, 
+            EBendParameterType.Float, colors.inputParameterDefault, Engine.conduitDiameterM * 2f ) );
+        inputs.Add( new BendParameter( EBendParameterName.KickOffset,
+            EBendParameterType.Float, colors.inputParameterDefault, Engine.conduitDiameterM * 2f ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( BendParameter.Name.KickTravel, BendParameter.Type.Float, colors.flagBlue, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.KickSpread, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.KickFirstMark, BendParameter.Type.Float, colors.flagGreen, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.Shift, BendParameter.Type.Float, colors.flagPurple, 0f ) );
-        outputs.Add( new BendParameter( BendParameter.Name.DevelopedLength, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.KickTravel, EBendParameterType.Float, colors.flagBlue, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.KickSpread, EBendParameterType.Float, colors.flagYellow, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.KickFirstMark, EBendParameterType.Float, colors.flagGreen, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.Shift, EBendParameterType.Float, colors.flagPurple, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DevelopedLength, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
 
         bend.EmbedInputParameters( inputs );
         bend.EmbedOutputParameters( outputs );
@@ -588,14 +600,6 @@ public class BendFactory
         bend.outputParameters[ 5 ].enabled = false;             // Shrink To Center
         bend.outputParameters[ 6 ].value = shrinkTotal;         // Total Shrink
 
-        //outputs.Add( new BendParameter( BendParameter.Name.LengthOfCenterBend, BendParameter.Type.Float, colors.flagBlue, 0f ) );
-        //outputs.Add( new BendParameter( BendParameter.Name.DistanceBetween, BendParameter.Type.Float, colors.flagPurple, 0f ) );
-        //outputs.Add( new BendParameter( BendParameter.Name.Distance1stTo2nd, BendParameter.Type.Float, colors.flagPurple, 0f ) );
-        //outputs.Add( new BendParameter( BendParameter.Name.Distance2ndTo3rd, BendParameter.Type.Float, colors.flagGreen, 0f ) );
-        //outputs.Add( new BendParameter( BendParameter.Name.ShrinkTo2ndMark, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        //outputs.Add( new BendParameter( BendParameter.Name.ShrinkToCenter, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-        //outputs.Add( new BendParameter( BendParameter.Name.TotalShrink, BendParameter.Type.Float, colors.outputParameterDefault, 0f ) );
-
         // Start Conduit
         bend.conduitOrder.Add( new Marker( 0f, Vector3.forward, Vector3.up ) );
 
@@ -774,6 +778,7 @@ public class BendFactory
         //float Hb = Calculator.Hb( benderRadiusM, angleRad );
         float stubTakeUp = Vb + Engine.conduitDiameterM * 0.5f;
         float distFromEnd = stubLengthM - stubTakeUp;
+        float lengthOfBend = Calculator.Lb( benderRadiusM, angleRad );
 
         // Check Values
         string message = null;
@@ -785,7 +790,8 @@ public class BendFactory
 
         // Set Output Parameters
         bend.outputParameters[ 0 ].value = distFromEnd;  // Distance from End
-        bend.outputParameters[ 1 ].value = stubTakeUp;  // Stub TakeUp
+        bend.outputParameters[ 1 ].value = stubTakeUp;   // Stub TakeUp
+        bend.outputParameters[ 2 ].value = lengthOfBend; // Length of Bend
 
         // Start Conduit
         bend.conduitOrder.Add( new Marker( 0f, Vector3.forward, Vector3.up ) );

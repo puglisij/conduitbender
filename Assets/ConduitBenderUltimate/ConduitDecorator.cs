@@ -14,6 +14,7 @@ public abstract class AConduitDecorator : MonoBehaviour
     public abstract void Decorate();
     public abstract void Highlight();
     public abstract void OnRemove();
+    // NOTE: Do NOT call Decorate() from Set()
     public abstract void Set( Conduit conduit );
 
 }

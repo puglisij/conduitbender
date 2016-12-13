@@ -20,7 +20,9 @@ public class ConduitSaddle3Decorator : AConduitDecorator
         // Find Centerline Bend Marks
         var centerline = m_Conduit.centerline;
         var indices = m_Conduit.centerlineBendIndices;
-        int bi = 0;
+        var conduitRadius = Engine.conduitDiameterM * 0.5f;
+        var bi = 0;
+
         for (int i = 0; i < indices.Count; ++i) {
             if (indices[ i ].type == BendMarkType.Start || indices[ i ].type == BendMarkType.End) {
                 bendIndices[ bi++ ] = indices[ i ].index;
@@ -36,7 +38,7 @@ public class ConduitSaddle3Decorator : AConduitDecorator
 
         // Arrow locations are dependent on Bend Method
         var bend = m_Conduit.bend;
-        var bendMethod = (GlobalEnum.ESaddle3BendMethod) bend.GetInputParameter(BendParameter.Name.Saddle3Method).value;
+        var bendMethod = (GlobalEnum.ESaddle3BendMethod) bend.GetInputParameter(EBendParameterName.Saddle3Method).value;
 
         if(bendMethod == GlobalEnum.ESaddle3BendMethod.Notch) 
         {
@@ -46,9 +48,9 @@ public class ConduitSaddle3Decorator : AConduitDecorator
             Vector3 bend2Dir = transform.up;
             Vector3 bend3Dir = centerline[ bendIndices[ 4 ] ].radialDir;
 
-            bendPoints[ 0 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 1 ] ].point ) + bend1Dir * Engine.conduitDiameterM * 0.5f;
-            bendPoints[ 1 ] = m_Conduit.transform.TransformPoint( centerline[ centerOfCenterBend ].point ) + bend2Dir * Engine.conduitDiameterM * 0.5f;
-            bendPoints[ 2 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 4 ] ].point ) + bend3Dir * Engine.conduitDiameterM * 0.5f;
+            bendPoints[ 0 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 1 ] ].point ) + bend1Dir * conduitRadius;
+            bendPoints[ 1 ] = m_Conduit.transform.TransformPoint( centerline[ centerOfCenterBend ].point ) + bend2Dir * conduitRadius;
+            bendPoints[ 2 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 4 ] ].point ) + bend3Dir * conduitRadius;
 
             // Draw Arrows
             FlagRenderer.DrawRay( rays[ 0 ], -bend1Dir, bendPoints[ 0 ] );
@@ -57,7 +59,19 @@ public class ConduitSaddle3Decorator : AConduitDecorator
         } 
         else if(bendMethod == GlobalEnum.ESaddle3BendMethod.Arrow)
         {
+            // Determine Points
+            Vector3 bend1Dir = centerline[ bendIndices[ 1 ] ].radialDir;
+            Vector3 bend2Dir = -centerline[ bendIndices[ 2 ] ].radialDir;
+            Vector3 bend3Dir = centerline[ bendIndices[ 4 ] ].radialDir;
 
+            bendPoints[ 0 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 1 ] ].point ) + bend1Dir * conduitRadius;
+            bendPoints[ 1 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 2 ] ].point ) + bend2Dir * conduitRadius;
+            bendPoints[ 2 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 4 ] ].point ) + bend3Dir * conduitRadius;
+
+            // Draw Arrows
+            FlagRenderer.DrawRay( rays[ 0 ], -bend1Dir, bendPoints[ 0 ] );
+            FlagRenderer.DrawRay( rays[ 1 ], -bend2Dir, bendPoints[ 1 ] );
+            FlagRenderer.DrawRay( rays[ 2 ], -bend3Dir, bendPoints[ 2 ] );
         }
     }
 
@@ -72,22 +86,22 @@ public class ConduitSaddle3Decorator : AConduitDecorator
         Debug.Assert( highlight.enabled );
 
         // Which parameter to highlight?
-        if (highlight.name == BendParameter.Name.DistanceBetween) {
+        if (highlight.name == EBendParameterName.DistanceBetween) {
             var start = m_Conduit.centerlineBendIndices[0];
             var end   = m_Conduit.centerlineBendIndices[2];
 
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
-        } else if (highlight.name == BendParameter.Name.Distance1stTo2nd) {
+        } else if (highlight.name == EBendParameterName.Distance1stTo2nd) {
             var start = m_Conduit.centerlineBendIndices[1];
             var end   = m_Conduit.centerlineBendIndices[2];
 
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
-        } else if(highlight.name == BendParameter.Name.Distance2ndTo3rd) {
+        } else if(highlight.name == EBendParameterName.Distance2ndTo3rd) {
             var start = m_Conduit.centerlineBendIndices[2];
             var end   = m_Conduit.centerlineBendIndices[4];
 
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
-        } else if (highlight.name == BendParameter.Name.LengthOfCenterBend) {
+        } else if (highlight.name == EBendParameterName.LengthOfCenterBend) {
             var start = m_Conduit.centerlineBendIndices[2];
             var end = m_Conduit.centerlineBendIndices[3];
 
@@ -109,7 +123,5 @@ public class ConduitSaddle3Decorator : AConduitDecorator
         rays[ 1 ] = FlagRenderer.NewRay( transform );
         rays[ 2 ] = FlagRenderer.NewRay( transform );
 
-        // Position Conduit
-        Decorate();
     }
 }

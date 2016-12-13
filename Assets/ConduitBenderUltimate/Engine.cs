@@ -309,8 +309,8 @@ public class Engine : MonoBehaviour {
     {
         int len = 0;
         int maxLength = 0;
-        for(int i = 0; i < BendParameter.NameStrings.Length; ++i) {
-           len = BendParameter.NameStrings[ i ].Length;
+        for(int i = 0; i < BendParameterMeta.NameStrings.Length; ++i) {
+           len = BendParameterMeta.NameStrings[ i ].Length;
            if (len > maxLength) {
                 maxLength = len;
            }
@@ -387,6 +387,9 @@ public class Engine : MonoBehaviour {
 
     public void Quit()
     {
+        Debug.Log( "Engine: Quit() Exiting Application." );
+        // Save data
+        bendManager.Save();
 
         Application.Quit();
     }

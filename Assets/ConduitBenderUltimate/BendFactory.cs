@@ -270,7 +270,7 @@ public class BendFactory
         //    GlobalEnum.StubUpMethod.First(), GlobalEnum.StubUpMethod ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( EBendParameterName.DistanceFromEnd, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceFromEnd, EBendParameterType.Float, colors.flagRed, 0f ) );
         outputs.Add( new BendParameter( EBendParameterName.StubTakeUp, EBendParameterType.Float, colors.flagPurple, 0f ) );
         outputs.Add( new BendParameter( EBendParameterName.LengthOfBend, EBendParameterType.Float, colors.flagBlue, 0f ) );
 

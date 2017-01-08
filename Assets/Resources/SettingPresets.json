@@ -1,0 +1,418 @@
+{
+    "conduitDiameter": [{
+        "title": "",
+        "set": [{
+            "title": "1/2\" 16mm EMT",
+            "value": 0.017932390313679998
+        }, {
+            "title": "3/4\" 21mm EMT",
+            "value": 0.023418787350159998
+        }, {
+            "title": "1\" 27mm EMT",
+            "value": 0.02954018404364
+        }, {
+            "title": "1 1/4\" 35mm EMT",
+            "value": 0.038353979282799995
+        }, {
+            "title": "1 1/2\" 41mm EMT",
+            "value": 0.0441959761272
+        }, {
+            "title": "2\" 53mm EMT",
+            "value": 0.05580376985716
+        }, {
+            "title": "2 1/2\" 63mm EMT",
+            "value": 0.07302496055499999
+        }, {
+            "title": "3\" 78mm EMT",
+            "value": 0.08889995197999999
+        }, {
+            "title": "3 1/2\" 91mm EMT",
+            "value": 0.10159994512
+        }, {
+            "title": "4\" 103mm EMT",
+            "value": 0.11429993826
+        }, {
+            "title": "1/2\" 16mm IMC",
+            "value": 0.020700988818199997
+        }, {
+            "title": "3/4\" 21mm IMC",
+            "value": 0.026136585882119995
+        }, {
+            "title": "1\" 27mm IMC",
+            "value": 0.0327659823012
+        }, {
+            "title": "1 1/4\" 35mm IMC",
+            "value": 0.041605177526639996
+        }, {
+            "title": "1 1/2\" 41mm IMC",
+            "value": 0.047828174165239996
+        }, {
+            "title": "2\" 53mm IMC",
+            "value": 0.059943967620799996
+        }, {
+            "title": "2 1/2\" 63mm IMC",
+            "value": 0.07256776080196
+        }, {
+            "title": "3\" 78mm IMC",
+            "value": 0.08829035230927999
+        }, {
+            "title": "3 1/2\" 91mm IMC",
+            "value": 0.10086334551788
+        }, {
+            "title": "4\" 103mm IMC",
+            "value": 0.11343633872648
+        }, {
+            "title": "1/2\" 16mm Rigid",
+            "value": 0.021335988475199998
+        }, {
+            "title": "3/4\" 21mm Rigid",
+            "value": 0.026669985594
+        }, {
+            "title": "1\" 27mm Rigid",
+            "value": 0.033400981958199995
+        }, {
+            "title": "1 1/4\" 35mm Rigid",
+            "value": 0.042163977224799996
+        }, {
+            "title": "1 1/2\" 41mm Rigid",
+            "value": 0.048259973931999996
+        }, {
+            "title": "2\" 53mm Rigid",
+            "value": 0.06032496741499999
+        }, {
+            "title": "2 1/2\" 63mm Rigid",
+            "value": 0.07302496055499999
+        }, {
+            "title": "3\" 78mm Rigid",
+            "value": 0.08889995197999999
+        }, {
+            "title": "3 1/2\" 91mm Rigid",
+            "value": 0.10159994512
+        }, {
+            "title": "4\" 103mm Rigid",
+            "value": 0.11429993826
+        }]
+    }],
+    "benderRadius": [{
+        "title": "1/2\" 16mm Benders",
+        "set": [{
+            "title": "Typical 1/2\" EMT Bender",
+            "value": 0.10794994169
+        }, {
+            "title": "Typical 1/2\" IMC Bender",
+            "value": 0.11112493997499999
+        }, {
+            "title": "Typical 1/2\" Rigid Bender",
+            "value": 0.11112493997499999
+        }, {
+            "title": "1/2 inch Ideal Hand Bender",
+            "value": 0.11048994031799998
+        }, {
+            "title": "1/2 inch Site-Rite Hand Bender",
+            "value": 0.10634974255436
+        }, {
+            "title": "1/2 inch Site-Rite II Hand Bender",
+            "value": 0.10634974255436
+        }, {
+            "title": "555 EMT 1/2 inch",
+            "value": 0.10794994169
+        }, {
+            "title": "555 IMC 1/2 inch",
+            "value": 0.11112493997499999
+        }, {
+            "title": "555 Rigid 1/2 inch",
+            "value": 0.11112493997499999
+        }, {
+            "title": "854 / 855 EMT 1/2 inch",
+            "value": 0.1095374408325
+        }, {
+            "title": "854 / 855 IMC/Rigid 1/2 inch",
+            "value": 0.10794994169
+        }, {
+            "title": "880 1/2 inch",
+            "value": 0.10159994512
+        }, {
+            "title": "1800 / 1801 IMC/Rigid 1/2 inch",
+            "value": 0.066674963985
+        }]
+    }, {
+        "title": "3/4\" 21mm Benders",
+        "set": [{
+            "title": "Typical 3/4\" EMT Bender",
+            "value": 0.13652492625499998
+        }, {
+            "title": "Typical 3/4\" IMC Bender",
+            "value": 0.11429993826
+        }, {
+            "title": "Typical 3/4\" Rigid Bender",
+            "value": 0.11429993826
+        }, {
+            "title": "3/4 inch Ideal Hand Bender",
+            "value": 0.132079928656
+        }, {
+            "title": "3/4 inch Site-Rite Hand Bender",
+            "value": 0.130174929685
+        }, {
+            "title": "3/4 inch Site-Rite II Hand Bender",
+            "value": 0.130174929685
+        }, {
+            "title": "555 EMT 3/4 inch",
+            "value": 0.13652492625499998
+        }, {
+            "title": "555 IMC 3/4 inch",
+            "value": 0.11429993826
+        }, {
+            "title": "555 Rigid 3/4 inch",
+            "value": 0.11429993826
+        }, {
+            "title": "854 / 855 EMT 3/4 inch",
+            "value": 0.13969992454
+        }, {
+            "title": "854 / 855 IMC/Rigid 3/4 inch",
+            "value": 0.1381124253975
+        }, {
+            "title": "880 3/4 inch",
+            "value": 0.11429993826
+        }, {
+            "title": "1800 / 1801 IMC/Rigid 3/4 inch",
+            "value": 0.11747493654499999
+        }]
+    }, {
+        "title": "1\" 27mm Benders",
+        "set": [{
+            "title": "Typical 1\" EMT Bender",
+            "value": 0.17144990739
+        }, {
+            "title": "Typical 1\" IMC Bender",
+            "value": 0.14604992110999998
+        }, {
+            "title": "Typical 1\" Rigid Bender",
+            "value": 0.14604992110999998
+        }, {
+            "title": "1 inch Ideal Hand Bender",
+            "value": 0.1671319097224
+        }, {
+            "title": "1 inch Site-Rite Hand Bender",
+            "value": 0.16509991082
+        }, {
+            "title": "1 inch Site-Rite II Hand Bender",
+            "value": 0.16509991082
+        }, {
+            "title": "555 EMT 1 inch",
+            "value": 0.17144990739
+        }, {
+            "title": "555 IMC 1 inch",
+            "value": 0.14604992110999998
+        }, {
+            "title": "555 Rigid 1 inch",
+            "value": 0.14604992110999998
+        }, {
+            "title": "854 / 855 EMT 1 inch",
+            "value": 0.17779990395999998
+        }, {
+            "title": "854 / 855 IMC/Rigid 1 inch",
+            "value": 0.1762124048175
+        }, {
+            "title": "880 1 inch",
+            "value": 0.14604992110999998
+        }, {
+            "title": "1800 / 1801 IMC/Rigid 1 inch",
+            "value": 0.149224919395
+        }]
+    }, {
+        "title": "1 1/4\" 35mm Benders",
+        "set": [{
+            "title": "Typical 1 1/4\" EMT Bender",
+            "value": 0.22224987994999998
+        }, {
+            "title": "Typical 1 1/4\" IMC Bender",
+            "value": 0.18414990053
+        }, {
+            "title": "Typical 1 1/4\" Rigid Bender",
+            "value": 0.18414990053
+        }, {
+            "title": "1 1/4 inch Ideal Hand Bender",
+            "value": 0.24764986623
+        }, {
+            "title": "1 1/4 inch Site-Rite Hand Bender",
+            "value": 0.27939984908
+        }, {
+            "title": "1 1/4 inch Site-Rite II Hand Bender",
+            "value": 0.24447486794499998
+        }, {
+            "title": "555 EMT 1 1/4 inch",
+            "value": 0.22224987994999998
+        }, {
+            "title": "555 IMC 1 1/4 inch",
+            "value": 0.18414990053
+        }, {
+            "title": "555 Rigid 1 1/4 inch",
+            "value": 0.18414990053
+        }, {
+            "title": "854 / 855 EMT 1 1/4 inch",
+            "value": 0.22383737909249998
+        }, {
+            "title": "854 / 855 IMC/Rigid 1 1/4 inch",
+            "value": 0.22224987994999998
+        }, {
+            "title": "880 1 1/4 inch",
+            "value": 0.18414990053
+        }, {
+            "title": "882 EMT 1 1/4 inch",
+            "value": 0.18335615095875
+        }, {
+            "title": "882 IMC / Rigid 1 1/4 inch",
+            "value": 0.18414990053
+        }, {
+            "title": "1800 / 1801 / 855 IMC/Rigid 1 1/4 inch",
+            "value": 0.2047873893825
+        }, {
+            "title": "777 1 1/4 inch",
+            "value": 0.18414990053
+        }, {
+            "title": "884 / 885 1 1/4 inch",
+            "value": 0.18414990053
+        }]
+    }, {
+        "title": "1 1/2\" 41mm Benders",
+        "set": [{
+            "title": "Typical 1 1/2\" EMT Bender",
+            "value": 0.21034363638124998
+        }, {
+            "title": "Typical 1 1/2\" IMC Bender",
+            "value": 0.21034363638124998
+        }, {
+            "title": "Typical 1 1/2\" Rigid Bender",
+            "value": 0.20954988680999997
+        }, {
+            "title": "555 EMT 1 1/2 inch",
+            "value": 0.21033728638468
+        }, {
+            "title": "555 IMC 1 1/2 inch",
+            "value": 0.20954988680999997
+        }, {
+            "title": "555 Rigid 1 1/2 inch",
+            "value": 0.21031188639839998
+        }, {
+            "title": "854 / 855 EMT 1 1/2 inch",
+            "value": 0.21272488509499998
+        }, {
+            "title": "854 / 855 IMC/Rigid 1 1/2 inch",
+            "value": 0.20954988680999997
+        }, {
+            "title": "880 1 1/2 inch",
+            "value": 0.20954988680999997
+        }, {
+            "title": "882 EMT 1 1/2 inch",
+            "value": 0.2047873893825
+        }, {
+            "title": "882 IMC / Rigid 1 1/2 inch",
+            "value": 0.20954988680999997
+        }, {
+            "title": "1800 / 1801 IMC/Rigid 1 1/2 inch",
+            "value": 0.24606236708749998
+        }, {
+            "title": "777 1 1/2 inch",
+            "value": 0.20954988680999997
+        }, {
+            "title": "884 / 885 1 1/2 inch",
+            "value": 0.20954988680999997
+        }]
+    }, {
+        "title": "2\" 53mm Benders",
+        "set": [{
+            "title": "Typical 2\" EMT Bender",
+            "value": 0.23336237394749998
+        }, {
+            "title": "Typical 2\" IMC Bender",
+            "value": 0.23336237394749998
+        }, {
+            "title": "Typical 2\" Rigid Bender",
+            "value": 0.24129986965999997
+        }, {
+            "title": "555 EMT 2 inch",
+            "value": 0.23336237394749998
+        }, {
+            "title": "555 IMC 2 inch",
+            "value": 0.24129986965999997
+        }, {
+            "title": "555 Rigid 2 inch",
+            "value": 0.23334967395435996
+        }, {
+            "title": "854 / 855 EMT 2 inch",
+            "value": 0.23494987308999998
+        }, {
+            "title": "854 / 855 IMC/Rigid 2 inch",
+            "value": 0.22859987652
+        }, {
+            "title": "880 2 inch",
+            "value": 0.24129986965999997
+        }, {
+            "title": "882 EMT 2 inch",
+            "value": 0.2365373722325
+        }, {
+            "title": "882 IMC / Rigid 2 inch",
+            "value": 0.225424878235
+        }, {
+            "title": "777 2 inch",
+            "value": 0.24129986965999997
+        }, {
+            "title": "884 / 885 2 inch",
+            "value": 0.24129986965999997
+        }]
+    }, {
+        "title": "2 1/2\" 63mm Benders",
+        "set": [{
+            "title": "777 2 1/2 inch",
+            "value": 0.29051234307749996
+        }, {
+            "title": "881 2 1/2 inch",
+            "value": 0.34289981478
+        }, {
+            "title": "884 / 885 2 1/2 inch",
+            "value": 0.31749982849999997
+        }]
+    }, {
+        "title": "3\" 78mm Benders",
+        "set": [{
+            "title": "777 3 inch",
+            "value": 0.34924981135
+        }, {
+            "title": "881 3 inch",
+            "value": 0.40639978048
+        }, {
+            "title": "884 / 885 3 inch",
+            "value": 0.38099979419999996
+        }]
+    }, {
+        "title": "3 1/2\" 91mm Benders",
+        "set": [{
+            "title": "777 3 1/2 inch",
+            "value": 0.40639978048
+        }, {
+            "title": "881 3 1/2 inch",
+            "value": 0.473074744465
+        }, {
+            "title": "884 / 885 3 1/2 inch",
+            "value": 0.44449975989999996
+        }]
+    }, {
+        "title": "4\" 103mm Benders",
+        "set": [{
+            "title": "777 4 inch",
+            "value": 0.46354974960999995
+        }, {
+            "title": "881 4 inch",
+            "value": 0.530224713595
+        }, {
+            "title": "884 / 885 4 inch",
+            "value": 0.5079997256
+        }]
+    }, {
+        "title": "5\" 129mm Benders",
+        "set": [{
+            "title": "884 / 885 5 inch",
+            "value": 0.6349996569999999
+        }]
+    }]
+}

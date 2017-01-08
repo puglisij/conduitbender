@@ -10,11 +10,12 @@ public class Units
 
     public static readonly string[] k_UnitAbbreviations =
     {
-        "ft",
-        "in",
         "m",
         "cm",
-        "mm"
+        "mm",
+        "ft",
+        "in",
+        "frac"
     };
 
     private static readonly string[] k_DefaultRulerNames = {
@@ -47,6 +48,7 @@ public class Units
     // Constant Conversion Multipliers
     public static readonly float k_FtToM = 0.3048f;
     public static readonly float k_InToM = 0.02539998628f;
+    public static readonly float k_CmToIn = 0.3937007874f;
     public static readonly float k_MToIn = 39.3701f;
     public static readonly float k_MToFt = 3.28084f;
 

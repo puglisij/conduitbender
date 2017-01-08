@@ -44,14 +44,6 @@ namespace CB
 
         ###########################################*/
 
-        /// <summary>
-        /// Not Implemented
-        /// </summary>
-        public override void Link( IModel model )
-        {
-            throw new NotImplementedException();
-        }
-
 
 
     }

@@ -103,14 +103,6 @@ namespace CB
         }
 
         /// <summary>
-        /// Not Implemented
-        /// </summary>
-        public override void Link( IModel model )
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Writes the string to the output Text
         /// </summary>
         public void WriteLines( string lines )

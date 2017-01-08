@@ -5,18 +5,13 @@ using HedgehogTeam.EasyTouch;
 
 namespace CB
 {
-    public abstract class AModal : MonoBehaviour, ILinkable
+    public abstract class AModal : MonoBehaviour 
     {
         public enum ETapAction { CloseOnUnfocus, CloseOnTap, None }
 
         //--------------
         // Public
         //--------------
-        public string modelName
-        {
-            get;
-            set;
-        }
         public virtual string modalTitle
         {
             get { return m_ModalTitle; }
@@ -152,7 +147,6 @@ namespace CB
             m_Opener.SetBool( m_OpenParameterId, true );
             StartCoroutine( OpenAnimationMonitor( m_Opener ) );
         }
-        public abstract void Link( IModel model );
 
         public void Nothing() {}
     }

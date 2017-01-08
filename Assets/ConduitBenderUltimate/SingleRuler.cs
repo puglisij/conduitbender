@@ -9,7 +9,7 @@ public class SingleRuler : MonoBehaviour
     public Text     displayText;
     public Text     rulerNameText;
 
-    public Units.RulerUnit   metricRulerUnit
+    public Units.RulerUnit metricRulerUnit
     {
         get { return m_MetricRulerUnit; }
         set { m_MetricRulerUnit = value; }

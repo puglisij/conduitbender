@@ -42,6 +42,22 @@ public static class AppData
     }
 
     /// <summary>
+    /// Loads a json file from Resources (e.g. MyDefaults.json). File must be in Resources directory. Don't use file extension.
+    /// Example: LoadResource( "MyJSON", out myJSONObject )
+    /// Returns default(T) if unsuccessful
+    /// </summary>
+    public static void LoadResourceJSON<T>( string fullPath, out T data)
+    {
+        var asset = Resources.Load( fullPath ) as TextAsset;
+
+        try {
+            data = JsonUtility.FromJson<T>( asset.text );
+        } catch(Exception) {
+            data = default( T );
+        }
+    }
+
+    /// <summary>
     /// Loads given filename (from persistentDataPath) into 'object' data parameter. 
     /// null if file does not exist.
     /// Returns default(T) if unsuccessful

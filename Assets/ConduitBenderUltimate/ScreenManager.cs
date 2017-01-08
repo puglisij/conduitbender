@@ -188,10 +188,17 @@ public class ScreenManager : MonoBehaviour, ILinkableAnnouncer
         }
 
         // Open the new Screen
+#if DEBUG
         Debug.Log( "ScreenManager: About to Open Screen: " + screen.screenTitle + " isOpen: " + screen.isOpen + " isHidden: " + screen.isHidden );
+#endif
+
         screen.Open();
         m_Open = screenMeta;
+
+#if DEBUG
         Debug.Log( "ScreenManager: About to Set Controls: " + screen.screenTitle + " isOpen: " + screen.isOpen + " isHidden: " + screen.isHidden );
+#endif
+
         SetControls( screenMeta.controls );
 
         // Fire 'Opened' Event
@@ -396,10 +403,12 @@ public class ScreenManager : MonoBehaviour, ILinkableAnnouncer
         }
 
         ScreenMeta screenMeta;
-        if( m_ScreenHash.TryGetValue( screenName, out screenMeta ) ) 
-        {
+        if( m_ScreenHash.TryGetValue( screenName, out screenMeta ) ) {
             OpenScreen( screenMeta, true );
         }
+#if DEBUG
+        else { Debug.Log( "ScreenManager: OpenScreen() " + screenName + " Not Found." ); }
+#endif
     }
 
 

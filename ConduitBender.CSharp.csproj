@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.4.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -133,7 +131,6 @@
     <Compile Include="Assets\ConduitBenderUltimate\ISaveable.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\InputManager.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\IntegerSlider.cs" />
-    <Compile Include="Assets\ConduitBenderUltimate\SelectionModal.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Level.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\LevelScreen.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\LineFlag.cs" />
@@ -154,10 +151,12 @@
     <Compile Include="Assets\ConduitBenderUltimate\ScreenControl.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\ScreenManager.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\ScrollRectExtra.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\SelectionModal.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Sequence.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\SequenceManager.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\SettingNumeric.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\SettingPresets.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\SettingSliders.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Settings.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\SettingsScreen.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\SingleRuler.cs" />

@@ -20,8 +20,8 @@ public class SettingsScreen : AnimScreen
     //private const string k_saveFileName = "userPresets.dat";
 
     public SelectionModal        selectionModalPrefab;
-    public SettingNumeric        settingNumericPrefab; 
-    public RectTransform         sliderPrefab;
+    public SettingNumeric        settingNumericPrefab;
+    public SettingSliders        settingSlidersPrefab;
 
     [Tooltip("Where the setting prefabs will be placed.")]
     public RectTransform         inputView;
@@ -179,7 +179,11 @@ public class SettingsScreen : AnimScreen
         } 
         else if(settingName == SettingName.CameraControls) 
         {
+            SettingSliders setting = (SettingSliders) Instantiate(settingSlidersPrefab, inputView, false);
 
+            setting.Setup( k_cameraControlsDescription );
+            setting.AddSlider( "Zoom", Engine.cameraZoomSensitivity, OnZoomSensitivity );
+            setting.AddSlider( "Movement", Engine.cameraRailSensitivity, OnMovementSensitivity );
         } 
         else if(settingName == SettingName.Audio) 
         {
@@ -267,18 +271,22 @@ public class SettingsScreen : AnimScreen
     private void OnBenderRadius( float value )
     {
         Engine.benderRadiusM = (Engine.unitType == Units.Type.Metric) ? value * Units.k_CmToM : value * Units.k_InToM;
-        Debug.Log( "SettingsScreen: OnBenderRadius() value: " + value );
     }
     private void OnConduitDiameter( float value )
     {
         Engine.conduitDiameterM = (Engine.unitType == Units.Type.Metric) ? value * Units.k_CmToM : value * Units.k_InToM;
-        Debug.Log( "SettingsScreen: OnConduitDiameter() value: " + value );
     }
 
-    private void OnRailSensitivity(float value)
+    private void OnMovementSensitivity( float value )
     {
         Engine.cameraRailSensitivity = value;
-        //Debug.Log( "SettingsScreen: OnRailSensitivity() value: " + value );
+        Engine.cameraTiltSensitivity = value;
+        Debug.Log( "SettingsScreen: OnMovementSensitivity() value: " + value );
+    }
+    private void OnZoomSensitivity(float value)
+    {
+        Engine.cameraZoomSensitivity = value;
+        Debug.Log( "SettingsScreen: OnZoomSensitivity() value: " + value );
     }
 
     /// <summary>
@@ -286,6 +294,6 @@ public class SettingsScreen : AnimScreen
     /// </summary>
     private void Reset()
     {
-
+        // TODO
     }
 }

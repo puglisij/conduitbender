@@ -179,15 +179,17 @@ public class SettingsScreen : AnimScreen
         } 
         else if(settingName == SettingName.CameraControls) 
         {
+            settingHeaderText.text = "Camera Controls";
+
             SettingSliders setting = (SettingSliders) Instantiate(settingSlidersPrefab, inputView, false);
 
             setting.Setup( k_cameraControlsDescription );
-            setting.AddSlider( "Zoom", Engine.cameraZoomSensitivity, OnZoomSensitivity );
-            setting.AddSlider( "Movement", Engine.cameraRailSensitivity, OnMovementSensitivity );
+            setting.AddSlider( "Tilt", Engine.cameraTiltSensitivity, 3f, OnTiltSensitivity );
+            setting.AddSlider( "Movement", Engine.cameraRailSensitivity, 3f, OnMovementSensitivity );
         } 
         else if(settingName == SettingName.Audio) 
         {
-
+            // TODO
         }
     }
 
@@ -222,10 +224,10 @@ public class SettingsScreen : AnimScreen
             return;
         }
 
-        OpenPresetModal( presets, OnPresetSelect );
+        OpenPresetModal( presets );
     }
 
-    private void OpenPresetModal(KeyFloatSet[] presets, SelectionModal.OnSelect handler)
+    private void OpenPresetModal(KeyFloatSet[] presets )
     {
         // Instantiate Modal from prefab 
         var modal = (SelectionModal) Instantiate( selectionModalPrefab, transform, false );
@@ -238,7 +240,7 @@ public class SettingsScreen : AnimScreen
 
         // Set Preset Selections
         modal.SetSelections( selections );
-        modal.onSelect += handler;
+        modal.onSelect += OnPresetSelect;
         modal.transform.SetAsLastSibling();
         modal.gameObject.SetActive( true );
 
@@ -280,13 +282,13 @@ public class SettingsScreen : AnimScreen
     private void OnMovementSensitivity( float value )
     {
         Engine.cameraRailSensitivity = value;
-        Engine.cameraTiltSensitivity = value;
+        Engine.cameraZoomSensitivity = value;
         Debug.Log( "SettingsScreen: OnMovementSensitivity() value: " + value );
     }
-    private void OnZoomSensitivity(float value)
+    private void OnTiltSensitivity(float value)
     {
-        Engine.cameraZoomSensitivity = value;
-        Debug.Log( "SettingsScreen: OnZoomSensitivity() value: " + value );
+        Engine.cameraTiltSensitivity = value;
+        Debug.Log( "SettingsScreen: OnTiltSensitivity() value: " + value );
     }
 
     /// <summary>

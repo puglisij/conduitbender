@@ -43,28 +43,22 @@ public class Engine : MonoBehaviour {
     public static float cameraRailSensitivity
     {
         get { return s_CameraRailSensitivity; }
-        set
-        {
+        set {
             s_CameraRailSensitivity = value;
-            mainCameraController.railSensitivity = value;
         }
     }
     public static float cameraZoomSensitivity
     {
         get { return s_CameraZoomSensitivity; }
-        set
-        {
+        set {
             s_CameraZoomSensitivity = value;
-            mainCameraController.zoomRailSensitivity = value;
         }
     }
     public static float cameraTiltSensitivity
     {
         get { return s_CameraTiltSensitivity; }
-        set
-        {
+        set {
             s_CameraTiltSensitivity = value;
-            mainCameraController.tiltSensitivity = value;
         }
     }
 
@@ -245,8 +239,15 @@ public class Engine : MonoBehaviour {
 
     void Update()
     {
-        
-        
+        // TODO: Exit App on Android Back Button x 3 
+        //if (Input.GetKeyDown( KeyCode.Escape )) {
+        //    if(screenManager.ScreenInHistory()) {
+        //        screenManager.Back();
+        //    } else {
+        //        // Start Quit Queue
+        //        //Application.Quit();
+        //    }
+        //}
     }
 
     /*######################################

@@ -1,6 +1,7 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
+using System;
+using System.Reflection;
 
 namespace CB
 {
@@ -27,11 +28,22 @@ namespace CB
 
             // Register Listener for Secondary Button
             calculatorScreen.onSecondary += Secondary;
+
+            // Cache Delegates if primary/secondary values indicate functions (start with '_')
+            //Type type = typeof(CalculatorScreen);
+            //MethodInfo handler = type.GetMethod(primaryValue.Substring(1));
+            //if (handler != null) {
+            //    handler.Invoke( calculatorScreen, new object[] { } );
+            //}      
         }
 
         public void OnClick()
         {
-            calculatorScreen.AddInput( m_CurrentValue );
+            if(m_CurrentValue[0] == '_') {
+                calculatorScreen.SendMessage( m_CurrentValue.Substring(1) );
+            } else {
+                calculatorScreen.AddInput( m_CurrentValue );
+            }  
         }
 
         public void Secondary(bool isOn)

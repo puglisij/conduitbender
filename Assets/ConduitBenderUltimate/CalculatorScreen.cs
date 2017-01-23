@@ -44,8 +44,8 @@ public class CalculatorScreen : AnimScreen
 
     private Dictionary<string, OperatorHandler> m_OperatorHandlers = new Dictionary<string, OperatorHandler>();
 
-    private Units.Type m_Type       = Units.Type.Standard;
-    private OutputMode m_OutMode    = OutputMode.Fraction;
+    //private Units.Type m_Type       = Units.Type.Standard;
+    //private OutputMode m_OutMode    = OutputMode.Fraction;
 
     private float   m_Result = 0;
 
@@ -55,7 +55,7 @@ public class CalculatorScreen : AnimScreen
 
     private bool    m_HaveResultUnits = false;      // Whether the previously calculated result specified Units
     private bool    m_HavePreviousResult = false;   // Whether we have a previously calculated result
-    private bool    m_InFracState = false;          // Else in Decimal
+    private bool    m_InFracState = true;           // Else in Decimal
     private bool    m_InDegState = true;            // Else in Radians
     private bool    m_In2ndState = false;           // 2nd Functionality
     private bool    m_InErrorState = false;
@@ -192,8 +192,9 @@ public class CalculatorScreen : AnimScreen
     /// </summary>
     public void Clear()
     {
-        m_Input = "";
-        m_Signature = "";
+        m_EnteredText = string.Empty;
+        m_Input = string.Empty;
+        m_Signature = string.Empty;
         m_InErrorState = false;
         RefreshDisplay();
     }
@@ -317,6 +318,11 @@ public class CalculatorScreen : AnimScreen
     public void AddVb()
     {
         AddInputFunction( "Vb(", "R, A)" );
+        diagramModal.Close( true );
+    }
+    public void AddR() {
+        var formattedR = Units.FormatCalculator( Units.Type.Standard, Units.RulerUnit.Feet, Engine.benderRadiusM * Units.k_MToFt );
+        AddInput( formattedR );
         diagramModal.Close( true );
     }
 

@@ -24,18 +24,23 @@ public class SettingSliders : MonoBehaviour
         scrollContent.DestroyChildren();
     }
 
-    public void AddSlider(string sliderName, float value, UnityAction<float> valueHandler )
+    public void AddSlider(string sliderName, float value, float maxValue, UnityAction<float> valueHandler )
     {
         // Add Slider Prefab to Scroll Content      
         RectTransform prefab = (RectTransform)Instantiate( sliderPrefab, scrollContent, false );
         Vector2 size = prefab.rect.size;
+        Slider  slider;
 
         float oldScrollContentSize = scrollContent.childCount > 0 ? scrollContent.rect.size.y : 0f;
 
         scrollContent.SetSizeWithCurrentAnchors( RectTransform.Axis.Vertical, oldScrollContentSize + size.y );
         prefab.SetInsetAndSizeFromParentEdge( RectTransform.Edge.Top, oldScrollContentSize, size.y );
         prefab.GetComponentInChildren<Text>( true ).text = sliderName;
-        prefab.GetComponentInChildren<Slider>(true).onValueChanged.AddListener( valueHandler ); 
+
+        slider = prefab.GetComponentInChildren<Slider>( true );
+        slider.maxValue = maxValue;
+        slider.value = value;
+        slider.onValueChanged.AddListener( valueHandler );    
     }
 
     /// <summary>

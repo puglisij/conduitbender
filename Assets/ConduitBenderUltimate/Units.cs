@@ -100,6 +100,7 @@ public class Units
 
     /// <summary>
     /// Formats splitValues for Calculator View Output.  E.g.   4.5ft   becomes   4ft 5in
+    /// @TODO - Metric type not implemented
     /// </summary>
     public static string FormatCalculator( Type type, RulerUnit unit, float value)
     {

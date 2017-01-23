@@ -110,7 +110,7 @@ public class BendFactory
         inputs.Add( new BendParameter( EBendParameterName.OffsetHeight, EBendParameterType.Float, colors.inputParameterDefault, 0f ) );
 
         List<BendParameter> outputs = new List<BendParameter>();
-        outputs.Add( new BendParameter( EBendParameterName.DistanceBetween, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.DistanceBetween, EBendParameterType.Float, colors.flagRed, 0f ) );
         outputs.Add( new BendParameter( EBendParameterName.TotalShrink, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
 
         // Highlightable 

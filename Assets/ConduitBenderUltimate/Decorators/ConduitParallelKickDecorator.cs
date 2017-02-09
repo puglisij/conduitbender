@@ -189,6 +189,20 @@ public class ConduitParallelKickDecorator : AConduitDecorator
 
     public override void Highlight()
     {
-        throw new NotImplementedException();
+        var bend = m_Conduit.bend;
+        var highlight = bend.GetHighlight();
+        var highlightColor = highlight.color;
+
+        m_Conduit.SetHighlightColor( highlightColor );
+
+        UnityEngine.Debug.Assert( highlight.enabled );
+
+        // Which parameter to highlight?
+        if (highlight.name == EBendParameterName.Alternate1stTo2nd) {
+            var start = m_Conduit.centerlineBendIndices[0];
+            var end   = m_Conduit.centerlineBendIndices[2];
+
+            ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
+        } 
     }
 }

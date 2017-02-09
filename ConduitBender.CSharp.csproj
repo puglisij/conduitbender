@@ -104,6 +104,8 @@
     <Compile Include="Assets\ConduitBenderUltimate\CoroutineManager.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\CreditsScreen.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\DebugToScreen.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitCompoundRectangleDecorator.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitCompoundRoundDecorator.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitOffsetDecorator.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitParallelKickDecorator.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitParallelOffsetDecorator.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="Assets\ConduitBenderUltimate\EventManager.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Experimental\ShowNormals.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Experimental\ShowRectTransformInfo.cs" />
+    <Compile Include="Assets\ConduitBenderUltimate\Experimental\ShowTransformInfo.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Experimental\TestGravity.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\Extensions.cs" />
     <Compile Include="Assets\ConduitBenderUltimate\FixedStack.cs" />

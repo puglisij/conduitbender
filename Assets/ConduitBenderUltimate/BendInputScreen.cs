@@ -114,8 +114,8 @@ public class BendInputScreen : AnimScreen
         yield return new WaitForEndOfFrame();
 
         // Read Current Display Setting from Engine
-        MultiRulerSlider rulerSlider = m_RulerWidget.GetComponentsInChildren<MultiRulerSlider>(true)[0];
-        rulerSlider.rulerDisplayType = Engine.unitType;
+        //MultiRulerSlider rulerSlider = m_RulerWidget.GetComponentsInChildren<MultiRulerSlider>(true)[0];
+        //rulerSlider.rulerDisplayType = Engine.unitType;
     }
 
     private void Initialize()
@@ -141,6 +141,7 @@ public class BendInputScreen : AnimScreen
         m_RulerWidget.gameObject.SetActive( false );
         MultiRulerSlider rulerSlider = m_RulerWidget.GetComponentsInChildren<MultiRulerSlider>(true)[0];
         rulerSlider.onValueChanged.AddListener( rulerThrottle.Set );
+        rulerSlider.rulerDisplayType = Engine.unitType;
 
         m_IntegerWidget = Instantiate( integerWidgetPrefab );
         m_IntegerWidget.SetParent( widgetView, false );

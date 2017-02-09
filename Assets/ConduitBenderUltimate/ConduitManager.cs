@@ -13,12 +13,12 @@ public class ConduitManager : MonoBehaviour
     //-----------------
     // Static Data
     //-----------------
-    private static GameObject        m_ConduitRoot = null;
-    private static Conduit           m_ActiveConduit = null;
-    private static AConduitDecorator m_ActiveDecorator = null;
+    private static GameObject        m_conduitRoot = null;
+    private static Conduit           m_activeConduit = null;
+    private static AConduitDecorator m_activeDecorator = null;
 
-    private static int          m_ConduitId = 0;
-    private static bool         m_HasInitialized = false;
+    private static int          m_conduitId = 0;
+    private static bool         m_hasInitialized = false;
 
     public static ConduitManager instance = null;
     
@@ -38,12 +38,12 @@ public class ConduitManager : MonoBehaviour
 
     private void Initialize()
     {
-        if (m_HasInitialized) { return; } 
+        if (m_hasInitialized) { return; } 
 
         // Check Nulls
-        if (m_ConduitRoot == null) {
-            m_ConduitRoot = GameObject.Find( "_Conduit" );
-            if(m_ConduitRoot == null) {
+        if (m_conduitRoot == null) {
+            m_conduitRoot = GameObject.Find( "_Conduit" );
+            if(m_conduitRoot == null) {
                 Debug.LogError( "ConduitManager: Initialize() Unable to find _Conduit Root Object." );
                 return;
             }
@@ -54,13 +54,13 @@ public class ConduitManager : MonoBehaviour
             return;
         } 
 #endif
-        if(m_ActiveConduit == null) {
-            m_ActiveConduit = New();
+        if(m_activeConduit == null) {
+            m_activeConduit = New();
         }
-        m_ActiveConduit.calculateHandler = ConduitCalculate;
-        m_ActiveConduit.highlightHandler = ConduitHighlight;
+        m_activeConduit.calculateHandler = ConduitCalculate;
+        m_activeConduit.highlightHandler = ConduitHighlight;
 
-        m_HasInitialized = true; 
+        m_hasInitialized = true; 
     }
 
     private static void ConduitCalculate(Conduit conduit)
@@ -69,53 +69,54 @@ public class ConduitManager : MonoBehaviour
         // Generate
         ConduitGenerator.GenerateConduit( conduit );
         // Decorate
-        if(m_ActiveDecorator != null) {
-            m_ActiveDecorator.Decorate();
+        if(m_activeDecorator != null) {
+            m_activeDecorator.Decorate();
         }
     }
     private static void ConduitHighlight(Conduit conduit)
     {
         Debug.Log( "ConduitManager: ConduitHighlight() " + conduit.bend.modelName );
-        if (m_ActiveDecorator != null) {
-            m_ActiveDecorator.Highlight();
+        if (m_activeDecorator != null) {
+            m_activeDecorator.Highlight();
         }
     }
     private static Conduit New()
     {
         Conduit conduit = Instantiate( instance.conduitPrefab ); 
-        conduit.name = "Conduit" + m_ConduitId;
-        conduit.transform.SetParent( m_ConduitRoot.transform, false );
-        m_ConduitId += 1;
+        conduit.name = "Conduit" + m_conduitId;
+        conduit.transform.SetParent( m_conduitRoot.transform, false );
+        m_conduitId += 1;
 
         return conduit;
     }
 
     //public static Bounds GetActiveConduitBounds()
     //{
-    //    return m_ActiveConduit.mesh.bounds;
+    //    return m_activeConduit.mesh.bounds;
     //}
 
     public static void LinkActiveConduit(Bend bend)
     {
         Debug.Log( "ConduitManager: LinkActiveConduit()" );
         // Remove any current Decorator component objects from Active Conduit
-        AConduitDecorator decorator = m_ActiveConduit.GetComponentInChildren<AConduitDecorator>();
+        AConduitDecorator decorator = m_activeConduit.GetComponentInChildren<AConduitDecorator>();
         if (decorator != null) {
             decorator.OnRemove();
-            Destroy( decorator.gameObject );
+            //Destroy( decorator.gameObject );
+            m_activeConduit.transform.DestroyChildren();
         }
 
-        m_ActiveConduit.Link( bend );
+        m_activeConduit.Link( bend );
 
         // Set Decorator (if available)
         decorator = ConduitDecoratorFactory.Get( bend.type );
         if ( decorator != null) {
-            m_ActiveDecorator = Instantiate( decorator );
-            m_ActiveDecorator.transform.SetParent( m_ActiveConduit.transform, false );
-            m_ActiveDecorator.transform.localPosition = Vector3.zero; // @TODO - Redundant?
-            m_ActiveDecorator.Set( m_ActiveConduit );
+            m_activeDecorator = Instantiate( decorator );
+            m_activeDecorator.transform.SetParent( m_activeConduit.transform, false );
+            m_activeDecorator.transform.localPosition = Vector3.zero; // @TODO - Redundant?
+            m_activeDecorator.Set( m_activeConduit );
         } else {
-            m_ActiveDecorator = null;
+            m_activeDecorator = null;
         }
     }
 

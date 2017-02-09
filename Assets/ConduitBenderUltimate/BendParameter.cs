@@ -17,7 +17,8 @@ public enum EBendParameterName
     AngleFirstDegrees,
     AngleLastDegrees,
     CenterAngleDegrees,
-    DevelopedLength,
+    DevelopedLength,   // The length of straight conduit used to bend at a specific radius and angle
+    Diameter,
     DistanceFromEnd,
     DistanceTo1st,
     DistanceTo2nd,
@@ -26,10 +27,13 @@ public enum EBendParameterName
     Distance1stTo2nd,
     Distance2ndTo3rd,
     DistanceBetween,
+    Alternate1stTo2nd,
+    Height,
     KickFirstMark,
     KickOffset,
     KickSpread,
     KickTravel,
+    Length,
     LengthOfBend,
     LengthOfCenterBend,
     LengthOfHalfBend,
@@ -50,7 +54,8 @@ public enum EBendParameterName
     Spacing,
     StubLength,
     StubTakeUp,
-    TotalShrink
+    TotalShrink,
+    Travel
 }
 
 /// <summary>
@@ -58,12 +63,13 @@ public enum EBendParameterName
 /// </summary>
 public static class BendParameterMeta 
 {
-    public static readonly string[] NameStrings = new string[38] {
+    public static readonly string[] NameStrings = new string[43] {
         "Bend Angle (Degrees)",
         "1st Bend Angle (Degrees)",
         "Last Bend Angle (Degrees)",
         "Center Angle (Degrees)",
         "Developed Length",
+        "Diameter",
         "Mark Distance from End",
         "Distance to 1st Mark",
         "Distance to 2nd Mark",
@@ -72,10 +78,13 @@ public static class BendParameterMeta
         "Distance 1st to 2nd Mark",
         "Distance 2nd to 3rd Mark",
         "Distance Between Bends",
-        "1st Mark from Back of 90", // KickFirstMark
+        "Alternate 1st to 2nd",
+        "Height",
+        "Mark from Back of 90", // KickFirstMark      
         "Kick Offset",
         "Kick Spread",
         "Kick Travel",
+        "Length",
         "Length of Bend",
         "Length of Center Bend",
         "Length of Half Bend",
@@ -96,7 +105,8 @@ public static class BendParameterMeta
         "Spacing",
         "Stub Length",
         "Stub Take-Up",
-        "Total Shrink"
+        "Total Shrink",
+        "Travel"
     };
 
     public static readonly object[][] NameRangesMetric = new object[][] {
@@ -105,6 +115,7 @@ public static class BendParameterMeta
         new object[] {0f, 0f },     // Last Bend Angle
         new object[] {0.5f, 90f },  // Center Angle
         new object[] {0f, 0f },   // Developed Length
+        new object[] {0f, 3f },   // Diameter
         new object[] {0f, 0f },   // Distance from End
         new object[] {0f, 0f },   // Distance to 1st Mark
         new object[] {0f, 0f },   // Distance to 2nd Mark
@@ -113,10 +124,13 @@ public static class BendParameterMeta
         new object[] {0f, 0f },   // Distance 1st to 2nd 
         new object[] {0f, 0f },   // Distance 2nd to 3rd
         new object[] {0f, 0f },   // Distance Between Bends
-        new object[] {0f, 0f },   // Kick First Mark
+        new object[] {0f, 0f },   // Alternate 1st to 2nd Mark 
+        new object[] {0f, 3f },   // Height
+        new object[] {0f, 0f },   // Kick First Mark       
         new object[] {0f, 30f },  // Kick Offset
         new object[] {0f, 0f },   // Kick Spread
         new object[] {0f, 0f },   // Kick Travel
+        new object[] {0f, 3f },   // Length
         new object[] {0f, 0f },   // Length of Bend
         new object[] {0f, 0f },   // Length of Center Bend
         new object[] {0f, 0f },   // Length of Half Bend
@@ -137,7 +151,8 @@ public static class BendParameterMeta
         new object[] {0f, 30f },   // Spacing
         new object[] {0f, 3f },    // Stub Length
         new object[] {0f, 0f },  // Stub Take-Up
-        new object[] {0f, 0f }   // Total Shrink
+        new object[] {0f, 0f },   // Total Shrink
+        new object[] {0f, 0f }   // Travel
     };
 
     public static readonly object[][] NameRangesStandard = new object[][] {
@@ -146,6 +161,7 @@ public static class BendParameterMeta
         new object[] {0f, 0f },     // Last Bend Angle
         new object[] {0.5f, 90f },  // Center Angle
         new object[] {0f, 0f },   // Developed Length
+        new object[] {0f, 8f },   // Diameter
         new object[] {0f, 0f },   // Distance from End
         new object[] {0f, 0f },   // Distance to 1st Mark
         new object[] {0f, 0f },   // Distance to 2nd Mark
@@ -154,10 +170,13 @@ public static class BendParameterMeta
         new object[] {0f, 0f },   // Distance 1st to 2nd
         new object[] {0f, 0f },   // Distance 2nd to 3rd
         new object[] {0f, 0f },   // Distance Between Bends
-        new object[] {0f, 0f },   // Kick First Mark
-        new object[] {0f, 100f },  // Kick Offset
+        new object[] {0f, 0f },   // Alternate 1st to 2nd Mark
+        new object[] {0f, 8f },   // Height
+        new object[] {0f, 0f },   // Kick First Mark      
+        new object[] {0f, 8f },   // Kick Offset
         new object[] {0f, 0f },   // Kick Spread
         new object[] {0f, 0f },   // Kick Travel
+        new object[] {0f, 8f },   // Length
         new object[] {0f, 0f },   // Length of Bend
         new object[] {0f, 0f },   // Length of Center Bend
         new object[] {0f, 0f },   // Length of Half Bend
@@ -178,7 +197,8 @@ public static class BendParameterMeta
         new object[] {0f, 100f },   // Spacing
         new object[] {0f, 8f },     // Stub Length
         new object[] {0f, 0f },  // Stub Take-Up
-        new object[] {0f, 0f }      // Total Shrink
+        new object[] {0f, 0f },      // Total Shrink
+        new object[] {0f, 0f }   // Travel
     };
 }
 

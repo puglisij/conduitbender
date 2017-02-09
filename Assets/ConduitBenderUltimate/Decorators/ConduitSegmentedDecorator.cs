@@ -19,7 +19,7 @@ public class ConduitSegmentedDecorator : AConduitDecorator
         MeshRenderer sectorRenderer = sectorObject.GetComponent<MeshRenderer>();
         Color color = Colors.instance.flagBlue;
         sectorRenderer.material.color = color;
-        sectorRenderer.material.SetColor( "_EmissionColor", color );
+        sectorRenderer.material.SetColor( "_Color", color );
 
         // Rotate Towards Camera
         sectorObject.localRotation = Quaternion.Euler( 0f, 90f, 180f );

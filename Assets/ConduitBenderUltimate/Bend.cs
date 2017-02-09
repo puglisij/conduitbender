@@ -39,6 +39,11 @@ public class Marker
         this.radialDir = radialDir;
     }
 }
+
+/// <summary>
+/// Let the radialDir be the handle of the bender (think up) and the forwardDir be the direction of a straight piece of 
+/// conduit through the bender shoe. The conduit will thusly be bent upwards. 
+/// </summary>
 public class BendMarker : Marker
 {
     public float        angleDeg;         // Amount of Bend (in Degrees)

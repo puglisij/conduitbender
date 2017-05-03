@@ -26,11 +26,11 @@ public static class Settings
         */
 
     /// <summary> Max value in Meters </summary>
-    public static readonly float k_minBenderRadiusM = 0.001f;
+    public static readonly float k_minBenderRadiusM = 0.0254f; // 1"
     /// <summary> Max value in Meters </summary>
     public static readonly float k_maxBenderRadiusM = 2.5f;
     /// <summary> Max value in Meters </summary>
-    public static readonly float k_minConduitDiameterM = 0.001f;
+    public static readonly float k_minConduitDiameterM = 0.0015875f;  // 1/16"
     /// <summary> Max value in Meters </summary>
     public static readonly float k_maxConduitDiameterM = 2.5f;
 

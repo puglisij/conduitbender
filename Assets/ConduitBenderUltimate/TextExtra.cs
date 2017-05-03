@@ -162,11 +162,13 @@ public class TextExtra : MonoBehaviour {
                 // Measure Hidden Text Component
                 hiddenText.text = new string( maxCharSize.character, charPerLine );
                 hiddenText.fontSize = fs;
-                float width = LayoutUtility.GetPreferredWidth( (RectTransform) hiddenText.transform );
+                
+                float width = LayoutUtility.GetPreferredWidth( (RectTransform)hiddenText.transform );
+                float height = LayoutUtility.GetPreferredHeight( (RectTransform)hiddenText.transform );
 
                 //Debug.Log( "Font Size: " + fs + " Preferred Width: " + width + " Bounds Width: " + bounds.rect.size.x );
                 //if ((maxCharSize.x * charPerLine) / text.pixelsPerUnit < m_Bounds.rect.size.x) {
-                if (width < bounds.rect.size.x) {
+                if (width < bounds.rect.size.x & height < bounds.rect.size.y) {
                     bestFit = fs;
                 } else {
                     break;
@@ -243,13 +245,12 @@ public class TextExtra : MonoBehaviour {
 
         // Update Maximum Detected Character Size for this Specific Font Size
         if(containsMaxSize) {
-            if(maxChar.x > currMaxSize.x) {
+            if(maxChar.x > currMaxSize.x && maxChar.y > currMaxSize.y) {
                 currMaxSize.character = maxChar.character;
                 currMaxSize.x = maxChar.x;
-            }
-            if(maxChar.y > currMaxSize.y) {
                 currMaxSize.y = maxChar.y;
             }
+
             m_FontSizeToMaxCharSize.Remove( fontSize );
             m_FontSizeToMaxCharSize.Add( fontSize, currMaxSize );
         } else {

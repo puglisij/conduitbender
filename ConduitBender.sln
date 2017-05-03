@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConduitBender.CSharp.Plugins", "ConduitBender.CSharp.Plugins.csproj", "{782C599E-0BBB-E060-82DA-32EC894D9986}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConduitBender.Plugins", "ConduitBender.Plugins.csproj", "{C34AA140-572C-7E18-D3C7-3A6B8B6FEFA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConduitBender.CSharp", "ConduitBender.CSharp.csproj", "{88E81401-0452-DA07-A29D-8EF269EDA7CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConduitBender", "ConduitBender.csproj", "{A814DCA3-A1E1-8ABE-E375-1EA441D917CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConduitBender.CSharp.Editor", "ConduitBender.CSharp.Editor.csproj", "{1824C635-5378-1C0D-E775-A01A4BAE8DB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConduitBender.Editor.Plugins", "ConduitBender.Editor.Plugins.csproj", "{34EFF604-F954-5A70-8CE0-2723A4B2DFDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConduitBender.Editor", "ConduitBender.Editor.csproj", "{E7585807-0A7F-D6E6-D91F-577FA972CA23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,18 +15,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{782C599E-0BBB-E060-82DA-32EC894D9986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{782C599E-0BBB-E060-82DA-32EC894D9986}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{782C599E-0BBB-E060-82DA-32EC894D9986}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{782C599E-0BBB-E060-82DA-32EC894D9986}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88E81401-0452-DA07-A29D-8EF269EDA7CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88E81401-0452-DA07-A29D-8EF269EDA7CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88E81401-0452-DA07-A29D-8EF269EDA7CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88E81401-0452-DA07-A29D-8EF269EDA7CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1824C635-5378-1C0D-E775-A01A4BAE8DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1824C635-5378-1C0D-E775-A01A4BAE8DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1824C635-5378-1C0D-E775-A01A4BAE8DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1824C635-5378-1C0D-E775-A01A4BAE8DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C34AA140-572C-7E18-D3C7-3A6B8B6FEFA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C34AA140-572C-7E18-D3C7-3A6B8B6FEFA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C34AA140-572C-7E18-D3C7-3A6B8B6FEFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C34AA140-572C-7E18-D3C7-3A6B8B6FEFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A814DCA3-A1E1-8ABE-E375-1EA441D917CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A814DCA3-A1E1-8ABE-E375-1EA441D917CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A814DCA3-A1E1-8ABE-E375-1EA441D917CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A814DCA3-A1E1-8ABE-E375-1EA441D917CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34EFF604-F954-5A70-8CE0-2723A4B2DFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34EFF604-F954-5A70-8CE0-2723A4B2DFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34EFF604-F954-5A70-8CE0-2723A4B2DFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34EFF604-F954-5A70-8CE0-2723A4B2DFDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7585807-0A7F-D6E6-D91F-577FA972CA23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7585807-0A7F-D6E6-D91F-577FA972CA23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7585807-0A7F-D6E6-D91F-577FA972CA23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7585807-0A7F-D6E6-D91F-577FA972CA23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

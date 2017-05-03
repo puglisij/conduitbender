@@ -95,6 +95,7 @@ public class BendFactory
         List<BendParameter> outputs = new List<BendParameter>();
         outputs.Add( new BendParameter( EBendParameterName.DistanceBetween, EBendParameterType.Float, colors.flagRed, 0f ) );
         outputs.Add( new BendParameter( EBendParameterName.TotalShrink, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
+        outputs.Add( new BendParameter( EBendParameterName.LengthOfBend, EBendParameterType.Float, colors.outputParameterDefault, 0f ) );
 
         // Highlightable 
         outputs[ 0 ].canHighlight = true;   // DistanceBetween 
@@ -503,6 +504,7 @@ public class BendFactory
         // Set Output Parameters
         bend.outputParameters[ 0 ].value = distBetween;   // Distance between marks = Lb + Ls 
         bend.outputParameters[ 1 ].value = shrink; // Shrink
+        bend.outputParameters[ 2 ].value = Lb; 
 
         // Start Conduit
         bend.conduitOrder.Add( new Marker( 0f, Vector3.forward, Vector3.up ) );

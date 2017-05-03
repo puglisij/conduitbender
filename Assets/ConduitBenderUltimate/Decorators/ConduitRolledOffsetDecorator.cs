@@ -53,8 +53,8 @@ public class ConduitRolledOffsetDecorator : AConduitDecorator
         }
 
         // Get Points
-        Vector3 csFirst = centerline[ indices[0].index ].point;
-        Vector3 ceSecond = centerline[ indices[3].index ].point;
+        //Vector3 csFirst = centerline[ indices[0].index ].point;
+        //Vector3 ceSecond = centerline[ indices[3].index ].point;
         Vector3 cEnd = centerline[ centerline.Count - 1 ].point;
 
         Vector3 origin = Vector3.zero;

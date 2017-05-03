@@ -333,8 +333,12 @@ public class Engine : MonoBehaviour {
     //}
     public void ScreenManagerOnEvent( ScreenManager.Event e )
     {
+        // Kill Startup Sequence
+        sequenceManager.KillSequence( "StartUpSequence" );
+
         // Was Bend Screen Opened?
         bool isBendScreen = false;
+
         var screenMeta = screenManager.GetOpenScreen();
         if (screenMeta != null) 
         {

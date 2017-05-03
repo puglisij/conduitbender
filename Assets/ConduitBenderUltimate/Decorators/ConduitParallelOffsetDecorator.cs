@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using System.Collections.Generic;
 using System;
 
@@ -10,7 +11,7 @@ public class ConduitParallelOffsetDecorator : AConduitDecorator
     public UnityEngine.Rendering.ShadowCastingMode  castShadows;
     public bool receiveShadows = false;
     public Material material;
-    public bool useLightProbes = false;
+    public LightProbeUsage lightProbeUsage = LightProbeUsage.Off;
 
     private List<MeshFilter> m_Meshes = new List<MeshFilter>();
 
@@ -29,7 +30,7 @@ public class ConduitParallelOffsetDecorator : AConduitDecorator
             pMeshRenderer.shadowCastingMode = castShadows;
             pMeshRenderer.receiveShadows = receiveShadows;
             pMeshRenderer.material = material;
-            pMeshRenderer.useLightProbes = useLightProbes;
+            pMeshRenderer.lightProbeUsage = LightProbeUsage.Off;
 
             pMeshFilter = pConduit.AddComponent<MeshFilter>();
             pMesh = pMeshFilter.mesh;

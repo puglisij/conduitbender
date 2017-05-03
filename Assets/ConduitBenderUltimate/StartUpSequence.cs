@@ -14,23 +14,23 @@ namespace CB
         public float particleStartDelay = 1.0f;
         public float particleDestroyDelay = 2.0f;
 
+        private Coroutine m_activeRoutine = null;
         private GameObject m_ParticleObj;
         private ParticleSystem m_Particles;
-
-        private MeshRenderer m_LampRenderer;
-        private Color        m_LampColor;
 
         private float m_FramesPerSec = 30f;
         private float m_SecPerFrame = 1f / 30f;
 
         public override void Run()
         {
-            StartCoroutine( DelayedStartParticles() );
+            base.Run();
+            m_activeRoutine = StartCoroutine( DelayedStartParticles() );
         }
 
-        public override void Kill()
+        public override void Kill() 
         {
-            throw new NotImplementedException();
+            base.Kill();
+            StopCoroutine( m_activeRoutine );
         }
 
         IEnumerator DelayedDestroyParticles()
@@ -38,12 +38,14 @@ namespace CB
             float startTime = Time.time;
             float endTime = startTime + particleDestroyDelay;
             // Fade Lamp Post
-            while(Time.time < endTime) {
+            while(Time.time < endTime) { 
                 yield return new WaitForFixedUpdate();
+            }
 
-                // Set Lamp Post Alpha
-                m_LampColor.a = (endTime - Time.time) / particleDestroyDelay;
-                m_LampRenderer.material.color = m_LampColor;
+            m_Particles.Stop();
+
+            while (m_Particles.IsAlive()) {
+                yield return new WaitForFixedUpdate();
             }
 
             Destroy( m_ParticleObj );
@@ -55,8 +57,6 @@ namespace CB
             m_ParticleObj = Instantiate( particlesPrefab );
             m_ParticleObj.transform.SetParent( transform, true );
             m_Particles = m_ParticleObj.GetComponentInChildren<ParticleSystem>();
-            m_LampRenderer = m_ParticleObj.GetComponent<MeshRenderer>();
-            m_LampColor = m_LampRenderer.material.color;
 
             yield return new WaitForSeconds( particleStartDelay );
 
@@ -64,9 +64,7 @@ namespace CB
             m_Particles.Play();
 
             // Disable particles after t seconds
-            StartCoroutine( DelayedDestroyParticles() );
-
-            OnStarted();
+            m_activeRoutine = StartCoroutine( DelayedDestroyParticles() );
         }
     }
 }

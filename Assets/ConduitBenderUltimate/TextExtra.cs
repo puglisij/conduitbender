@@ -18,7 +18,8 @@ public class TextExtra : MonoBehaviour {
     {
         public float x;
         public float y;
-        public char  character;
+        public char  characterX;
+        public char  characterY;
     }
 
     public Font  font
@@ -58,7 +59,6 @@ public class TextExtra : MonoBehaviour {
     //    Private Data
     //----------------------
     private Dictionary<int, MaxChar>    m_FontSizeToMaxCharSize = new Dictionary<int, MaxChar>();
-    private Dictionary<int, Dictionary<char, Vector2>>  m_FontSizeToCharSize = new Dictionary<int, Dictionary<char, Vector2>>();
 
     [SerializeField, Tooltip( "Font type on which to calculate Metrics." )]
     private Font m_Font;
@@ -132,51 +132,50 @@ public class TextExtra : MonoBehaviour {
         }
     }
     /// <summary>
-    /// Calculates and sets Text font size to maximum Font Size at which specified # characters per line will fit. 
+    /// Calculates and sets Text font size to maximum Font Size at which specified # characters per line will fit. and text is contained in bounds height.
     /// Returns best size
     /// </summary>
-    public int CalculateBestFontSize(Text text, RectTransform bounds, int charPerLine)
+    public int CalculateBestFontSize(Text text, Vector2 boundsSize, int charPerLine)
     {
         if(charPerLine < 1) {
             Debug.LogError( "TextExtra: CalculateBestFontSize() Characters per line must be a natural number except 0." );
             return -1;
         }
         if(text.font != font || text.fontStyle != fontStyle) {
-            Debug.LogError( "TextExtra: CalculateBestFontSize() Given Text style does not match." );
-            return -1;
-        }
-        if(bounds == null) {
-            bounds = text.GetComponentsInParent<RectTransform>( true )[0];
-        }
+            Debug.LogWarning( "TextExtra: CalculateBestFontSize() Given Text style does not match." );
+        }      
+
         // Copy Text Component Values
         hiddenText.font = font;
         hiddenText.fontStyle = fontStyle;
 
         // Init Vars
-        int bestFit = minFontSize;
+        int     bestFit = minFontSize;
+        float   width, height;
         MaxChar maxCharSize;
         // Loop through Font Sizes
-        for (int fs = minFontSize; fs <= maxFontSize; fs += fontStepSize) {
-            if (m_FontSizeToMaxCharSize.TryGetValue( fs, out maxCharSize )) {
+        for (int fs = minFontSize; fs <= maxFontSize; fs += fontStepSize) 
+        {
+            if (m_FontSizeToMaxCharSize.TryGetValue( fs, out maxCharSize )) 
+            {
                 // @TODO - Binary Search?
                 // Measure Hidden Text Component
-                hiddenText.text = new string( maxCharSize.character, charPerLine );
                 hiddenText.fontSize = fs;
-                
-                float width = LayoutUtility.GetPreferredWidth( (RectTransform)hiddenText.transform );
-                float height = LayoutUtility.GetPreferredHeight( (RectTransform)hiddenText.transform );
+
+                hiddenText.text = new string( maxCharSize.characterX, charPerLine );
+                width = LayoutUtility.GetPreferredWidth( (RectTransform)hiddenText.transform );
+                hiddenText.text = new string( maxCharSize.characterY, charPerLine );
+                height = LayoutUtility.GetPreferredHeight( (RectTransform)hiddenText.transform );
 
                 //Debug.Log( "Font Size: " + fs + " Preferred Width: " + width + " Bounds Width: " + bounds.rect.size.x );
                 //if ((maxCharSize.x * charPerLine) / text.pixelsPerUnit < m_Bounds.rect.size.x) {
-                if (width < bounds.rect.size.x & height < bounds.rect.size.y) {
+                if (width < boundsSize.x && height < boundsSize.y) {
                     bestFit = fs;
                 } else {
                     break;
                 }
             }
         }
-        // Set Text Component to Best Fit
-        text.fontSize = bestFit;
         Debug.Log( "TextExtra: CalculateBestFontSize() BestFit: " + bestFit );
 
         return bestFit;
@@ -188,7 +187,6 @@ public class TextExtra : MonoBehaviour {
     public void Clear()
     {
         m_FontSizeToMaxCharSize.Clear();
-        m_FontSizeToCharSize.Clear();
 
         Debug.Log( "<color=#ff0000>TextExtra: Clear()</color>" );
     }
@@ -196,48 +194,33 @@ public class TextExtra : MonoBehaviour {
 
     private void CalculateFontMetrics(int fontSize, string allChars )
     {
-        //StringBuilder sb = new StringBuilder();
-        //for(int i = 32; i < 127; ++i ) {
-        //    sb.Append( Convert.ToUInt16( i ) );
-        //}
-        //string allChars = sb.ToString();
-
         // Look for Maximum Size
         MaxChar maxChar;
         maxChar.x = maxChar.y = 0f;
-        maxChar.character = System.Char.MinValue;
+        maxChar.characterX = maxChar.characterY = allChars[ 0 ];
 
         // Ensure our Font Texture contains the current characters
         font.RequestCharactersInTexture( allChars, fontSize );
 
-        Dictionary<char, Vector2> charSizes;
-        if(!m_FontSizeToCharSize.TryGetValue( fontSize, out charSizes)) {
-            charSizes = new Dictionary<char, Vector2>();
-            m_FontSizeToCharSize.Add( fontSize, charSizes );
-        }
-
-
         //Loop through all characters
         CharacterInfo charInfo;
-        for (int i = 0; i < allChars.Length; i++) {
-
+        Vector2 charSize;
+        for (int i = 0; i < allChars.Length; i++) 
+        {
             //Make sure character exists in font texture
-            if (font.GetCharacterInfo( allChars[ i ], out charInfo, fontSize ) ) {
-                Vector2 charSize;
-                charSize.x = charInfo.maxX;
-                charSize.y = charInfo.maxY;
+            if (font.GetCharacterInfo( allChars[ i ], out charInfo, fontSize ) ) 
+            {
+                charSize.x = charInfo.maxX; //Mathf.Max( charInfo.maxX, charInfo.glyphWidth );
+                charSize.y = charInfo.maxY; //Mathf.Max( charInfo.maxY, charInfo.glyphHeight );
 
-                if(charInfo.maxX > maxChar.x) {
-                    maxChar.character = allChars[ i ];
-                    maxChar.x = charInfo.maxX;
+                if (charSize.x > maxChar.x) {
+                    maxChar.x = charSize.x;
+                    maxChar.characterX = allChars[ i ];
                 }
-                if(charInfo.maxY > maxChar.y) {
-                    maxChar.y = charInfo.maxY;
+                if (charSize.y > maxChar.y) {
+                    maxChar.y = charSize.y;
+                    maxChar.characterY = allChars[ i ];
                 }
-                if(!charSizes.ContainsKey(allChars[i])) {
-                    charSizes.Add( allChars[ i ], charSize );
-                }
-
             }
         }
         MaxChar currMaxSize;
@@ -245,10 +228,13 @@ public class TextExtra : MonoBehaviour {
 
         // Update Maximum Detected Character Size for this Specific Font Size
         if(containsMaxSize) {
-            if(maxChar.x > currMaxSize.x && maxChar.y > currMaxSize.y) {
-                currMaxSize.character = maxChar.character;
+            if (maxChar.x > currMaxSize.x) {
                 currMaxSize.x = maxChar.x;
+                maxChar.characterX = currMaxSize.characterX;
+            }
+            if(maxChar.y > currMaxSize.y) {
                 currMaxSize.y = maxChar.y;
+                maxChar.characterY = currMaxSize.characterY;
             }
 
             m_FontSizeToMaxCharSize.Remove( fontSize );

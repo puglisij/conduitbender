@@ -59,7 +59,7 @@ public class TestGravity : MonoBehaviour
                 rb.useGravity = true;
             } else {
                 var gravity = Input.gyro.gravity;
-                DebugToScreen.Log( "Gravity: " + gravity );
+                //DebugToScreen.Log( "Gravity: " + gravity );
 
                 rb.useGravity = false;
                 rb.velocity = gravity;

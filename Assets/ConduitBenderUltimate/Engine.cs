@@ -162,31 +162,31 @@ public class Engine : MonoBehaviour {
 #if UNITY_EDITOR
         // Check Nulls
         if (screenManager == null) {
-            Debug.LogError( "Engine: Initialize() No Screen Manager found in scene with the tag 'SceneManager'." );
+            //Debug.LogError( "Engine: Initialize() No Screen Manager found in scene with the tag 'SceneManager'." );
             return;
         }
         if(eventManager == null ) {
 
         }
         if (conduitManager == null) {
-            Debug.LogError( "Engine: Initialize() No Conduit Manager found in scene on object with the tag 'ConduitManager'." );
+            //Debug.LogError( "Engine: Initialize() No Conduit Manager found in scene on object with the tag 'ConduitManager'." );
             return;
         }
         if (conduitGenerator == null) {
-            Debug.LogError( "Engine: Initialize() No Conduit Generator found in scene on object with the tag 'ConduitManager'." );
+            //Debug.LogError( "Engine: Initialize() No Conduit Generator found in scene on object with the tag 'ConduitManager'." );
             return;
         }
         if(mainCameraController == null) {
-            Debug.LogError( "Engine: Initialize() No Main Camera Controller found in scene on object with the tag 'MainCamera'." );
+            //Debug.LogError( "Engine: Initialize() No Main Camera Controller found in scene on object with the tag 'MainCamera'." );
             return;
         }
 #endif
 
-        DebugToScreen.Log( "Engine: Initialize() Awake Complete!" );
+        //DebugToScreen.Log( "Engine: Initialize() Awake Complete!" );
     }
     void Start()
     {
-        DebugToScreen.Log( "Engine: Start() Loading Saved Data..." );
+        //DebugToScreen.Log( "Engine: Start() Loading Saved Data..." );
 
         //------------------------
         // Load Saved Data
@@ -199,8 +199,8 @@ public class Engine : MonoBehaviour {
             // First Time Application has been Run
             PlayerPrefs.SetInt( "FirstRun", 1 );
 
-            Debug.Log( "Engine: Start() First Application Run" );
-            DebugToScreen.Log( "Engine: Start() First Application Run" );
+            //Debug.Log( "Engine: Start() First Application Run" );
+            //DebugToScreen.Log( "Engine: Start() First Application Run" );
         } else {
             benderRadiusM = PlayerPrefs.GetFloat( "BenderRadiusM" );
             conduitDiameterM = PlayerPrefs.GetFloat( "ConduitDiameterM" );
@@ -210,7 +210,7 @@ public class Engine : MonoBehaviour {
         }
 
 
-        DebugToScreen.Log( "Engine: Start() Initializing Components..." );
+        //DebugToScreen.Log( "Engine: Start() Initializing Components..." );
         //------------------------
         // Initialize Components
         //------------------------
@@ -234,7 +234,7 @@ public class Engine : MonoBehaviour {
         //------------------------
         StartSequence();
 
-        DebugToScreen.Log( "Engine: Start() Complete!" );
+        //DebugToScreen.Log( "Engine: Start() Complete!" );
     }
 
     void Update()
@@ -304,7 +304,7 @@ public class Engine : MonoBehaviour {
     /// </summary>
     public static string GetLanguageCharacters()
     {
-        return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuv0123456789~`!#$%^&*()-_+='\",.?;:";
+        return "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~`!#$%^&*()-_+='\",.?;:";
     }
     public static int GetLanguageMaxParameterStringLength()
     {
@@ -346,12 +346,12 @@ public class Engine : MonoBehaviour {
                 isBendScreen = true;
 
                 if (!conduitManager.gameObject.activeSelf) {
-                    DebugToScreen.Log( "Engine: Conduit Manager object Activated." );
+                    //DebugToScreen.Log( "Engine: Conduit Manager object Activated." );
                     conduitManager.gameObject.SetActive( true );
                 }
             } else {
                 // Disable Conduit Stuff
-                DebugToScreen.Log( "Engine: Conduit Manager object DeActivated." );
+                //DebugToScreen.Log( "Engine: Conduit Manager object DeActivated." );
                 conduitManager.gameObject.SetActive( false );
             }
         }
@@ -386,13 +386,13 @@ public class Engine : MonoBehaviour {
         }
         mainCameraController.movementEnabled = false;
 
-        Debug.Log( "Engine: ScreenManagerOnEvent() Event: " + e.type + " Title: " + e.screenTitle );
+        //Debug.Log( "Engine: ScreenManagerOnEvent() Event: " + e.type + " Title: " + e.screenTitle );
     }
 
 
     public void Quit()
     {
-        Debug.Log( "Engine: Quit() Exiting Application." );
+        //Debug.Log( "Engine: Quit() Exiting Application." );
         // Save data
         bendManager.Save();
 

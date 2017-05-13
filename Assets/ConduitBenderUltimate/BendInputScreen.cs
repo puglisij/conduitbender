@@ -162,7 +162,7 @@ public class BendInputScreen : AnimScreen
         bendHelp.onValueChanged = ListenerHelp;
 
         m_OutputText = outputView.GetComponentsInChildren<TextColumns>( true )[ 0 ];
-        m_OutputText.maxCharPerLineTotal = Engine.GetLanguageMaxParameterStringLength();
+        m_OutputText.maxCharPerLineTotal = Engine.GetLanguageMaxParameterStringLength() * m_OutputText.columns.Count;
 
 
         m_HasInitialized = true;

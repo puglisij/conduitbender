@@ -42,14 +42,16 @@ public class TextColumns : MonoBehaviour {
 
     }
 
+    /// <summary> The total number of characters that may span across the total width of all columns </summary>
+    [HideInInspector]
     public int maxCharPerLineTotal
     {
         get { return m_MaxCharPerLineTotal; }
         set
         {
             m_MaxCharPerLineTotal = value;
-            CalculateTextSizes();
             CalculateColumnCharPerLine();
+            CalculateTextSizes();
         }
     }
     public int lineCount
@@ -63,7 +65,7 @@ public class TextColumns : MonoBehaviour {
 
 
     private List<TextPair>  m_Lines = new List<TextPair>();
-    [SerializeField, Tooltip("Maximum Characters on one line to fit across all columns horizontally")]
+    [SerializeField]
     private int             m_MaxCharPerLineTotal = 10;
     private int             m_CurrentWriteColumn = 0;
 
@@ -75,10 +77,7 @@ public class TextColumns : MonoBehaviour {
         CheckNulls();
 #endif
     }
-    void Start()
-    {
-        CalculateTextSizes();
-    }
+
     void Update()
     {
         if(m_VisualsDirty) {
@@ -92,7 +91,7 @@ public class TextColumns : MonoBehaviour {
         RectTransform columnTransform;
         for(int c = 0; c < columns.Count; ++c) {
             columnTransform = columns[ c ].text.rectTransform;
-            columns[ c ].maxCharPerLine = (int) (columnTransform.anchorMax.x - columnTransform.anchorMin.x) * maxCharPerLineTotal;
+            columns[ c ].maxCharPerLine = (int) ((columnTransform.anchorMax.x - columnTransform.anchorMin.x) * maxCharPerLineTotal);
         }
     }
     void CheckNulls()
@@ -110,9 +109,13 @@ public class TextColumns : MonoBehaviour {
     }
     void CalculateTextSizes()
     {
-        int bestSize = textMetrics.CalculateBestFontSize( columns[ 0 ].text, (RectTransform) transform, maxCharPerLineTotal );
+        Vector2 boundsSize = columns[0].text.rectTransform.rect.size;
+                boundsSize.y /= columns[ 0 ].maxLines;
 
-        for (int c = 1; c < columns.Count; ++c) {
+        // NOTE: Assume all columns are equal width
+        int bestSize = textMetrics.CalculateBestFontSize( columns[ 0 ].text, boundsSize, columns[ 0 ].maxCharPerLine );
+
+        for (int c = 0; c < columns.Count; ++c) {
             columns[ c ].text.fontSize = bestSize;
         }
         

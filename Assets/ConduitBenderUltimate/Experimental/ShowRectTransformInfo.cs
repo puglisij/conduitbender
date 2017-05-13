@@ -8,6 +8,7 @@ public class ShowRectTransformInfo : MonoBehaviour
     public Vector3 localPosition;
     public Vector2 offsetMin;
     public Vector2 offsetMax;
+    public Vector2 localScale;
     public Rect rect;
 
     RectTransform thisTrans;
@@ -24,6 +25,7 @@ public class ShowRectTransformInfo : MonoBehaviour
         localPosition = thisTrans.localPosition;
         offsetMin = thisTrans.offsetMin;
         offsetMax = thisTrans.offsetMax;
+        localScale = thisTrans.localScale;
         rect = thisTrans.rect;
 	}
 }

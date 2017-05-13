@@ -38,10 +38,11 @@ public class ConduitSaddle3Decorator : AConduitDecorator
 
         // Arrow locations are dependent on Bend Method
         var bend = m_Conduit.bend;
-        var bendMethod = (GlobalEnum.ESaddle3BendMethod) bend.GetInputParameter(EBendParameterName.Saddle3Method).value;
+        var centerAngle = (float) bend.GetInputParameter(EBendParameterName.CenterAngleDegrees).value;
+        //var bendMethod = (GlobalEnum.ESaddle3BendMethod) bend.GetInputParameter(EBendParameterName.Saddle3Method).value;
 
-        if(bendMethod == GlobalEnum.ESaddle3BendMethod.Notch) 
-        {
+        //if(bendMethod == GlobalEnum.ESaddle3BendMethod.Notch) 
+        //{
             // Determine Points
             int centerOfCenterBend = (bendIndices[3] - bendIndices[2]) / 2 + bendIndices[2];
             Vector3 bend1Dir = centerline[ bendIndices[ 1 ] ].radialDir;
@@ -56,23 +57,23 @@ public class ConduitSaddle3Decorator : AConduitDecorator
             FlagRenderer.DrawRay( rays[ 0 ], -bend1Dir, bendPoints[ 0 ] );
             FlagRenderer.DrawRay( rays[ 1 ], -bend2Dir, bendPoints[ 1 ] );
             FlagRenderer.DrawRay( rays[ 2 ], -bend3Dir, bendPoints[ 2 ] );
-        } 
-        else if(bendMethod == GlobalEnum.ESaddle3BendMethod.Arrow)
-        {
-            // Determine Points
-            Vector3 bend1Dir = centerline[ bendIndices[ 1 ] ].radialDir;
-            Vector3 bend2Dir = -centerline[ bendIndices[ 2 ] ].radialDir;
-            Vector3 bend3Dir = centerline[ bendIndices[ 4 ] ].radialDir;
+        //} 
+        //else if(bendMethod == GlobalEnum.ESaddle3BendMethod.Arrow)
+        //{
+        //    // Determine Points
+        //    Vector3 bend1Dir = centerline[ bendIndices[ 1 ] ].radialDir;
+        //    Vector3 bend2Dir = -centerline[ bendIndices[ 2 ] ].radialDir;
+        //    Vector3 bend3Dir = centerline[ bendIndices[ 4 ] ].radialDir;
 
-            bendPoints[ 0 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 1 ] ].point ) + bend1Dir * conduitRadius;
-            bendPoints[ 1 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 2 ] ].point ) + bend2Dir * conduitRadius;
-            bendPoints[ 2 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 4 ] ].point ) + bend3Dir * conduitRadius;
+        //    bendPoints[ 0 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 1 ] ].point ) + bend1Dir * conduitRadius;
+        //    bendPoints[ 1 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 2 ] ].point ) + bend2Dir * conduitRadius;
+        //    bendPoints[ 2 ] = m_Conduit.transform.TransformPoint( centerline[ bendIndices[ 4 ] ].point ) + bend3Dir * conduitRadius;
 
-            // Draw Arrows
-            FlagRenderer.DrawRay( rays[ 0 ], -bend1Dir, bendPoints[ 0 ] );
-            FlagRenderer.DrawRay( rays[ 1 ], -bend2Dir, bendPoints[ 1 ] );
-            FlagRenderer.DrawRay( rays[ 2 ], -bend3Dir, bendPoints[ 2 ] );
-        }
+        //    // Draw Arrows
+        //    FlagRenderer.DrawRay( rays[ 0 ], -bend1Dir, bendPoints[ 0 ] );
+        //    FlagRenderer.DrawRay( rays[ 1 ], -bend2Dir, bendPoints[ 1 ] );
+        //    FlagRenderer.DrawRay( rays[ 2 ], -bend3Dir, bendPoints[ 2 ] );
+        //}
     }
 
     public override void Highlight()
@@ -92,7 +93,7 @@ public class ConduitSaddle3Decorator : AConduitDecorator
 
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
         } else if (highlight.name == EBendParameterName.Distance1stTo2nd) {
-            var start = m_Conduit.centerlineBendIndices[1];
+            var start = m_Conduit.centerlineBendIndices[0];
             var end   = m_Conduit.centerlineBendIndices[2];
 
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );

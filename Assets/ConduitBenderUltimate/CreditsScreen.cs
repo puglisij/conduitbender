@@ -12,7 +12,7 @@ public class CreditsScreen : AnimScreen
     // Private Data
     //-------------------
 
-    string email = "support@nicaeastudios.com";
+    const string email = "support@nicaeastudios.com";
 
 
     public override void Open()
@@ -44,7 +44,7 @@ public class CreditsScreen : AnimScreen
     {
 
         #if UNITY_ANDROID
-                    Application.OpenURL( "market://details?id=YOUR_APP_ID" );
+            Application.OpenURL( "market://details?id=YOUR_APP_ID" );
         #elif UNITY_IPHONE
              Application.OpenURL("itms-apps://itunes.apple.com/app/idYOUR_APP_ID");
         #endif

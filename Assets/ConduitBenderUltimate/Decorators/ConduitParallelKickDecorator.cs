@@ -203,6 +203,11 @@ public class ConduitParallelKickDecorator : AConduitDecorator
             var end   = m_Conduit.centerlineBendIndices[2];
 
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
-        } 
+        } else if(highlight.name == EBendParameterName.LengthOfBend) {
+            var start = m_Conduit.centerlineBendIndices[0];
+            var end   = m_Conduit.centerlineBendIndices[1];
+
+            ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
+        }
     }
 }

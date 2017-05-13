@@ -151,7 +151,7 @@ public class ScreenManager : MonoBehaviour, ILinkableAnnouncer
         }
         // Is finger over current Screen's RectTransform?
         if ( !RectTransformUtility.RectangleContainsScreenPoint( screen.transform as RectTransform, gesture.position, Engine.cameraUI ) ) {
-            Debug.Log( "ScreenManager: CheckFocus() Unfocusing Screen: " + screen.name );
+            //Debug.Log( "ScreenManager: CheckFocus() Unfocusing Screen: " + screen.name );
             screen.OnUnfocus();
         }
     }
@@ -189,14 +189,14 @@ public class ScreenManager : MonoBehaviour, ILinkableAnnouncer
 
         // Open the new Screen
 #if DEBUG
-        Debug.Log( "ScreenManager: About to Open Screen: " + screen.screenTitle + " isOpen: " + screen.isOpen + " isHidden: " + screen.isHidden );
+        //Debug.Log( "ScreenManager: About to Open Screen: " + screen.screenTitle + " isOpen: " + screen.isOpen + " isHidden: " + screen.isHidden );
 #endif
 
         screen.Open();
         m_Open = screenMeta;
 
 #if DEBUG
-        Debug.Log( "ScreenManager: About to Set Controls: " + screen.screenTitle + " isOpen: " + screen.isOpen + " isHidden: " + screen.isHidden );
+        //Debug.Log( "ScreenManager: About to Set Controls: " + screen.screenTitle + " isOpen: " + screen.isOpen + " isHidden: " + screen.isHidden );
 #endif
 
         SetControls( screenMeta.controls );
@@ -235,7 +235,7 @@ public class ScreenManager : MonoBehaviour, ILinkableAnnouncer
                 break;
             case EScreenControl.Expand:
                 controlObj.Set( () => {
-                        Debug.LogWarning( "ScreenManager: GetControlHandler() Control not Implemented." );
+                        //Debug.LogWarning( "ScreenManager: GetControlHandler() Control not Implemented." );
                     }, expandIcon );
                 break;
             case EScreenControl.Hide:
@@ -244,12 +244,12 @@ public class ScreenManager : MonoBehaviour, ILinkableAnnouncer
                 break;
             case EScreenControl.Shrink:
                 controlObj.Set( () => {
-                        Debug.LogWarning( "ScreenManager: GetControlHandler() Control not Implemented." );
+                        //Debug.LogWarning( "ScreenManager: GetControlHandler() Control not Implemented." );
                     }, shrinkIcon );
                 break;
             default:
                 controlObj.Set( () => {
-                    Debug.LogWarning( "ScreenManager: GetControlHandler() Control not Implemented." );
+                    //Debug.LogWarning( "ScreenManager: GetControlHandler() Control not Implemented." );
                 }, null );
                 break;
         }
@@ -388,7 +388,7 @@ public class ScreenManager : MonoBehaviour, ILinkableAnnouncer
             }
         }
 
-        Debug.Log( "ScreenManager: CloseMain()" );
+        //Debug.Log( "ScreenManager: CloseMain()" );
     }
     /// <summary>
     /// Closes the currently open screen and opens the one by the given name.
@@ -407,7 +407,9 @@ public class ScreenManager : MonoBehaviour, ILinkableAnnouncer
             OpenScreen( screenMeta, true );
         }
 #if DEBUG
-        else { Debug.Log( "ScreenManager: OpenScreen() " + screenName + " Not Found." ); }
+        else {
+            //Debug.Log( "ScreenManager: OpenScreen() " + screenName + " Not Found." );
+        }
 #endif
     }
 

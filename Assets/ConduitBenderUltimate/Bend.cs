@@ -9,6 +9,8 @@ public class BendSaveData
 {
     // The type or model name of the Bend (e.g. Offset)
     public string modelName;
+    // The types of each BendParameter in the Bend
+    public object[] inputTypes;
     // The values of each BendParameter in the Bend
     public object[] inputValues;
 }

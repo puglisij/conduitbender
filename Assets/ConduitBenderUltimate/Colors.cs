@@ -13,6 +13,7 @@ public class Colors : MonoBehaviour
     public Color flagBlue;
     public Color flagConduitBlack;
     public Color flagPurple;
+    public Color flagBrown;
 
     public static Colors instance = null;
 

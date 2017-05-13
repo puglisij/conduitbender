@@ -29,12 +29,12 @@ public class BendManager: ILinker, ISaveable
 
         // If no saved data file, load defaults from assets
         if(saveData == null) {
-            Debug.Log( "BendManager: Load() Attempting to load default Bends..." );
+            //Debug.Log( "BendManager: Load() Attempting to load default Bends..." );
             AppData.LoadResource( k_defaultsFileName, out saveData );
         }
 
         if (saveData == null) {
-            Debug.Log( "BendManager: Load() Failed to load defaults." );
+            //Debug.Log( "BendManager: Load() Failed to load defaults." );
             return;
         }
 
@@ -52,11 +52,20 @@ public class BendManager: ILinker, ISaveable
             bend = entry.Value;
 
             // Load saved data into Bend here
-            if (savedBends.TryGetValue( name, out bendSaveData )) {
-                if (bendSaveData.inputValues != null) {
+            if (savedBends.TryGetValue( name, out bendSaveData )) 
+            {
+                if (bendSaveData.inputValues != null) 
+                {
                     // NOTE: Assume BendParameters are in same order as when saved
-                    for (var j = 0; j < bendSaveData.inputValues.Length; ++j) {
-                        bend.inputParameters[ j ].value = bendSaveData.inputValues[ j ];
+                    try {
+                        for (var j = 0; j < bendSaveData.inputValues.Length; ++j) {
+                            if(bend.inputParameters[ j ].type != (EBendParameterType) bendSaveData.inputTypes[ j ]) {
+                                throw new Exception( "BendManager: Mismatching types with saved bend inputs." );
+                            }
+                            bend.inputParameters[ j ].value = bendSaveData.inputValues[ j ];
+                        }
+                    } catch(Exception e) {
+                        //Debug\.LogError( "BendManager: Exception occurred loading saved bends." );
                     }
                 }
             }
@@ -90,22 +99,24 @@ public class BendManager: ILinker, ISaveable
         var bendDatas = new List<BendSaveData>(m_Bends.Count);
 
         Bend bend;
-        BendSaveData bendData;
+        BendSaveData bendSaveData;
         // Loop through all Bends and map data to Serializable Object
         foreach (var entry in m_Bends) 
         {
             // Gather data from Bend
             bend = entry.Value;
-            bendData = new BendSaveData();
-            bendData.modelName = bend.modelName;
-            bendData.inputValues = new object[ bend.inputParameters.Count ];
+            bendSaveData = new BendSaveData();
+            bendSaveData.modelName = bend.modelName;
+            bendSaveData.inputTypes = new object[ bend.inputParameters.Count ];
+            bendSaveData.inputValues = new object[ bend.inputParameters.Count ];
   
             for (var i = 0; i < bend.inputParameters.Count; ++i) {
-                bendData.inputValues[ i ] = bend.inputParameters[ i ].value;
+                bendSaveData.inputTypes[ i ] = bend.inputParameters[ i ].type;
+                bendSaveData.inputValues[ i ] = bend.inputParameters[ i ].value;
             }
 
             bendNames.Add( entry.Key );
-            bendDatas.Add( bendData );
+            bendDatas.Add( bendSaveData );
         }
         data.bendNames = bendNames.ToArray();
         data.bendData = bendDatas.ToArray();
@@ -131,7 +142,7 @@ public class BendManager: ILinker, ISaveable
             // Establish Link to Screen
             linkable.Link( bend );
         } else {
-            Debug.Log( "BendManager: Announce() No Bend found for model name: " + linkable.modelName );
+            //Debug\.Log( "BendManager: Announce() No Bend found for model name: " + linkable.modelName );
         }
     }
 

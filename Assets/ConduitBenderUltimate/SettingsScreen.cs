@@ -229,6 +229,9 @@ public class SettingsScreen : AnimScreen
 
     private void OpenPresetModal(KeyFloatSet[] presets )
     {
+        if(m_presetModal != null) {
+            Destroy( m_presetModal.gameObject );
+        }
         // Instantiate Modal from prefab 
         var modal = (SelectionModal) Instantiate( selectionModalPrefab, transform, false );
 
@@ -266,7 +269,7 @@ public class SettingsScreen : AnimScreen
 
         // Close & Destroy the Preset Modal
         m_presetModal.Close( true );
-        Destroy( m_presetModal );
+        Destroy( m_presetModal.gameObject );
         m_presetModal = null;
     }
 

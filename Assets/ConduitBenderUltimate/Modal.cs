@@ -137,15 +137,27 @@ namespace CB
         ##############################*/
         public virtual void Close( bool doDisable )
         {
-            m_Opener.SetBool( m_OpenParameterId, false );
-            StartCoroutine( DisableModalDelayed( m_Opener, doDisable ) );
+            if(m_Opener != null) {
+                m_Opener.SetBool( m_OpenParameterId, false );
+                StartCoroutine( DisableModalDelayed( m_Opener, doDisable ) );
+            } else {
+                m_IsOpen = false;
+                if (doDisable) {
+                    gameObject.SetActive( false );
+                }
+            }      
             //Debug.Log( "AModal: Close() Title: " + modalTitle );
         }
         public virtual void Open()
         {
             gameObject.SetActive( true );
-            m_Opener.SetBool( m_OpenParameterId, true );
-            StartCoroutine( OpenAnimationMonitor( m_Opener ) );
+
+            if(m_Opener != null) {
+                m_Opener.SetBool( m_OpenParameterId, true );
+                StartCoroutine( OpenAnimationMonitor( m_Opener ) );
+            } else {
+                m_IsOpen = true;
+            }
         }
 
         public void Nothing() {}

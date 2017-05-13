@@ -21,10 +21,12 @@ public class ConduitOffsetDecorator : AConduitDecorator
         if(highlight.name == EBendParameterName.DistanceBetween) {
             var start = m_Conduit.centerlineBendIndices[0];
             var end   = m_Conduit.centerlineBendIndices[2];
-
-            Debug.Assert( start.type == BendMarkType.Start );
-            Debug.Assert( end.type == BendMarkType.End );
             
+            ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
+        } else if(highlight.name == EBendParameterName.LengthOfBend) {
+            var start = m_Conduit.centerlineBendIndices[2];
+            var end   = m_Conduit.centerlineBendIndices[3];
+
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
         }
 

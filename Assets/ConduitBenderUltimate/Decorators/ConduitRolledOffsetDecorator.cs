@@ -115,6 +115,11 @@ public class ConduitRolledOffsetDecorator : AConduitDecorator
             var end = m_Conduit.centerlineBendIndices[2];
 
             ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
-        } 
+        } else if(highlight.name == EBendParameterName.LengthOfBend) {
+            var start = m_Conduit.centerlineBendIndices[2];
+            var end = m_Conduit.centerlineBendIndices[3];
+
+            ConduitGenerator.ColorConduit( m_Conduit, highlightColor, start.index, end.index );
+        }
     }
 }

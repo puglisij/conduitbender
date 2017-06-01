@@ -1,4 +1,4 @@
-/***********************************************
+﻿/***********************************************
 				EasyTouch V
 	Copyright © 2014-2015 The Hedgehog Team
     http://www.thehedgehogteam.com/Forum/
@@ -33,7 +33,7 @@ public class QuickTap : QuickBase {
 
 	#region Monobehavior CallBack
 	public QuickTap(){
-		quickActionName = "QuickTap"+ GetInstanceID().ToString();
+			quickActionName = "QuickTap"+ System.Guid.NewGuid().ToString().Substring(0,7);
 	}
 
 	void Update(){
@@ -62,21 +62,19 @@ public class QuickTap : QuickBase {
 	}
 	#endregion
 
-	void DoAction(Gesture gesture)
-    {
-		if ( realType == GameObjectType.UI) {
+	void DoAction(Gesture gesture){
+		if ( realType == GameObjectType.UI){
 			if (gesture.isOverGui ){
 				if ((gesture.pickedUIElement == gameObject || gesture.pickedUIElement.transform.IsChildOf( transform))){
 					onTap.Invoke( gesture);
 				}
 			}
-		} else {
-			if ((!enablePickOverUI && gesture.pickedUIElement == null) || enablePickOverUI) {
-                var touchedGameObj = EasyTouch.GetGameObjectAt( gesture.position, is2Finger );
-				if (touchedGameObj == gameObject){
+		}
+		else{
+			if ((!enablePickOverUI && gesture.pickedUIElement == null) || enablePickOverUI){
+				if (EasyTouch.GetGameObjectAt( gesture.position,is2Finger) == gameObject){
 					onTap.Invoke( gesture);
 				}
-                //Debug.Log( "QuickTap: DoAction() touchedGameObj: " + touchedGameObj );
 			}
 		}
 	}

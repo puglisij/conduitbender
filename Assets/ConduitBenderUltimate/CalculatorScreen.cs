@@ -213,6 +213,7 @@ public class CalculatorScreen : AnimScreen
         bool success = m_Scanner.Tokenize( m_Input );
 
         if(!success) {
+            Debug.Log( "CalculatorScreen: Enter() Error in Scanner." );
             Error();
             return;
         }
@@ -223,6 +224,7 @@ public class CalculatorScreen : AnimScreen
         success = ShuntingYard();
 
         if (!success) {
+            Debug.Log( "CalculatorScreen: Enter() Error in ShuntingYard." );
             Error();
             return;
         }
@@ -378,6 +380,7 @@ public class CalculatorScreen : AnimScreen
             sb.Append( t.value );
             sb.Append( "," );
         }
+        sb.Remove( sb.Length - 1, 1 ); // Remove trailing ,
         return sb.ToString();
     }
     private void RefreshDisplay()
@@ -401,32 +404,27 @@ public class CalculatorScreen : AnimScreen
             //-----------------------------
             //  Convert to Reverse Polish
             //-----------------------------
-            while (m_Scanner.HasNextToken()) {
+            while (m_Scanner.HasNextToken()) 
+            {
                 t = m_Scanner.NextToken();
 
                 if (t.type == TokenType.NUMBER) {
-                    //-------------
-                    // Number
-                    //-------------
                     m_OutputQ.Enqueue( t );
-                } else if (t.type == TokenType.FUNCTION) {
-                    //-------------
-                    // Function
-                    //-------------
-                    m_Stack.Push( t );
-                } else if (t.type == TokenType.COMMA) {
-                    //-------------
-                    // Comma
-                    //-------------
+                }
+                else if (t.type == TokenType.COMMA) 
+                {
                     bool missingBracket = true;
 
                     while (m_Stack.Count > 0) {
                         Token top = m_Stack.Peek();
-                        if (top.type != TokenType.L_BRACKET) {
-                            m_OutputQ.Enqueue( m_Stack.Pop() );
-                        } else {
+                        if (top.type == TokenType.L_BRACKET) {
                             missingBracket = false;
                             break;
+                        } else {
+                            if (IsOperator( top )) {
+                                Debug.LogWarning( "CalculatorScreen: ShuntingYard() On Comma, Encountered Non-Operator: " + top.value );
+                            }
+                            m_OutputQ.Enqueue( m_Stack.Pop() );  
                         }
                     }
 
@@ -436,22 +434,20 @@ public class CalculatorScreen : AnimScreen
                         return false;
                     }
 
-                } else if (IsOperator( t )) {
-                    //-------------
-                    // Operator
-                    //-------------
-                    while (m_Stack.Count > 0) {
+                } 
+                else if (IsOperator( t ) || t.type == TokenType.FUNCTION) 
+                {
+                    while (m_Stack.Count > 0) 
+                    {
                         Token top = m_Stack.Peek();
                         if (IsOperator( top ) || top.type == TokenType.FUNCTION) {
-                            if (top.type == TokenType.FUNCTION) {
-                                m_OutputQ.Enqueue( m_Stack.Pop() );
-                            } else if (t.associativity == Associativity.LeftToRight && t.precedence >= top.precedence
+                            if (t.associativity == Associativity.LeftToRight && t.precedence >= top.precedence
                                     || t.associativity == Associativity.RightToLeft && t.precedence > top.precedence) {
                                 m_OutputQ.Enqueue( m_Stack.Pop() );
+                                continue;
                             } else {
                                 break;
                             }
-
                         } else {
                             break;
                         }
@@ -460,23 +456,30 @@ public class CalculatorScreen : AnimScreen
                     m_Stack.Push( t );
 
                 } else if (t.type == TokenType.L_BRACKET) {
-                    //-------------
-                    // Left (
-                    //-------------
                     m_Stack.Push( t );
-                } else if (t.type == TokenType.R_BRACKET) {
-                    //-------------
-                    // Right )
-                    //-------------
+                } 
+                else if (t.type == TokenType.R_BRACKET) 
+                {
                     bool missingBracket = true;
 
+                    //while (m_Stack.Count > 0) {
+                    //    Token top = m_Stack.Pop();
+                    //    if (top.type != TokenType.L_BRACKET) {
+                    //        m_OutputQ.Enqueue( top );
+                    //    } else {
+                    //        missingBracket = false;
+                    //        break;
+                    //    }
+                    //}
                     while (m_Stack.Count > 0) {
                         Token top = m_Stack.Pop();
-                        if (top.type != TokenType.L_BRACKET) {
-                            m_OutputQ.Enqueue( top );
-                        } else {
+                        if(top.type == TokenType.L_BRACKET) {
                             missingBracket = false;
                             break;
+                        } else if( IsOperator(top) || top.type == TokenType.FUNCTION ) {
+                            m_OutputQ.Enqueue( top );
+                        } else {
+                            Debug.LogError( "CalculatorScreen: ShuntingYard() On Right Bracket, Unhandled token type: " + top.value );
                         }
                     }
 
@@ -495,15 +498,17 @@ public class CalculatorScreen : AnimScreen
                 Token top = m_Stack.Pop();
                 if (top.type == TokenType.L_BRACKET || top.type == TokenType.R_BRACKET) {
                     return false;
-                }
-                m_OutputQ.Enqueue( top );
+                } else {
+                    m_OutputQ.Enqueue( top );
+                }    
             }
 
             Debug.Log( "Calculator: ShuntingYard() OutputQ: " + PrintQueue( m_OutputQ ) );
             //----------------------------
             //  Evaluate
             //----------------------------
-            while (m_OutputQ.Count > 0) {
+            while (m_OutputQ.Count > 0) 
+            {
                 t = m_OutputQ.Dequeue();
 
                 if (t.type == TokenType.NUMBER) {

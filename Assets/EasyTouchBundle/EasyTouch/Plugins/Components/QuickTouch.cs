@@ -35,7 +35,7 @@ public class QuickTouch : QuickBase {
 
 	#region Monobehavior CallBack
 	public QuickTouch(){
-		quickActionName = "QuickTouch"+ GetInstanceID().ToString();
+			quickActionName = "QuickTouch"+ System.Guid.NewGuid().ToString().Substring(0,7);
 	}
 	#endregion		
 

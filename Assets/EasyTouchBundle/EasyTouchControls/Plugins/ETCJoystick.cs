@@ -235,6 +235,14 @@ public class ETCJoystick : ETCBase,IPointerEnterHandler,IDragHandler, IBeginDrag
 				}
 			}
 		}
+
+
+		if (joystickType == JoystickType.Dynamic && _visible){
+			if (GetTouchCount()==0){
+				visible = false;
+
+			}
+		}
 		#endregion
 
 	}
@@ -272,7 +280,14 @@ public class ETCJoystick : ETCBase,IPointerEnterHandler,IDragHandler, IBeginDrag
 
 	protected override void UpdateControlState (){
 	
-		UpdateJoystick();
+		if (_visible){
+			UpdateJoystick();
+		}
+		else{
+			if (joystickType == JoystickType.Dynamic){
+				OnUp( false);
+			}
+		}
 	}
 
 	#endregion
@@ -317,7 +332,7 @@ public class ETCJoystick : ETCBase,IPointerEnterHandler,IDragHandler, IBeginDrag
 
 
 			if (!isNoReturnThumb){
-				thumbPosition =  (eventData.position - eventData.pressPosition) / cachedRootCanvas.rectTransform().localScale.x;
+				thumbPosition =  (eventData.position - eventData.pressPosition);// / (cachedRootCanvas.rectTransform().localScale.x  ) ;
 			}
 			else{
 				thumbPosition =((eventData.position - noReturnPosition) /cachedRootCanvas.rectTransform().localScale.x) + noReturnOffset;
@@ -494,7 +509,6 @@ public class ETCJoystick : ETCBase,IPointerEnterHandler,IDragHandler, IBeginDrag
 		}
 
 		#endregion
-
 
 
 		#region Down & press event

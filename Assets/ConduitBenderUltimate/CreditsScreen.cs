@@ -12,7 +12,7 @@ public class CreditsScreen : AnimScreen
     // Private Data
     //-------------------
 
-    const string email = "support@nicaeastudios.com";
+    const string email = "support@crossmanstudios.com";
 
 
     public override void Open()
@@ -34,6 +34,7 @@ public class CreditsScreen : AnimScreen
    "\n\nPlease Do Not Modify This\n\n" +
    "Model: "+SystemInfo.deviceModel+"\n\n"+
       "OS: "+SystemInfo.operatingSystem+"\n\n" +
+      "Version: "+Application.version+"\n\n" +
    "________");
 
         //Open the Default Mail App
@@ -44,7 +45,7 @@ public class CreditsScreen : AnimScreen
     {
 
         #if UNITY_ANDROID
-            Application.OpenURL( "market://details?id=YOUR_APP_ID" );
+            Application.OpenURL( "market://details?id=com.crossmanstudios.conduitbenderultimate" );
         #elif UNITY_IPHONE
              Application.OpenURL("itms-apps://itunes.apple.com/app/idYOUR_APP_ID");
         #endif

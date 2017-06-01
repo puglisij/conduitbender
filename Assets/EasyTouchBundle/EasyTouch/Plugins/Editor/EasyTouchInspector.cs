@@ -2,9 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using HedgehogTeam.EasyTouch;
-using CB;
-
-#if UNITY_5_3
+#if UNITY_5_3_OR_NEWER
 using UnityEditor.SceneManagement;
 #endif
 
@@ -87,105 +85,56 @@ public class EasyTouchInspector : Editor {
 
 		#region Auto selection properties
 		t.showSelectInspector = HTGuiTools.BeginFoldOut( "Automatic selection",t.showSelectInspector);
-		if (t.showSelectInspector)
-        {
-			HTGuiTools.BeginGroup();
-            {
+		if (t.showSelectInspector){
+			HTGuiTools.BeginGroup();{
 				t.autoSelect = HTGuiTools.Toggle("Enable auto-select",t.autoSelect,true);
+				if (t.autoSelect){
 
-				if (t.autoSelect) 
-                {
-                    serializedObject.Update();
+					EditorGUILayout.Space();
 
-                    t.autoUpdatePickedObject = HTGuiTools.Toggle( "Auto update picked gameobject", t.autoUpdatePickedObject, true );
-                    EditorGUILayout.Space();
+					// 3d layer
+					serializedObject.Update();
+					SerializedProperty layers = serializedObject.FindProperty("pickableLayers3D");
+					EditorGUILayout.PropertyField( layers,true);
+					serializedObject.ApplyModifiedProperties();
 
-                    // Global 3D layers
-                    EditorGUILayout.BeginHorizontal();
 
-                    EditorGUILayout.LabelField( "3D Global Collider Layers" );
-                    SerializedProperty layers = serializedObject.FindProperty("pickableLayers3D");
-                    EditorGUILayout.PropertyField( layers, new GUIContent(), true );
+					t.autoUpdatePickedObject = HTGuiTools.Toggle( "Auto update picked gameobject",t.autoUpdatePickedObject,true);
+					EditorGUILayout.Space();
 
-                    EditorGUILayout.EndHorizontal();
-                    // End Global 3D
+					//2D
+					t.enable2D = HTGuiTools.Toggle("Enable 2D collider",t.enable2D,true);
+					if (t.enable2D){
+						serializedObject.Update();
+						layers = serializedObject.FindProperty("pickableLayers2D");
+						EditorGUILayout.PropertyField( layers,true);
+						serializedObject.ApplyModifiedProperties();
+					}
 
-                    // Global 2D layers
-                    EditorGUILayout.BeginHorizontal();
-                    t.enable2D = HTGuiTools.Toggle( "2D Global Collider Layers", t.enable2D, true );
-                    if (t.enable2D) {
-                        serializedObject.Update();
-                        layers = serializedObject.FindProperty( "pickableLayers2D" );
-                        EditorGUILayout.PropertyField( layers, new GUIContent(), true );
-                    }
-                    EditorGUILayout.EndHorizontal();
-                    // End Global 2D 
 
-                    // Camera
-                    GUILayout.Space(5f);
+					// Camera
+					GUILayout.Space(5f);
 					HTGuiTools.BeginGroup(5);
 					{
 						if (HTGuiTools.Button( "Add Camera",Color.green,100)){
 							t.touchCameras.Add(new ECamera(null,false));
 						}
-
-                        // For all Cameras
-                        bool removeCurrent = false;
-						for (int i = 0; i < t.touchCameras.Count; i++)
-                        {
-                            var ecam = t.touchCameras[i];
-
-                            EditorGUILayout.BeginVertical();
+						for (int i=0;i< t.touchCameras.Count;i++){
 							EditorGUILayout.BeginHorizontal();
-                            ecam.useGlobalLayers = GUILayout.Toggle( ecam.useGlobalLayers, 
-                                new GUIContent( (ecam.useGlobalLayers) ? "\u2022" : "\u25E6", "Use Global Layers" ) , "Button", GUILayout.Width( 19f ) );
-                            
-							if (HTGuiTools.Button("X",Color.red,19)) {
-                                removeCurrent = true;
+							if (HTGuiTools.Button("X",Color.red,19)){	
+								t.touchCameras.RemoveAt(i);
+								i--;
 							}
-
-                            // Camera Field
-                            ecam.guiCamera = EditorGUILayout.ToggleLeft( "Gui", ecam.guiCamera, GUILayout.Width( 50 ) );
-                            ecam.camera = (Camera)EditorGUILayout.ObjectField( "", ecam.camera, typeof( Camera ), true );
-                            EditorGUILayout.EndHorizontal();
-
-                            if (!ecam.useGlobalLayers) 
-                            {
-                                // 3D layers
-                                EditorGUILayout.BeginHorizontal();
-                                ecam.enable3D = HTGuiTools.Toggle( "3D Collider Layers", ecam.enable3D, true );
-                                if (ecam.enable3D) {
-                                    ecam.pickableLayers3D = EditorUtils.LayerMaskField( "", ecam.pickableLayers3D );
-                                }
-                                EditorGUILayout.EndHorizontal();
-                                // End 3D
-
-                                // 2D layers
-                                EditorGUILayout.BeginHorizontal();
-                                ecam.enable2D = HTGuiTools.Toggle( "2D Collider Layers", ecam.enable2D, true );
-                                if (ecam.enable2D) {
-                                    ecam.pickableLayers2D = EditorUtils.LayerMaskField( "", ecam.pickableLayers2D );
-                                }
-                                EditorGUILayout.EndHorizontal();
-                                // End 2D 
-                            }
-
-                            if (removeCurrent) {
-                                removeCurrent = false;
-                                t.touchCameras.RemoveAt( i );
-                                i--;
-                            }
-                            EditorGUILayout.EndVertical();
-                        }
-					}
-                    HTGuiTools.EndGroup();
+							if (i>=0){						
+								t.touchCameras[i].camera = (Camera)EditorGUILayout.ObjectField("",t.touchCameras[i].camera,typeof(Camera),true,GUILayout.MinWidth(150));
+								t.touchCameras[i].guiCamera = EditorGUILayout.ToggleLeft("Gui",t.touchCameras[i].guiCamera,GUILayout.Width(50));
+								EditorGUILayout.EndHorizontal();
+							}
+						}
+					}HTGuiTools.EndGroup();
 				}
-
-                serializedObject.ApplyModifiedProperties();
-            }
-            HTGuiTools.EndGroup();
-
-        } // if(showSelectInspector)
+			}HTGuiTools.EndGroup();
+		}
 
 		#endregion
 
@@ -279,7 +228,7 @@ public class EasyTouchInspector : Editor {
 
 		if (GUI.changed){
 			EditorUtility.SetDirty(target);
-			#if UNITY_5_3
+			#if UNITY_5_3_OR_NEWER
 			EditorSceneManager.MarkSceneDirty( EditorSceneManager.GetActiveScene());
 			#endif
 		}

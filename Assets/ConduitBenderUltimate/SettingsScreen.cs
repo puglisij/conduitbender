@@ -184,8 +184,8 @@ public class SettingsScreen : AnimScreen
             SettingSliders setting = (SettingSliders) Instantiate(settingSlidersPrefab, inputView, false);
 
             setting.Setup( k_cameraControlsDescription );
-            setting.AddSlider( "Tilt", Engine.cameraTiltSensitivity, 3f, OnTiltSensitivity );
-            setting.AddSlider( "Movement", Engine.cameraRailSensitivity, 3f, OnMovementSensitivity );
+            setting.AddSlider( "Tilt", Engine.cameraTiltSensitivity, 2f, OnTiltSensitivity );
+            setting.AddSlider( "Movement", Engine.cameraRailSensitivity, 2f, OnMovementSensitivity );
         } 
         else if(settingName == SettingName.Audio) 
         {

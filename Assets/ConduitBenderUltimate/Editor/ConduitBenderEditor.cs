@@ -15,6 +15,11 @@ public class ConduitBenderEditor : EditorWindow
 
     private static GUILayoutOption tabWidth = GUILayout.MinWidth (60f);
 
+    [MenuItem( "Conduit Bender/Delete All PlayerPrefs" )]
+    static public void DeleteAllPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 
     [MenuItem( "Conduit Bender/Editor" )]
     static void Init()

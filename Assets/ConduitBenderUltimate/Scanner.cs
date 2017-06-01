@@ -244,7 +244,7 @@ namespace CB
                     m_Tokens.Add( new Token( TokenType.MULTIPLY, Associativity.LeftToRight, 3, "*" ) );
                 } else if (nextChar == '-') {
                     // Check if last token was a non-NUMBER which indicates Multiply by -1
-                    if (m_Tokens.Count == 0 || m_Tokens.Last().type != TokenType.NUMBER) {
+                    if (m_Tokens.Count == 0 || (m_Tokens.Last().type != TokenType.NUMBER && m_Tokens.Last().type != TokenType.R_BRACKET)) {
                         m_Tokens.Add( new Token( TokenType.NUMBER, Associativity.None, 0, -1f ) );
                         m_Tokens.Add( new Token( TokenType.MULTIPLY, Associativity.LeftToRight, 3, "*" ) );
                     } else {

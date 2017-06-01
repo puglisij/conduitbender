@@ -59,6 +59,7 @@ public class ScreenManager : MonoBehaviour, ILinkableAnnouncer
     //-----------------------------
     //      Public Data
     //-----------------------------
+    public Canvas canvas;
     // Corner Controls
     public ScreenControl  cornerBtnTL;
     public ScreenControl  cornerBtnTR;

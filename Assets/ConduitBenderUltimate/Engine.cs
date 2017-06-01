@@ -69,11 +69,10 @@ public class Engine : MonoBehaviour {
     
     public static int               conduitSideCount = 6;
 
+
     // Static Referenes
     //public static AppData           appData;
-
     public static ScreenManager     screenManager;      // In Scene
-    public SequenceManager          sequenceManager;    // In Scene
     public static EventManager      eventManager;       // In Scene
     public static BendFactory       bendFactory;
     public static BendManager       bendManager;
@@ -95,7 +94,8 @@ public class Engine : MonoBehaviour {
     // Singleton
     public static Engine    engine;
 
-
+    public SequenceManager          sequenceManager;    // In Scene
+    public DialogModal              eulaPrefab;
     //-------------------------
     //      Private Data
     //-------------------------
@@ -107,8 +107,9 @@ public class Engine : MonoBehaviour {
     private static float             s_CameraZoomSensitivity = 0.2f;
     private static float             s_CameraTiltSensitivity = 0.2f;
 
-    private string lastBendScreenTitle = "";
 
+    private string lastBendScreenTitle = "";
+    private DialogModal m_eulaModal = null;
 
     void Awake()
     {
@@ -162,22 +163,23 @@ public class Engine : MonoBehaviour {
 #if UNITY_EDITOR
         // Check Nulls
         if (screenManager == null) {
-            //Debug.LogError( "Engine: Initialize() No Screen Manager found in scene with the tag 'SceneManager'." );
+            Debug.LogError( "Engine: Initialize() No Screen Manager found in scene with the tag 'SceneManager'." );
             return;
         }
         if(eventManager == null ) {
-
+            Debug.LogError( "Engine: Initialize() No Event Manager found in scene on object with the tag 'EventManager'." );
+            return;
         }
         if (conduitManager == null) {
-            //Debug.LogError( "Engine: Initialize() No Conduit Manager found in scene on object with the tag 'ConduitManager'." );
+            Debug.LogError( "Engine: Initialize() No Conduit Manager found in scene on object with the tag 'ConduitManager'." );
             return;
         }
         if (conduitGenerator == null) {
-            //Debug.LogError( "Engine: Initialize() No Conduit Generator found in scene on object with the tag 'ConduitManager'." );
+            Debug.LogError( "Engine: Initialize() No Conduit Generator found in scene on object with the tag 'ConduitManager'." );
             return;
         }
         if(mainCameraController == null) {
-            //Debug.LogError( "Engine: Initialize() No Main Camera Controller found in scene on object with the tag 'MainCamera'." );
+            Debug.LogError( "Engine: Initialize() No Main Camera Controller found in scene on object with the tag 'MainCamera'." );
             return;
         }
 #endif
@@ -195,46 +197,22 @@ public class Engine : MonoBehaviour {
         //AppData.Initialize();
         //AppData.Load();
 
-        if(!PlayerPrefs.HasKey("FirstRun")) {
-            // First Time Application has been Run
-            PlayerPrefs.SetInt( "FirstRun", 1 );
+        if(!PlayerPrefs.HasKey("FirstRun") || Application.version != PlayerPrefs.GetString("LastVersion")) 
+        {
+            // Wait for "I Agree" on EULA
+            m_eulaModal = Instantiate( eulaPrefab, screenManager.canvas.transform, false );
+            m_eulaModal.onSelection += (selection) => {
+                Destroy( m_eulaModal.gameObject );
 
-            //Debug.Log( "Engine: Start() First Application Run" );
-            //DebugToScreen.Log( "Engine: Start() First Application Run" );
+                if (selection == DialogModal.EDialogSelection.No) {
+                    Application.Quit();
+                } else {
+                    Startup();
+                }
+            };
         } else {
-            benderRadiusM = PlayerPrefs.GetFloat( "BenderRadiusM" );
-            conduitDiameterM = PlayerPrefs.GetFloat( "ConduitDiameterM" );
-            cameraRailSensitivity = PlayerPrefs.GetFloat( "CameraRailSensitivity" );
-            cameraZoomSensitivity = PlayerPrefs.GetFloat( "CameraZoomSensitivity" );
-            cameraTiltSensitivity = PlayerPrefs.GetFloat( "CameraTiltSensitivity" );
+            Startup();
         }
-
-
-        //DebugToScreen.Log( "Engine: Start() Initializing Components..." );
-        //------------------------
-        // Initialize Components
-        //------------------------
-        bendFactory = new BendFactory();
-        BendFactory.Initialize();
-
-        bendManager = new BendManager();
-        BendManager.Initialize();
-
-        ConduitGenerator.degreesPerVerticeSet = 5f;
-        ConduitGenerator.conduitDiameterM = conduitDiameterM;
-        ConduitGenerator.numberOfSides = conduitSideCount;
-        ConduitGenerator.Initialize();
-
-        // Screen Manager is ultimately what will trigger 3d conduit generation
-        screenManager.AddLinker( bendManager );
-        screenManager.onEvent += ScreenManagerOnEvent;
-
-        //------------------------
-        // Startup Sequence
-        //------------------------
-        StartSequence();
-
-        //DebugToScreen.Log( "Engine: Start() Complete!" );
     }
 
     void Update()
@@ -248,7 +226,10 @@ public class Engine : MonoBehaviour {
         //        //Application.Quit();
         //    }
         //}
+
+        
     }
+
 
     /*######################################
     
@@ -276,10 +257,51 @@ public class Engine : MonoBehaviour {
         PlayerPrefs.SetFloat( "CameraTiltSensitivity", cameraTiltSensitivity );
     }
 
-    private void StartSequence()
+    private void Startup()
     {
-        // Fireworks
-        sequenceManager.RunSequence( "StartUpSequence" );
+        if (PlayerPrefs.HasKey( "FirstRun" )) {
+            benderRadiusM = PlayerPrefs.GetFloat( "BenderRadiusM" );
+            conduitDiameterM = PlayerPrefs.GetFloat( "ConduitDiameterM" );
+            cameraRailSensitivity = PlayerPrefs.GetFloat( "CameraRailSensitivity" );
+            cameraZoomSensitivity = PlayerPrefs.GetFloat( "CameraZoomSensitivity" );
+            cameraTiltSensitivity = PlayerPrefs.GetFloat( "CameraTiltSensitivity" );
+        } else {
+            // Default Settings
+            benderRadiusM = 0.13652492625499998f;
+            conduitDiameterM = 0.023418787350159998f;
+            cameraRailSensitivity = 0.5f;
+            cameraZoomSensitivity = 0.5f;
+            cameraTiltSensitivity = 0.5f;
+
+            // First Time Application has been Run
+            PlayerPrefs.SetInt( "FirstRun", 1 );
+            PlayerPrefs.SetString( "LastVersion", Application.version );
+        }
+
+        //------------------------
+        // Initialize Components
+        //------------------------
+        bendFactory = new BendFactory();
+        BendFactory.Initialize();
+
+        bendManager = new BendManager();
+        BendManager.Initialize();
+
+        ConduitGenerator.degreesPerVerticeSet = 5f;
+        ConduitGenerator.conduitDiameterM = conduitDiameterM;
+        ConduitGenerator.numberOfSides = conduitSideCount;
+        ConduitGenerator.Initialize();
+
+        // Screen Manager is ultimately what will trigger 3d conduit generation
+        screenManager.AddLinker( bendManager );
+        screenManager.onEvent += ScreenManagerOnEvent;
+
+        // Open Main Menu
+        screenManager.OpenMain();
+        //------------------------
+        // Startup Sequence
+        //------------------------
+        //sequenceManager.RunSequence( "StartUpSequence" );
     }
     
     /*######################################
@@ -334,7 +356,7 @@ public class Engine : MonoBehaviour {
     public void ScreenManagerOnEvent( ScreenManager.Event e )
     {
         // Kill Startup Sequence
-        sequenceManager.KillSequence( "StartUpSequence" );
+        //sequenceManager.KillSequence( "StartUpSequence" );
 
         // Was Bend Screen Opened?
         bool isBendScreen = false;

@@ -32,7 +32,7 @@ public class QuickLongTap : QuickBase {
 	#endregion
 
 	public QuickLongTap(){
-		quickActionName = "QuickLongTap"+ GetInstanceID().ToString();
+			quickActionName = "QuickLongTap"+ System.Guid.NewGuid().ToString().Substring(0,7);
 	}
 
 	void Update(){

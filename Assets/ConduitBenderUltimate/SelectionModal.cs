@@ -39,7 +39,6 @@ namespace CB
         //-------------------------
         //      Private Data
         //-------------------------
-        bool m_isVisualsDirty = false;
 
         /// <summary>
         /// The current index selection route to get to the current set or leaf set value.
@@ -49,14 +48,6 @@ namespace CB
         /// <summary> The original key-value set array. </summary>
         KeyValueSet<object>[] m_set = null;
 
-
-        void Update()
-        {
-            if (m_isVisualsDirty) {
-
-                m_isVisualsDirty = false;
-            }
-        }
 
         void DrawSelections()
         {

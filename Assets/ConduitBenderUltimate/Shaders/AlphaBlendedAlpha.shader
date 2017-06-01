@@ -1,4 +1,6 @@
-﻿Shader "Custom/Mobile/Alpha Blended Alpha" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Mobile/Alpha Blended Alpha" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Particle Texture", 2D) = "white" {}
@@ -73,7 +75,7 @@
 
                 v2f vert(appData IN) {
                     v2f OUT;
-                    OUT.pos = mul(UNITY_MATRIX_MVP, IN.vertex);
+                    OUT.pos = UnityObjectToClipPos(IN.vertex);
                     OUT.texCoord = IN.texCoord;
                     return OUT;
                 }

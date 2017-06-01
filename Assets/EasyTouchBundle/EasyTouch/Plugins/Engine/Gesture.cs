@@ -15,7 +15,7 @@ namespace HedgehogTeam.EasyTouch{
 /// This is the class passed as parameter by EasyTouch events, that containing all informations about the touch that raise the event,
 /// or by the tow fingers gesture that raise the event.
 /// </summary>
-public class Gesture : BaseFinger, ICloneable {
+public class Gesture : BaseFinger,ICloneable{
 	
 	/// <summary>
 	/// The siwpe or drag  type ( None, Left, Right, Up, Down, Other => look at EayTouch.SwipeType enumeration).
@@ -35,7 +35,7 @@ public class Gesture : BaseFinger, ICloneable {
 	/// </summary>
 	public float deltaPinch;	
 	/// <summary>
-	/// The angle of the twist since the last twist gesture (i.e. delta angle)
+	/// The angle of the twist.
 	/// </summary>
 	public float twistAngle;		
 	/// <summary>
@@ -53,17 +53,24 @@ public class Gesture : BaseFinger, ICloneable {
 	
 	/// <summary>
 	/// Transforms touch position into world space, or the center position between the two touches for a two fingers gesture.
-    /// NOTE: Uses Camera.main
 	/// </summary>
+	/// <returns>
+	/// The touch to wordl point.
+	/// </returns>
 	/// <param name='z'>
 	/// The z position in world units from the camera or in world depending on worldZ value
 	/// </param>
-	public Vector3 GetTouchToWorldPoint(float z) {
+	/// <param name='worldZ'>
+	/// true = r
+	/// </param>
+	/// 
+	public Vector3 GetTouchToWorldPoint(float z){
 
-		return  Camera.main.ScreenToWorldPoint( new Vector3( position.x, position.y, z));	
+		return  Camera.main.ScreenToWorldPoint( new Vector3( position.x, position.y,z));	
+
 	}
 	
-	public Vector3 GetTouchToWorldPoint( Vector3 position3D ) {
+	public Vector3 GetTouchToWorldPoint( Vector3 position3D){
 
 		return  Camera.main.ScreenToWorldPoint( new Vector3( position.x, position.y,Camera.main.transform.InverseTransformPoint(position3D).z));	
 	}
@@ -86,9 +93,8 @@ public class Gesture : BaseFinger, ICloneable {
 	/// The position.
 	/// </returns>
 	public Vector2 NormalizedPosition(){
-            //return new Vector2( 100f / Screen.width * position.x / 100f, 100f / Screen.height * position.y / 100f );	// EasyTouch Original Code
-            return new Vector2( position.x / Screen.width, position.y / Screen.height );
-        }
+		return new Vector2(100f/Screen.width*position.x/100f,100f/Screen.height*position.y/100f);	
+	}
 
 	/// <summary>
 	/// Determines whether this instance is over user interface element.
@@ -130,58 +136,6 @@ public class Gesture : BaseFinger, ICloneable {
 	public GameObject GetCurrentPickedObject(bool isTwoFinger=false){
 		return EasyTouch.GetCurrentPickedObject( fingerIndex,isTwoFinger);
 	}
-
-
-        #endregion
-
-    #region public staticMethod
-
-    /// <summary>
-    /// Creates a force [In World Coordinates] along the cameras Up, and Right vectors, scaled by the distance between the camera 
-    /// and the given world object point (e.g. a hit point from a raycast). DeltaPos is expected in screen coordinates,
-    /// and will be normalized by screen resolution. Max Force, if specified, should be maxforce ^ 2. 
-    /// </summary>
-    public static Vector3 DeltaPositionAsForce(Camera cam, Vector3 objectPoint, Vector2 deltaPos, float maxForceSq = float.PositiveInfinity)
-    {
-            // Delta position of since last gesture
-            deltaPos = new Vector2( deltaPos.x / Screen.width, deltaPos.y / Screen.height );
-
-            // Use Camera X & Y for our axis of force application
-            var camTrans = cam.transform;
-            var dragForce = deltaPos.x * camTrans.right + deltaPos.y * camTrans.up;
-            // Scale by distance from camera
-            var camDist = (camTrans.position - objectPoint).magnitude;
-            dragForce.x *= camDist;
-            dragForce.y *= camDist;
-            dragForce.z *= camDist;
-
-            // TODO - Include camera velocity in force?
-            // dragForce += camVelocity;
-
-            // Clamp Force
-            if (dragForce.sqrMagnitude > maxForceSq) {
-                dragForce.Normalize();
-                dragForce *= Mathf.Sqrt( maxForceSq );
-            }
-            return dragForce;
-        }
-    /// <summary>
-    /// Normalizes and returns a position or delta in screen coordinates.
-    /// </summary>
-    public static Vector2 NormalizedPosition(Vector2 screenPos)
-    {
-        return new Vector2( screenPos.x / Screen.width, screenPos.y / Screen.height );
-    }
-
-    /// <summary>
-    /// Returns the deltaPinch normalized by either Screen Width or Screen Height
-    /// </summary>
-    public static float NormalizedPinch(float deltaPinch, bool byScreenWidth = true)
-    {
-        if(byScreenWidth) { return deltaPinch / Screen.width; } 
-        else { return deltaPinch / Screen.height; }
-    }
-
-    #endregion
-    }
+	#endregion
+}
 }

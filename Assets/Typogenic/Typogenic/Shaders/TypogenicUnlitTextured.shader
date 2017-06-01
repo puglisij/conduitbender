@@ -1,4 +1,6 @@
-﻿Shader "Typogenic/Unlit Textured Font"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Typogenic/Unlit Textured Font"
 {
 	Properties
 	{
@@ -74,7 +76,7 @@
 			fragmentInput vert(vertexInput i)
 			{
 				fragmentInput o;
-				o.position = mul(UNITY_MATRIX_MVP, i.vertex);
+				o.position = UnityObjectToClipPos(i.vertex);
 				o.texcoord0 = i.texcoord0;
 				o.texcoord1 = TRANSFORM_TEX(i.texcoord1, _FillTex);
 				return o;

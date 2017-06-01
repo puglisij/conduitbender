@@ -1,4 +1,4 @@
-/***********************************************
+﻿/***********************************************
 				EasyTouch V
 	Copyright © 2014-2015 The Hedgehog Team
     http://www.thehedgehogteam.com/Forum/
@@ -10,7 +10,7 @@ using UnityEngine;
 using System.Collections;
 
 namespace HedgehogTeam.EasyTouch{
-public class TwoFingerGesture {
+public class TwoFingerGesture{
 
 	public EasyTouch.GestureType currentGesture = EasyTouch.GestureType.None;
 	public EasyTouch.GestureType oldGesture= EasyTouch.GestureType.None;
@@ -34,16 +34,10 @@ public class TwoFingerGesture {
 	public float lastTwistAngle = 0;
 
 	// Game Object
-	public PickedData pickedData;
-    public GameObject pickedObject
-    {
-        get { return pickedData != null ? pickedData.pickedObj : null; }
-    }
-	public PickedData oldPickedData; 
-    public GameObject oldPickedObject
-    {
-        get { return oldPickedData != null ? oldPickedData.pickedObj : null; }
-    }
+	public GameObject pickedObject;
+	public GameObject oldPickedObject;
+	public Camera pickedCamera;
+	public bool isGuiCamera;
 
 	// UI
 	public bool isOverGui;
@@ -55,14 +49,16 @@ public class TwoFingerGesture {
 	public bool inSingleDoubleTaps = false;
 	public float tapCurentTime = 0;
 
-	public void ClearPickedObjectData() {
-		pickedData = null;
-		oldPickedData = null;
+	public void ClearPickedObjectData(){
+		pickedObject = null;
+		oldPickedObject = null;
+		pickedCamera = null;
+		isGuiCamera = false;
 	}
 
 	public void ClearPickedUIData(){
 		isOverGui = false;
-		//pickedUIElement = null;
+		pickedUIElement = null;
 	}
 }
 }

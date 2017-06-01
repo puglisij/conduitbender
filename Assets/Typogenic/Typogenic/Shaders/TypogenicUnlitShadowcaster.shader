@@ -1,4 +1,6 @@
-﻿Shader "Typogenic/Unlit Shadowcaster Font"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Typogenic/Unlit Shadowcaster Font"
 {
 	Properties
 	{
@@ -133,7 +135,7 @@
 			fragmentInput vert(vertexInput i)
 			{
 				fragmentInput o;
-				o.position = mul(UNITY_MATRIX_MVP, i.vertex);
+				o.position = UnityObjectToClipPos(i.vertex);
 				o.texcoord0 = i.texcoord0;
 				o.color = i.color;
 				return o;

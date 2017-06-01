@@ -7,6 +7,10 @@ http://www.thehedgehogteam.com/Forum/
 		the.hedgehog.team@gmail.com
 
 **********************************************
+EasyTouch Controls 2.0.7
+========================
+* fixed bug : Joystick thumb joystick remained visible sometimes in dynamic mode.
+
 EasyTouch Controls 2.0.6
 ========================
 * Fixed bug: Changes in inspectors was not taken into account in some cases

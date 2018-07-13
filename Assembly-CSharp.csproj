@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{3F563C4D-176F-EA0A-2794-74BB78C5B42A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_3_0;UNITY_2017_3;UNITY_2017;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_PACKMAN;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;ENABLE_LOCALIZATION;PLATFORM_ANDROID;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_EVENT_QUEUE;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_AR;ENABLE_SPATIALTRACKING;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;Open;MOBILE_INPUT;UNITY_HAS_GOOGLEVR;UNITY_HAS_TANGO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>G:/Program Files/Unity/Editor/Data/Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>G:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\CielaSpike\Thread Ninja\Example\ExampleScript.cs" />
+     <Compile Include="Assets\CielaSpike\Thread Ninja\Ninja.cs" />
+     <Compile Include="Assets\CielaSpike\Thread Ninja\Task.cs" />
+     <Compile Include="Assets\CielaSpike\Thread Ninja\TaskState.cs" />
+     <Compile Include="Assets\CielaSpike\Thread Ninja\ThreadNinjaMonoBehaviourExtensions.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\AlertText.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\AngleSlider.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Announcer.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\AppData.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\AssetUtility.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Bend.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\BendDiagramModal.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\BendFactory.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\BendHelp.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\BendInputScreen.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\BendManager.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\BendParameter.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\BendSelectScreen.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Button2nd.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Calculator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\CalculatorScreen.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\CameraController.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Colors.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Conduit.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ConduitDecorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ConduitDecoratorFactory.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ConduitGenerator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ConduitManager.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ConduitOutputModal.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\CoroutineManager.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\CreditsScreen.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\DebugToScreen.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitCompoundRectangleDecorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitCompoundRoundDecorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitOffsetDecorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitParallelKickDecorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitParallelOffsetDecorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitRolledOffsetDecorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitSaddle3Decorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitSaddle4Decorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitSegmentedDecorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Decorators\ConduitStubUpDecorator.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\DialogModal.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\EditorUtils.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Engine.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\EnumDropdown.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Enums.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\EventManager.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Experimental\ShowNormals.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Experimental\ShowRectTransformInfo.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Experimental\ShowTransformInfo.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Experimental\TestGravity.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Extensions.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\FixedStack.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\FlagRenderer.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\IAngleDevice.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ILinkable.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ILinkableAnnouncer.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ILinker.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\IModel.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\InputManager.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\IntegerSlider.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ISaveable.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Level.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\LevelScreen.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\LineFlag.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Localization.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\MainScreen.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Modal.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\MultiImageButton.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\MultiRulerSlider.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ObjectDictionary.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Protractor.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\QuatTest.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Rational.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\References.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\RulerNameText.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\RulerSlider.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Scanner.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Screen.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ScreenControl.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ScreenManager.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ScrollRectExtra.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\SelectionModal.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Sequence.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\SequenceManager.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\SettingNumeric.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\SettingPresets.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Settings.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\SettingSliders.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\SettingsScreen.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\SingleRuler.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\StartUpSequence.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\StringEnum.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Structs.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\TextColumns.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\TextExtra.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\TouchCamera.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\UIBendParameter.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Units.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\UnityDictionary.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\ValueThrottle.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\WeightedMean.cs" />
+     <Compile Include="Assets\ConduitBenderUltimate\Widget.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\AdvancedExamples\AutoSelect\MultiLayerTouch.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\AdvancedExamples\AutoSelect\MultiLayerUI.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\AdvancedExamples\MultiCamera\MultiCameraTouch.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\AdvancedExamples\MultiCamera\MultiCameraUI.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\GameExemple\RTSExample\CubeSelect.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\GameExemple\RTSExample\RTSCamera.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\GameExemple\RunBall\Ball.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\GameExemple\RunBall\BallRunPlayer.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\GameExemple\RunBall\ThirdPersonCamera.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\LoadExamples.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\MultiFinger\FingerTouch.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\MultiFinger\MutliFingersScreenTouch.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\OneFinger\DoubleTapMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\OneFinger\DragMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\OneFinger\LongTapMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\OneFinger\Swipe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\OneFinger\TapMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\OneFinger\TouchMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\TwoFingers\PinchMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\TwoFingers\TooglePickMethodUI.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\TwoFingers\TwistMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\TwoFingers\TwoDoubleTapMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\TwoFingers\TwoDragMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\TwoFingers\TwoLongTapMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\TwoFingers\TwoSwipe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\TwoFingers\TwoTapMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\SimpleExamples\TwoFingers\TwoTouchMe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\UnityUI\UICompatibility\ETWindow.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\UnityUI\UICompatibility\GlobalEasyTouchEvent.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\UnityUI\UICompatibility\UICompatibility.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\UnityUI\UICompatibility\UIWindow.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\UnityUI\UITwistPinch\UIDrag.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\UnityUI\UITwistPinch\UIPinch.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\UnityUI\UITwistPinch\UITwist.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\5.X new features\Script\RTS_NewSyntaxe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\5.X new features\Script\SimpleActionExample.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\EasyTouchTrigger.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\QuickBase.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\QuickDrag.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\QuickEnterOverExist.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\QuickLongTap.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\QuickPinch.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\QuickSwipe.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\QuickTap.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\QuickTouch.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Components\QuickTwist.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Engine\BaseFinger.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Engine\EasyTouch.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Engine\EasyTouchInput.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Engine\ECamera.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Engine\Finger.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Engine\Gesture.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Plugins\Engine\TwoFingerGesture.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Component\ETCSetDirectActionTransform.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ComponentExtensions.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCArea.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCAxis.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCBase.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCButton.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCDPad.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCInput.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCJoystick.cs" />
+     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCTouchPad.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanLanguageNameAttribute.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanLocalization.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanLocalizationLoader.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanLocalizedAudioSource.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanLocalizedBehaviour.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanLocalizedImage.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanLocalizedSpriteRenderer.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanLocalizedText.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanPhrase.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanPhraseNameAttribute.cs" />
+     <Compile Include="Assets\LeanLocalization\Scripts\LeanTranslation.cs" />
+     <Compile Include="Assets\Typogenic\Typogenic\Demos\ClickHandler.cs" />
+     <Compile Include="Assets\Typogenic\Typogenic\Demos\StarWarsIntro.cs" />
+     <Compile Include="Assets\Typogenic\Typogenic\Scripts\SerializedDictionary.cs" />
+     <Compile Include="Assets\Typogenic\Typogenic\Scripts\TypogenicFont.cs" />
+     <Compile Include="Assets\Typogenic\Typogenic\Scripts\TypogenicGlyphClickEvent.cs" />
+     <Compile Include="Assets\Typogenic\Typogenic\Scripts\TypogenicText.cs" />
+     <None Include="Assets\Typogenic\Typogenic\Readme.txt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Cut Out Specular.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_TextureAdd_Bumped.shader" />
+     <None Include="Assets\Resources\Fonts\copper_License.txt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Transparent.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\ConduitHighlight.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Transparent Specular.shader" />
+     <None Include="Assets\Resources\Fonts\OFL_License.txt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Transparent Specular.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Transparent Bump.shader" />
+     <None Include="Assets\Typogenic\Typogenic\Shaders\TypogenicLit.shader" />
+     <None Include="Assets\Resources\Fonts\Littera\Merienda.fnt" />
+     <None Include="Assets\Typogenic\Typogenic\Demos\Curly Stars\Curly Stars.fnt" />
+     <None Include="Assets\Typogenic\Typogenic\Shaders\TypogenicLitTexturedShadowcaster.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_TextureMult_Bumped.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Cut Out Opaque Bump.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Opaque.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Cut Out Diffuse.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\AlphaBlendedAlpha.shader" />
+     <None Include="Assets\EasyTouchBundle\EasyTouchControls\ReleaseNotes.txt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Cut Out Opaque Diffuse.shader" />
+     <None Include="Assets\Typogenic\Typogenic\Demos\Arial\Arial.fnt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Opaque Bump.shader" />
+     <None Include="Assets\Typogenic\Typogenic\Shaders\TypogenicLitShadowcaster.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Transparent.shader" />
+     <None Include="Assets\EasyTouchBundle\EasyTouchControls\Documentation\Version 2.0.txt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Opaque Diffuse.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Transparent Diffuse.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Cut Out Diffuse.shader" />
+     <None Include="Assets\Typogenic\Typogenic\LICENSE.txt" />
+     <None Include="Assets\EasyTouchBundle\EasyTouch\_Documentation\How to migrate from EasyTouch 4.X.txt" />
+     <None Include="Assets\EasyTouchBundle\Readme.txt" />
+     <None Include="Assets\LeanLocalization\Examples\English.txt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Opaque Diffuse.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Lit.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain_Bumped.shader" />
+     <None Include="Assets\LeanLocalization\Examples\Spanish.txt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Cut Out Opaque Specular.shader" />
+     <None Include="Assets\Resources\Fonts\Littera\Oregano.fnt" />
+     <None Include="Assets\LeanLocalization\Examples\Japanese.txt" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain_AdditiveZ.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Opaque Bump.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Cut Out Opaque Specular.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Cut Out Bump.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain.shader" />
+     <None Include="Assets\Typogenic\Typogenic\Changelog.txt" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_Plain_Additive.shader" />
+     <None Include="Assets\Resources\Fonts\Littera\Kaushan.fnt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Transparent Diffuse.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Opaque.shader" />
+     <None Include="Assets\Typogenic\Typogenic\Shaders\TypogenicUnlit.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_TextureMult.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Cut Out Specular.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Cut Out Opaque Diffuse.shader" />
+     <None Include="Assets\Resources\Fonts\Littera\BubbleGum-Sans.fnt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Transparent Bump.shader" />
+     <None Include="Assets\Typogenic\Typogenic\Shaders\TypogenicLitTextured.shader" />
+     <None Include="Assets\Resources\Fonts\Littera\Calligraffiti.fnt" />
+     <None Include="Assets\Typogenic\Typogenic\Shaders\TypogenicUnlitShadowcaster.shader" />
+     <None Include="Assets\Typogenic\LICENSE.txt" />
+     <None Include="Assets\EasyTouchBundle\EasyTouchControls\Issues in button behavior (MAC).txt" />
+     <None Include="Assets\Typogenic\Typogenic\Shaders\TypogenicUnlitTextured.shader" />
+     <None Include="Assets\EasyTouchBundle\EasyTouch\RealseNotes.txt" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\MatCap_TextureAdd.shader" />
+     <None Include="Assets\Typogenic\Typogenic\Demos\News Cycle\News Cycle.fnt" />
+     <None Include="Assets\Typogenic\Typogenic\Demos\Heydings\Heydings.fnt" />
+     <None Include="Assets\EasyTouchBundle\EasyTouch\How to migrate from EasyTouch 4.X.txt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Cut Out Bump.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Textures\MaCrea\MaCrea.txt" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface Free Opaque Specular.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurfacePro Hidden Front Opaque Specular.shader" />
+     <None Include="Assets\Hard Surface Free\HardSurface Shaders\HardSurface SFX Depth Write Only.shader" />
+     <None Include="Assets\Typogenic\Typogenic\Shaders\TypogenicUnlitTexturedShadowcaster.shader" />
+     <None Include="Assets\ConduitBenderUltimate\Textures\BenSimonds\_Textures Readme.txt" />
+     <None Include="Assets\ConduitBenderUltimate\Shaders\Test2.shader" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Networking">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TestRunner">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Timeline">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Timeline">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TreeEditor">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UIAutomation">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UIAutomation">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.GoogleAudioSpatializer">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.GoogleAudioSpatializer">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.HoloLens">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.SpatialTracking">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.SpatialTracking">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.VR">
+ <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>G:/Program Files/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Android.Extensions">
+ <HintPath>G:/Program Files/Unity/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions">
+ <HintPath>G:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WebGL.Extensions">
+ <HintPath>G:/Program Files/Unity/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+ <HintPath>G:/Program Files/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.OSXStandalone.Extensions">
+ <HintPath>G:/Program Files/Unity/Editor/Data/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="LitJson">
+ <HintPath>D:/unityspace/ConduitBender/Assets/LitJson.dll</HintPath>
+ </Reference>
+ <Reference Include="JMOAssets">
+ <HintPath>D:/unityspace/ConduitBender/Assets/ConduitBenderUltimate/Editor/JMOAssets.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>C:/Users/me/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Advertisements">
+ <HintPath>C:/Users/me/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/Editor/UnityEditor.Advertisements.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Users/me/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.13/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Analytics">
+ <HintPath>C:/Users/me/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.13/Editor/UnityEditor.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Purchasing">
+ <HintPath>C:/Users/me/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19/UnityEngine.Purchasing.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Purchasing">
+ <HintPath>C:/Users/me/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19/Editor/UnityEditor.Purchasing.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.StandardEvents">
+ <HintPath>C:/Users/me/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{435DFBBF-1863-EF67-CA12-4D683311D016}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

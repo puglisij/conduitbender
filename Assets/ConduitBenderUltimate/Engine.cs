@@ -126,7 +126,7 @@ public class Engine : MonoBehaviour {
         }
 
         // Limit Frame Rate
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 10;
 
 
         // Get References
@@ -215,20 +215,20 @@ public class Engine : MonoBehaviour {
         }
     }
 
-    void Update()
-    {
-        // TODO: Exit App on Android Back Button x 3 
-        //if (Input.GetKeyDown( KeyCode.Escape )) {
-        //    if(screenManager.ScreenInHistory()) {
-        //        screenManager.Back();
-        //    } else {
-        //        // Start Quit Queue
-        //        //Application.Quit();
-        //    }
-        //}
+    //void Update()
+    //{
+    //    // TODO: Exit App on Android Back Button x 3 
+    //    //if (Input.GetKeyDown( KeyCode.Escape )) {
+    //    //    if(screenManager.ScreenInHistory()) {
+    //    //        screenManager.Back();
+    //    //    } else {
+    //    //        // Start Quit Queue
+    //    //        //Application.Quit();
+    //    //    }
+    //    //}
 
         
-    }
+    //}
 
 
     /*######################################
@@ -358,6 +358,9 @@ public class Engine : MonoBehaviour {
         // Kill Startup Sequence
         //sequenceManager.KillSequence( "StartUpSequence" );
 
+        // Target framerate 
+        int targetFrameRate = 10;
+
         // Was Bend Screen Opened?
         bool isBendScreen = false;
 
@@ -366,6 +369,7 @@ public class Engine : MonoBehaviour {
         {
             if(screenMeta.screen is BendInputScreen) {
                 isBendScreen = true;
+                //targetFrameRate = 20;
 
                 if (!conduitManager.gameObject.activeSelf) {
                     //DebugToScreen.Log( "Engine: Conduit Manager object Activated." );
@@ -398,6 +402,7 @@ public class Engine : MonoBehaviour {
             case ScreenManager.Event.Type.Hidden:
                 if (isBendScreen) {
                     mainCameraController.movementEnabled = true;
+                    Application.targetFrameRate = 30;
                     return;
                 }
                 break;
@@ -406,6 +411,7 @@ public class Engine : MonoBehaviour {
                 break;
 
         }
+        Application.targetFrameRate = targetFrameRate;
         mainCameraController.movementEnabled = false;
 
         //Debug.Log( "Engine: ScreenManagerOnEvent() Event: " + e.type + " Title: " + e.screenTitle );

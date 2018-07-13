@@ -15,3 +15,5 @@ Assets/ConduitBenderUltimate/Materials/Concrete textures pack/
 *.PSD
 *.tif
 *.BMP
+.vscode/
+*.keystore
